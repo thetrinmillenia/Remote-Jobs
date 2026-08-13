@@ -68,7 +68,7 @@ MIN_FEATURE_SALARY = 80000
 REMOTIVE_LIMIT = 25
 
 # ---- Curation rules (the "keep it tight, keep it fresh" settings) ----
-DAILY_TARGET = 7            # add at most this many BEST new jobs per day (aim 5-7)
+DAILY_TARGET = 5            # add at most this many BEST new jobs per day
 MAX_PER_COMPANY = 3         # never more than this many roles from one company
 COMPANY_COOLDOWN_DAYS = 14  # don't post the same company again within this window
 
@@ -136,11 +136,34 @@ def is_remote(text):
     return any(w in t for w in ["remote", "anywhere", "worldwide", "work from home"])
 
 def find_salary_number(text):
-    """Pull the first yearly-looking salary number from text, or 0 if none."""
-    # Looks for things like $106,500 or $118,000
+    """Pull the highest yearly-looking salary number from text, or 0 if none."""
     matches = re.findall(r"\$\s?(\d{2,3}(?:,\d{3}))", text or "")
     nums = [int(m.replace(",", "")) for m in matches]
     return max(nums) if nums else 0
+
+def extract_salary(text):
+    """Find a clean, displayable pay range/rate in the text. '' if none listed."""
+    t = text or ""
+    # yearly range, e.g. $106,500 - $118,000
+    m = re.search(r"\$\s?\d{2,3},\d{3}(?:\.\d+)?\s*(?:-|–|—|to|and)\s*\$?\s?\d{2,3},\d{3}", t, re.I)
+    if m:
+        return re.sub(r"\s+", " ", m.group(0)).replace(" to ", " – ").replace(" and ", " – ")
+    # hourly range, e.g. $20 - $27 / hr  or  $20.51 - $25.64 per hour
+    m = re.search(r"\$\s?\d{1,3}(?:\.\d{1,2})?\s*(?:-|–|—|to)\s*\$?\s?\d{1,3}(?:\.\d{1,2})?\s*(?:/|per)\s*h(?:ou)?r", t, re.I)
+    if m:
+        return re.sub(r"\s+", " ", m.group(0)).replace(" to ", " – ")
+    # single hourly, e.g. $22.00 per hour
+    m = re.search(r"\$\s?\d{1,3}(?:\.\d{1,2})?\s*(?:/|per)\s*h(?:ou)?r", t, re.I)
+    if m:
+        return re.sub(r"\s+", " ", m.group(0))
+    # single yearly, e.g. $118,000
+    m = re.search(r"\$\s?\d{2,3},\d{3}(?:\.\d+)?", t)
+    if m:
+        return m.group(0)
+    return ""
+
+def is_hybrid(text):
+    return "hybrid" in (text or "").lower()
 
 def tag_niches(text):
     tags = []
@@ -234,31 +257,33 @@ def collect_slack():
             if any(b in low for b in SLACK_BLOCK_DOMAINS):
                 print("    (skipped reference link, not a job: %s)" % link)
                 continue
-            title, company = enrich_link(link)
+            title, company, salary, body = enrich_link(link)
             if not title:
                 print("    (skipped unreadable link — couldn't get clean details: %s)" % link)
                 continue
-            desc = (title + " " + text).lower()
+            loc = "Hybrid" if is_hybrid(body) else "Remote"
             jobs.append(build_job(
                 title=title,
                 company=company,
                 url=link,
-                location="Remote",
-                description=desc,
-                salary_text=desc,
+                location=loc,
+                description=body or (title + " " + text),
+                salary_text=(salary + " " + body),
                 source="Slack",
             ))
     print("  Collected %d job link(s) from Slack." % len(jobs))
     return jobs
 
 def enrich_link(url):
-    """Best-effort: read a job page's title to name the role + company."""
+    """Read a job page thoroughly: pull title, company, listed salary, and the
+    full page text (so we can also detect phone-heavy / hybrid). Returns
+    (title, company, salary, body_text) — empties if the page can't be read."""
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "DataWizards-JobBoard/1.0"})
-        with urllib.request.urlopen(req, timeout=15) as r:
-            html = r.read(60000).decode("utf-8", "ignore")
+        with urllib.request.urlopen(req, timeout=18) as r:
+            html = r.read(200000).decode("utf-8", "ignore")
     except Exception:
-        return ("", "")
+        return ("", "", "", "")
     m = re.search(r'<meta property="og:title" content="([^"]+)"', html) or \
         re.search(r"<title>([^<]+)</title>", html)
     title = (m.group(1).strip() if m else "")
@@ -268,7 +293,9 @@ def enrich_link(url):
             parts = title.split(sep)
             title, company = parts[0].strip(), parts[-1].strip()
             break
-    return (title, company)
+    body = strip_html(html)
+    salary = extract_salary(html)
+    return (title, company, salary, body)
 
 def build_job(title, company, url, location, description, salary_text, source):
     """Turn raw fields into our standard job record with tags + flags."""
@@ -279,7 +306,7 @@ def build_job(title, company, url, location, description, salary_text, source):
         "title": title.strip(),
         "company": company.strip(),
         "url": url.strip(),
-        "salary": ("$%s+" % format(salary_num, ",")) if salary_num else "Not listed",
+        "salary": extract_salary(salary_text),
         "level": "Entry" if any(w in blob for w in ["entry", "junior", "associate", "coordinator"]) else "Mid",
         "remote": location.strip() or "Remote",
         "tags": tag_niches(blob),
@@ -319,6 +346,10 @@ def is_clean(job):
         return False
     if len(t) < 3 or t.lower().startswith("job lead"):
         return False
+    if not job.get("salary", "").strip():
+        return False                       # pay transparency REQUIRED
+    if is_hybrid(job.get("remote", "")):
+        return False                       # remote only — no hybrid
     return True
 
 def score_job(job):
@@ -353,11 +384,13 @@ def main():
     todays_count = sum(1 for j in existing if j.get("dateAdded") == TODAY)
     slots = max(0, DAILY_TARGET - todays_count)
 
-    # Gather, then keep only clean, non-phone, brand-new roles.
-    candidates = collect_greenhouse() + collect_remotive() + collect_slack()
+    # Gather candidates. We use company-direct sources only (company ATS boards
+    # + the links YOU drop in Slack) so every link points to the real employer,
+    # not an aggregator. (Remotive is left out for that reason.)
+    candidates = collect_greenhouse() + collect_slack()
     candidates = [c for c in candidates
-                  if is_clean(c)
-                  and not c.get("phoneFlag")
+                  if is_clean(c)              # clean data + PAY LISTED + remote-only
+                  and not c.get("phoneFlag")   # no phone-heavy roles
                   and c.get("url") not in existing_urls]
     candidates.sort(key=score_job, reverse=True)
 
