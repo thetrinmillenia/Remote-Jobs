@@ -1,0 +1,40 @@
+# =============================================================================
+#  Daily job scrape  ·  runs for free on GitHub Actions
+# =============================================================================
+#  This tells GitHub: "Every morning, run scraper.py and save the fresh jobs."
+#  You never touch this after setup. GitHub does it automatically.
+# =============================================================================
+name: Scrape remote jobs daily
+
+on:
+  schedule:
+    - cron: "0 13 * * *"   # 13:00 UTC = ~8:00 AM Central, every day
+  workflow_dispatch:        # also lets you run it manually with one click
+
+permissions:
+  contents: write           # allows the action to save the updated files
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run the scraper
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}   # optional — enables Slack curation
+        run: python scraper.py
+
+      - name: Save any new jobs
+        run: |
+          git config user.name  "job-bot"
+          git config user.email "job-bot@users.noreply.github.com"
+          git add -A
+          git commit -m "Daily job update" || echo "No new jobs today."
+          git push
