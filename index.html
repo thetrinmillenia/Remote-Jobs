@@ -121,21 +121,202 @@
 <footer>Remote jobs curated with care · © 2026 Trin Millenia · Not affiliated with the companies listed.</footer>
 
 <script>
-// ============ YOUR JOBS — edit this list to update the board ============
+// The robot (scraper.py) updates the list between the two markers below.
+// JOBS_START
 const JOBS = [
-  {"title":"Business Analyst, Operations Analytics","company":"Spring Health","url":"https://job-boards.greenhouse.io/springhealth66/jobs/4710036005","salary":"$106,500 – $118,000","level":"Mid","remote":"Remote (US)","tags":["healthcare","finance"],"feature":true,"phoneFlag":false,"note":"","dateAdded":"2026-08-12"},
-  {"title":"Data Analyst II, Core Ops (Alma)","company":"Spring Health / Alma","url":"https://job-boards.greenhouse.io/springhealth66/jobs/4711690005","salary":"$101,200 – $115,000","level":"Mid","remote":"Remote","tags":["data","healthcare","startup"],"feature":false,"phoneFlag":false,"note":"SQL + BI role at a remote-first startup.","dateAdded":"2026-08-12"},
-  {"title":"Senior Payroll Administrator","company":"Spring Health","url":"https://job-boards.greenhouse.io/springhealth66/jobs/4720095005","salary":"$129,780 – $130,000","level":"Senior","remote":"Remote","tags":["finance","healthcare"],"feature":false,"phoneFlag":false,"note":"","dateAdded":"2026-08-12"},
-  {"title":"Customer Success Associate","company":"Spring Health","url":"https://job-boards.greenhouse.io/springhealth66/jobs/4721781005","salary":"$31.97 – $36.30 / hr","level":"Entry","remote":"Remote","tags":["customer success","healthcare"],"feature":false,"phoneFlag":false,"note":"Entry-level CS support (~$66–75K/yr). Admin & account-focused, no phones.","dateAdded":"2026-08-12"},
-  {"title":"Customer Support Specialist","company":"InfoTrack","url":"https://apply.workable.com/infotrack-us/j/462F770AA3/","salary":"$20 – $27 / hr","level":"Entry","remote":"Remote","tags":["customer service","legal-tech"],"feature":false,"phoneFlag":false,"note":"Solid entry-level CS. Pay is modest (~$41–56K/yr).","dateAdded":"2026-08-12"},
-  {"title":"Data Entry Clerk","company":"Fuze Health","url":"https://alto.wd1.myworkdayjobs.com/en-US/fuzehealthcareersite/job/Data-Entry-Clerk---Fuze-Services_R201066-1","salary":"Not listed","level":"Entry","remote":"Remote","tags":["healthcare","data entry"],"feature":false,"phoneFlag":false,"note":"Non-phone data entry. Salary not listed — check the listing.","dateAdded":"2026-08-12"},
-  {"title":"Medical Claims Resolution Analyst","company":"Gainwell Technologies","url":"https://jobs.gainwelltechnologies.com/job/Any-city-Medical-Claims-Resolution-Analyst-Remote-US-MT-99999/1399526100/","salary":"Not listed","level":"Entry","remote":"Remote (US)","tags":["healthcare","claims"],"feature":false,"phoneFlag":false,"note":"Non-phone claims analysis. Salary not listed — check the listing.","dateAdded":"2026-08-12"},
-  {"title":"Patient Care Advocate (Part-Time)","company":"ACPNY","url":"https://careers.acpny.com/jobs/patient-care-advocate-remote-part-time-7481","salary":"Not listed","level":"Entry","remote":"Remote","tags":["healthcare","customer service"],"feature":false,"phoneFlag":false,"note":"Part-time. Salary not listed — check the listing.","dateAdded":"2026-08-12"},
-  {"title":"Care Specialist (Overnight Hours)","company":"Empathy","url":"https://www.empathy.com/careers/care-specialist-overnight-hours.12.A51-3E.40D","salary":"Not listed","level":"Entry","remote":"Remote","tags":["healthcare"],"feature":false,"phoneFlag":false,"note":"Overnight shift. Salary not listed — check the listing.","dateAdded":"2026-08-12"},
-  {"title":"HHSM Clinic Scheduler","company":"Vail Health","url":"https://www.vailhealth.org/careers/jobs/6140275004/","salary":"Not listed","level":"Entry","remote":"Remote","tags":["healthcare","scheduling"],"feature":false,"phoneFlag":false,"note":"Scheduling role — may involve some calls. Salary not listed.","dateAdded":"2026-08-12"},
-  {"title":"Switchboard Operator I (Contract)","company":"Elevance Health","url":"https://elevancehealth.talentnet.community/jobs/0e4728d9-6bfb-4baf-b81e-986dcb58cc1d","salary":"Not listed","level":"Entry","remote":"Remote","tags":["healthcare"],"feature":false,"phoneFlag":true,"note":"Heads up: switchboard = phone-based. Contract role.","dateAdded":"2026-08-12"}
+  {
+    "title": "Business Analyst, Operations Analytics",
+    "company": "Spring Health",
+    "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4710036005",
+    "salary": "$106,500 – $118,000",
+    "level": "Mid",
+    "remote": "Remote (US)",
+    "tags": [
+      "healthcare",
+      "finance"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Data Analyst II, Core Ops (Alma)",
+    "company": "Spring Health / Alma",
+    "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4711690005",
+    "salary": "$101,200 – $115,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "data",
+      "healthcare",
+      "startup"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "SQL + BI role at a remote-first startup.",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Senior Payroll Administrator",
+    "company": "Spring Health",
+    "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4720095005",
+    "salary": "$129,780 – $130,000",
+    "level": "Senior",
+    "remote": "Remote",
+    "tags": [
+      "finance",
+      "healthcare"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Customer Success Associate",
+    "company": "Spring Health",
+    "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4721781005",
+    "salary": "$31.97 – $36.30 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "customer success",
+      "healthcare"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Entry-level CS support (~$66–75K/yr). Admin & account-focused, no phones.",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Customer Support Specialist",
+    "company": "InfoTrack",
+    "url": "https://apply.workable.com/infotrack-us/j/462F770AA3/",
+    "salary": "$20 – $27 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "customer service",
+      "legal-tech"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Solid entry-level CS. Pay is modest (~$41–56K/yr).",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Care Support Coordinator (Temporary)",
+    "company": "Spring Health",
+    "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4700104005",
+    "salary": "$20.51 – $25.64 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": true,
+    "note": "Heads up: ~7 hrs/day of phone calls, temporary/contract, pipeline (no active opening).",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Data Entry Clerk",
+    "company": "Fuze Health",
+    "url": "https://alto.wd1.myworkdayjobs.com/en-US/fuzehealthcareersite/job/Data-Entry-Clerk---Fuze-Services_R201066-1",
+    "salary": "Not listed",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "data entry"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Non-phone data entry. Salary not listed — check the listing.",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Medical Claims Resolution Analyst",
+    "company": "Gainwell Technologies",
+    "url": "https://jobs.gainwelltechnologies.com/job/Any-city-Medical-Claims-Resolution-Analyst-Remote-US-MT-99999/1399526100/",
+    "salary": "Not listed",
+    "level": "Entry",
+    "remote": "Remote (US)",
+    "tags": [
+      "healthcare",
+      "claims"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Non-phone claims analysis. Salary not listed — check the listing.",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Patient Care Advocate (Part-Time)",
+    "company": "ACPNY",
+    "url": "https://careers.acpny.com/jobs/patient-care-advocate-remote-part-time-7481",
+    "salary": "Not listed",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Part-time. Salary not listed — check the listing.",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Care Specialist (Overnight Hours)",
+    "company": "Empathy",
+    "url": "https://www.empathy.com/careers/care-specialist-overnight-hours.12.A51-3E.40D",
+    "salary": "Not listed",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Overnight shift. Salary not listed — check the listing.",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "HHSM Clinic Scheduler",
+    "company": "Vail Health",
+    "url": "https://www.vailhealth.org/careers/jobs/6140275004/",
+    "salary": "Not listed",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "scheduling"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Scheduling role — may involve some calls. Salary not listed.",
+    "dateAdded": "2026-08-12"
+  },
+  {
+    "title": "Switchboard Operator I (Contract)",
+    "company": "Elevance Health",
+    "url": "https://elevancehealth.talentnet.community/jobs/0e4728d9-6bfb-4baf-b81e-986dcb58cc1d",
+    "salary": "Not listed",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare"
+    ],
+    "feature": false,
+    "phoneFlag": true,
+    "note": "Heads up: switchboard = phone-based. Contract role.",
+    "dateAdded": "2026-08-12"
+  }
 ];
-// =======================================================================
+// JOBS_END
 
 const STORE_URL = "https://stan.store/thetrinmillenia";
 
