@@ -67,6 +67,19 @@ MIN_FEATURE_SALARY = 80000
 # How many results to pull per Remotive search (keeps things fast + tidy).
 REMOTIVE_LIMIT = 25
 
+# ---- Curation rules (the "keep it tight, keep it fresh" settings) ----
+DAILY_TARGET = 7            # add at most this many BEST new jobs per day (aim 5-7)
+MAX_PER_COMPANY = 3         # never more than this many roles from one company
+COMPANY_COOLDOWN_DAYS = 14  # don't post the same company again within this window
+
+# Links from these domains are NOT jobs — ignore them if pasted in Slack
+# (so a TikTok or reference link never lands on the board).
+SLACK_BLOCK_DOMAINS = [
+    "tiktok.com", "instagram.com", "youtube.com", "youtu.be", "twitter.com",
+    "x.com", "facebook.com", "linkedin.com/feed", "beacons.ai", "linktr.ee",
+    "stan.store", "pinterest.", "reddit.com", "t.me", "bit.ly", "amazon.com",
+]
+
 # -----------------------------------------------------------------------------
 #  BOARDS TO INTEGRATE — backlog (from TikTok list, Aug 2026)
 # -----------------------------------------------------------------------------
@@ -217,10 +230,17 @@ def collect_slack():
             if link in seen:
                 continue
             seen.add(link)
+            low = link.lower()
+            if any(b in low for b in SLACK_BLOCK_DOMAINS):
+                print("    (skipped reference link, not a job: %s)" % link)
+                continue
             title, company = enrich_link(link)
+            if not title:
+                print("    (skipped unreadable link — couldn't get clean details: %s)" % link)
+                continue
             desc = (title + " " + text).lower()
             jobs.append(build_job(
-                title=title or "Job lead (from Slack)",
+                title=title,
                 company=company,
                 url=link,
                 location="Remote",
@@ -283,24 +303,83 @@ def load_existing():
     except Exception:
         return []
 
+def normalize_company(name):
+    """Turn 'Spring Health / Alma' and 'Spring Health, Inc.' into one key."""
+    n = (name or "").lower().strip()
+    n = re.sub(r"\s*/.*$", "", n)          # text before a slash
+    n = re.sub(r"[^a-z0-9 ]", "", n)       # drop punctuation
+    return n.strip()
+
+def is_clean(job):
+    """Only keep cards that will look complete and tidy on the board."""
+    t = job.get("title", "").strip()
+    c = job.get("company", "").strip()
+    u = job.get("url", "").strip()
+    if not t or not c or not u:
+        return False
+    if len(t) < 3 or t.lower().startswith("job lead"):
+        return False
+    return True
+
+def score_job(job):
+    """Higher = stronger pick. Rewards real pay, niche fit, and your Slack picks."""
+    s = 0
+    sal = find_salary_number(job.get("salary", ""))
+    if sal >= 100000:
+        s += 40
+    elif sal >= 80000:
+        s += 30
+    elif sal > 0:
+        s += 15
+    elif job.get("salary") not in ("", "Not listed"):
+        s += 8                              # hourly rate is listed
+    s += 6 * len(job.get("tags", []))       # niche matches
+    if job.get("source") == "Slack":
+        s += 25                             # YOU hand-picked it → boost
+    return s
+
 def main():
-    print("Fetching remote jobs (public APIs only)...")
-    fresh = collect_greenhouse() + collect_remotive() + collect_slack()
-    print("  Collected %d raw roles (auto + Slack)." % len(fresh))
-
+    print("Curating today's remote jobs...")
     existing = load_existing()
-    by_url = {}
-    # Keep existing first (preserves their original dateAdded), then add new ones.
-    for job in existing + fresh:
-        if job.get("url"):
-            by_url.setdefault(job["url"], job)
 
-    all_jobs = list(by_url.values())
+    # Companies used in the last COMPANY_COOLDOWN_DAYS — skip them for freshness.
+    cutoff = (datetime.date.today() -
+              datetime.timedelta(days=COMPANY_COOLDOWN_DAYS)).isoformat()
+    recent = {normalize_company(j.get("company", ""))
+              for j in existing if j.get("dateAdded", "") >= cutoff}
+    existing_urls = {j.get("url") for j in existing if j.get("url")}
+
+    # How many slots are still open for today (so re-runs don't pile up).
+    todays_count = sum(1 for j in existing if j.get("dateAdded") == TODAY)
+    slots = max(0, DAILY_TARGET - todays_count)
+
+    # Gather, then keep only clean, non-phone, brand-new roles.
+    candidates = collect_greenhouse() + collect_remotive() + collect_slack()
+    candidates = [c for c in candidates
+                  if is_clean(c)
+                  and not c.get("phoneFlag")
+                  and c.get("url") not in existing_urls]
+    candidates.sort(key=score_job, reverse=True)
+
+    picked, per_co = [], {}
+    for c in candidates:
+        if len(picked) >= slots:
+            break
+        co = normalize_company(c.get("company", ""))
+        if not co or co in recent:                     # fresh companies only
+            continue
+        if per_co.get(co, 0) >= MAX_PER_COMPANY:        # max 3 per company
+            continue
+        picked.append(c)
+        per_co[co] = per_co.get(co, 0) + 1
+        recent.add(co)
+    print("  Added %d fresh, curated job(s) today (%d slot[s] were open)."
+          % (len(picked), slots))
+
+    all_jobs = picked + existing
     all_jobs.sort(key=lambda j: j.get("dateAdded", ""), reverse=True)
-    print("  %d unique roles after de-duplicating." % len(all_jobs))
 
-    # Only ONE featured job per day — the first (top) featured role each day
-    # keeps its star; any others that day are un-featured.
+    # One featured job per day.
     featured_days = set()
     for job in all_jobs:
         if job.get("feature"):
@@ -310,13 +389,10 @@ def main():
             else:
                 featured_days.add(day)
 
-    # Save the data file
     with open("jobs.json", "w", encoding="utf-8") as f:
         json.dump(all_jobs, f, indent=2, ensure_ascii=False)
-
-    # Rebuild index.html between the JOBS_START / JOBS_END markers
     rebuild_index(all_jobs)
-    print("Done. Wrote jobs.json and updated index.html.")
+    print("Done. Board now shows %d jobs total." % len(all_jobs))
 
 def rebuild_index(jobs):
     try:
