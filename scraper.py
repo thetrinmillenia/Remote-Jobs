@@ -141,25 +141,40 @@ def find_salary_number(text):
     nums = [int(m.replace(",", "")) for m in matches]
     return max(nums) if nums else 0
 
+def _hr(a, b=None):
+    return ("$%s – $%s / hr" % (a, b)) if b else ("$%s / hr" % a)
+
 def extract_salary(text):
-    """Find a clean, displayable pay range/rate in the text. '' if none listed."""
-    t = text or ""
-    # yearly range, e.g. $106,500 - $118,000
-    m = re.search(r"\$\s?\d{2,3},\d{3}(?:\.\d+)?\s*(?:-|–|—|to|and)\s*\$?\s?\d{2,3},\d{3}", t, re.I)
+    """Find a clean, displayable pay range/rate in the text (from the job page
+    OR from what you typed after the link in Slack). Returns '' if none found."""
+    t = re.sub(r"[–—]", "-", text or "")   # normalize en/em dashes
+    t = re.sub(r"\s+", " ", t)
+    U = r"(?:/\s*hr|/\s*hour|per\s*hour|an\s*hour|hourly)"   # hourly unit
+
+    # Yearly $ range: $80,000 - $100,000  or  $80k - $100k  (must have comma or k)
+    m = re.search(r"\$\s?(\d{2,3},\d{3}|\d{2,3}k)\s*(?:-|to)\s*\$?\s?(\d{2,3},\d{3}|\d{2,3}k)", t, re.I)
     if m:
-        return re.sub(r"\s+", " ", m.group(0)).replace(" to ", " – ").replace(" and ", " – ")
-    # hourly range, e.g. $20 - $27 / hr  or  $20.51 - $25.64 per hour
-    m = re.search(r"\$\s?\d{1,3}(?:\.\d{1,2})?\s*(?:-|–|—|to)\s*\$?\s?\d{1,3}(?:\.\d{1,2})?\s*(?:/|per)\s*h(?:ou)?r", t, re.I)
+        return "$%s – $%s" % (m.group(1), m.group(2))
+    # Hourly $ range: $20 - $27 /hr
+    m = re.search(r"\$\s?(\d{1,3}(?:\.\d{1,2})?)\s*(?:-|to)\s*\$?\s?(\d{1,3}(?:\.\d{1,2})?)\s*" + U, t, re.I)
     if m:
-        return re.sub(r"\s+", " ", m.group(0)).replace(" to ", " – ")
-    # single hourly, e.g. $22.00 per hour
-    m = re.search(r"\$\s?\d{1,3}(?:\.\d{1,2})?\s*(?:/|per)\s*h(?:ou)?r", t, re.I)
+        return _hr(m.group(1), m.group(2))
+    # Hourly range WITHOUT $: 21 to 32 an hour  |  21-32/hr
+    m = re.search(r"\b(\d{1,3}(?:\.\d{1,2})?)\s*(?:-|to)\s*(\d{1,3}(?:\.\d{1,2})?)\s*" + U, t, re.I)
     if m:
-        return re.sub(r"\s+", " ", m.group(0))
-    # single yearly, e.g. $118,000
-    m = re.search(r"\$\s?\d{2,3},\d{3}(?:\.\d+)?", t)
+        return _hr(m.group(1), m.group(2))
+    # Single hourly with $: $22 per hour
+    m = re.search(r"\$\s?(\d{1,3}(?:\.\d{1,2})?)\s*" + U, t, re.I)
     if m:
-        return m.group(0)
+        return _hr(m.group(1))
+    # Single hourly WITHOUT $: 22 an hour
+    m = re.search(r"\b(\d{1,3}(?:\.\d{1,2})?)\s*" + U, t, re.I)
+    if m:
+        return _hr(m.group(1))
+    # Single yearly $ (needs comma or k so we don't grab small bonus numbers)
+    m = re.search(r"\$\s?(\d{2,3}k|\d{2,3},\d{3})", t, re.I)
+    if m:
+        return "$" + m.group(1)
     return ""
 
 def is_hybrid(text):
@@ -248,6 +263,9 @@ def collect_slack():
     jobs, seen = [], set()
     for msg in data.get("messages", []):
         text = msg.get("text", "")
+        # Anything you typed next to the link (e.g. a salary like "21 to 32 an hour").
+        extra = re.sub(r"https?://[^\s|>]+", " ", text)
+        extra = re.sub(r"[<>|]", " ", extra)
         for raw in re.findall(r"https?://[^\s|>]+", text):
             link = raw.rstrip(">").strip()
             if link in seen:
@@ -267,8 +285,9 @@ def collect_slack():
                 company=company,
                 url=link,
                 location=loc,
-                description=body or (title + " " + text),
-                salary_text=(salary + " " + body),
+                description=(body + " " + extra),
+                # pay comes from the page OR from what you typed after the link
+                salary_text=(salary + " " + extra + " " + body),
                 source="Slack",
             ))
     print("  Collected %d job link(s) from Slack." % len(jobs))
