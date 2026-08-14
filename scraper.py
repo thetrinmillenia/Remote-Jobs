@@ -280,7 +280,7 @@ def collect_slack():
                 print("    (skipped unreadable link — couldn't get clean details: %s)" % link)
                 continue
             loc = "Hybrid" if is_hybrid(body) else "Remote"
-            jobs.append(build_job(
+            job = build_job(
                 title=title,
                 company=company,
                 url=link,
@@ -289,7 +289,16 @@ def collect_slack():
                 # pay comes from the page OR from what you typed after the link
                 salary_text=(salary + " " + extra + " " + body),
                 source="Slack",
-            ))
+            )
+            # Whatever you typed after the link (minus the pay) becomes the card's
+            # short note — your own 5-word description of the role.
+            note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:-|–|to)\s*\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)?", " ", extra, flags=re.I)
+            note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)", " ", note, flags=re.I)
+            note = re.sub(r"\$\s?\d[\d,\.]*k?", " ", note)
+            note = re.sub(r"\s+", " ", note).strip(" -–·•,|")
+            if note and not job.get("phoneFlag"):
+                job["note"] = note[:90]
+            jobs.append(job)
     print("  Collected %d job link(s) from Slack." % len(jobs))
     return jobs
 
@@ -316,6 +325,36 @@ def enrich_link(url):
     salary = extract_salary(html)
     return (title, company, salary, body)
 
+def summarize(text, title=""):
+    """Auto-write a short descriptor by pulling the sentence that best describes
+    the role from the job text, then trimming it. No AI, no typing needed."""
+    t = re.sub(r"\s+", " ", text or "").strip()
+    if not t:
+        return ""
+    sentences = re.split(r"(?<=[.!?])\s+", t)
+    keys = ["you will", "you'll", "you’ll", "as a ", "as an ", "we are hiring",
+            "we're hiring", "we are looking", "we're looking", "responsible for",
+            "in this role", "this role"]
+    skip = ("our mission", "about ", "we believe", "we partner", "we are ",
+            "founded", "headquartered", "backed by")
+    pick = ""
+    for s in sentences:
+        sl = s.lower()
+        if any(k in sl for k in keys) and 25 < len(s) < 170:
+            pick = s
+            break
+    if not pick:
+        for s in sentences:
+            if 30 < len(s) < 170 and not s.lower().startswith(skip):
+                pick = s
+                break
+    if not pick:
+        return ""
+    words = pick.split()
+    if len(words) > 13:
+        pick = " ".join(words[:13]).rstrip(",;:") + "…"
+    return pick.strip()
+
 def build_job(title, company, url, location, description, salary_text, source):
     """Turn raw fields into our standard job record with tags + flags."""
     blob = (title + " " + description).lower()
@@ -331,7 +370,7 @@ def build_job(title, company, url, location, description, salary_text, source):
         "tags": tag_niches(blob),
         "feature": (not phone) and (salary_num >= MIN_FEATURE_SALARY),
         "phoneFlag": phone,
-        "note": "Heads up: this role looks phone-heavy." if phone else "",
+        "note": ("Heads up: this role looks phone-heavy." if phone else summarize(description, title)),
         "source": source,
         "datePosted": "",
         "dateAdded": TODAY,
