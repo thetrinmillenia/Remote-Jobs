@@ -1,5 +1,22 @@
 [
   {
+    "title": "Jobs with Housing",
+    "company": "CoolWorks.com",
+    "url": "https://www.coolworks.com/jobs-with-housing",
+    "salary": "$22 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "job board for seasonal workers needing housing wanna travel",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-18"
+  },
+  {
     "title": "Opportunities",
     "company": "Bicycle Health",
     "url": "https://www.bicyclehealth.com/careers-opportunities?gh_jid=6142704004",
