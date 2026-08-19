@@ -187,6 +187,48 @@ def extract_salary(text):
 def is_hybrid(text):
     return "hybrid" in (text or "").lower()
 
+def clean_company(name):
+    """Make company names tidy and consistent: real words, capitalized,
+    no URL-slug leftovers (springhealth66) and no trailing US/Inc/LLC."""
+    n = (name or "").strip()
+    if not n:
+        return ""
+    # URL-slug style (no spaces, all lowercase or has digits) -> prettify
+    if " " not in n and (n.islower() or any(c.isdigit() for c in n)):
+        n = re.sub(r"\d+$", "", n)                     # drop trailing digits
+        n = n.replace("-", " ").replace("_", " ")
+    n = re.sub(r"[\s,]+(?:us|usa|inc\.?|llc|ltd\.?|corp\.?|co\.?)$", "", n, flags=re.I).strip()
+    n = re.sub(r"\s*\((?:us|usa|remote|inc)\)$", "", n, flags=re.I).strip()
+    if n.islower() or n.isupper():
+        n = n.title()
+    return n[:45].strip()
+
+def slack_post(text):
+    """Post a message into #remote-jobs (needs the bot's chat:write scope)."""
+    token = os.environ.get("SLACK_TOKEN", "").strip()
+    if not token:
+        return
+    payload = json.dumps({"channel": SLACK_CHANNEL_ID, "text": text}).encode("utf-8")
+    req = urllib.request.Request(
+        "https://slack.com/api/chat.postMessage", data=payload,
+        headers={"Authorization": "Bearer " + token,
+                 "Content-Type": "application/json; charset=utf-8"})
+    try:
+        urllib.request.urlopen(req, timeout=15)
+    except Exception as e:
+        print("  ! couldn't post Slack flag: %s" % e)
+
+def load_flagged():
+    try:
+        with open("flagged.json", "r", encoding="utf-8") as f:
+            return set(json.load(f))
+    except Exception:
+        return set()
+
+def save_flagged(urls):
+    with open("flagged.json", "w", encoding="utf-8") as f:
+        json.dump(sorted(urls), f, indent=2)
+
 def normalize_salary(s):
     """Force every pay value into a consistent look:
     yearly  -> $100,000 – $150,000     hourly -> $20 – $24 / hr"""
@@ -325,7 +367,7 @@ def collect_greenhouse():
             desc = strip_html(j.get("content", ""))
             jobs.append(build_job(
                 title=j.get("title", ""),
-                company=data.get("name") or token,
+                company=clean_company(j.get("company_name") or data.get("name") or token),
                 url=j.get("absolute_url", ""),
                 location=location or "Remote",
                 description=desc,
@@ -376,11 +418,16 @@ def collect_slack():
         print("  ! Slack API error: %s" % data.get("error"))
         return []
     jobs, seen = [], set()
+    flagged = load_flagged()
     for msg in data.get("messages", []):
         text = msg.get("text", "")
-        # Anything you typed next to the link (e.g. a salary like "21 to 32 an hour").
+        # Anything you typed next to the link: pay ("21 to 32 an hour"), a short
+        # note, and/or an explicit company ("company: Acme Health").
         extra = re.sub(r"https?://[^\s|>]+", " ", text)
         extra = re.sub(r"[<>|]", " ", extra)
+        mco = re.search(r"\b(?:company|co)\s*[:=]\s*([A-Za-z0-9 &.'\-]{2,45})", extra, re.I)
+        typed_company = clean_company(mco.group(1)) if mco else ""
+        note_src = re.sub(r"\b(?:company|co)\s*[:=]\s*[A-Za-z0-9 &.'\-]{2,45}", " ", extra, flags=re.I)
         for raw in re.findall(r"https?://[^\s|>]+", text):
             link = raw.rstrip(">").strip()
             if link in seen:
@@ -397,6 +444,16 @@ def collect_slack():
             if is_closed(body):
                 print("    (skipped — this role looks closed/filled/expired: %s)" % link)
                 continue
+            company = typed_company or clean_company(company)
+            if not company:
+                # Couldn't figure out the company — ask you in Slack (once), then skip.
+                if link not in flagged:
+                    slack_post(":label: I couldn't detect the *company* for this job:\n%s\n"
+                               "Edit that message and add `company: Company Name` after the "
+                               "link, and I'll add it to the board." % link)
+                    flagged.add(link)
+                print("    (flagged for missing company: %s)" % link)
+                continue
             loc = "Hybrid" if is_hybrid(body) else "Remote"
             job = build_job(
                 title=title,
@@ -404,19 +461,19 @@ def collect_slack():
                 url=link,
                 location=loc,
                 description=(body + " " + extra),
-                # pay comes from the page OR from what you typed after the link
                 salary_text=(salary + " " + extra + " " + body),
                 source="Slack",
             )
-            # Whatever you typed after the link (minus the pay) becomes the card's
-            # short note — your own 5-word description of the role.
-            note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:-|–|to)\s*\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)?", " ", extra, flags=re.I)
+            # Whatever you typed after the link (minus pay and the company tag)
+            # becomes the card's short note.
+            note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:-|–|to)\s*\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)?", " ", note_src, flags=re.I)
             note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)", " ", note, flags=re.I)
             note = re.sub(r"\$\s?\d[\d,\.]*k?", " ", note)
             note = re.sub(r"\s+", " ", note).strip(" -–·•,|")
             if note and not job.get("phoneFlag"):
                 job["note"] = note[:90]
             jobs.append(job)
+    save_flagged(flagged)
     print("  Collected %d job link(s) from Slack." % len(jobs))
     return jobs
 
@@ -641,6 +698,7 @@ def main():
     for j in all_jobs:
         j["tags"] = (j.get("tags") or [])[:4]
         j["salary"] = normalize_salary(j.get("salary", ""))
+        j["company"] = clean_company(j.get("company", ""))
 
     # One featured job per day.
     featured_days = set()
