@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # =============================================================================
 #  Remote Jobs Scraper  ·  Data Wizards
@@ -33,7 +34,11 @@ import urllib.parse
 # Companies whose job boards we check directly (Greenhouse "board tokens").
 # Add more by copying a company's Greenhouse URL token here.
 GREENHOUSE_COMPANIES = [
-    "springhealth66",   # Spring Health (healthcare)
+    "springhealth66",   # Spring Health (mental health)
+    "pairteam",         # Pair Team (community health / care management)
+    "cadencehealth",    # Cadence Health (remote cardiac care)
+    "perfectserve",     # PerfectServe (healthcare communications)
+    # Add more anytime: grab the slug from any job-boards.greenhouse.io/SLUG link.
 ]
 
 # Keyword searches run against the free Remotive API (general remote board).
@@ -69,6 +74,9 @@ REMOTIVE_LIMIT = 25
 
 # ---- Curation rules (the "keep it tight, keep it fresh" settings) ----
 DAILY_TARGET = 5            # add at most this many BEST new jobs per day
+MIN_HOURLY = 18             # skip anything paying less than this per hour (or yearly equiv)
+BACKFILL_DAYS = 4           # if you miss weekdays, fill up to this many recent empty ones first
+WEEKLY_CHECK_DAY = 0        # 0=Monday: the day the "is this job still open?" check runs
 MAX_PER_COMPANY = 3         # never more than this many roles from one company
 COMPANY_COOLDOWN_DAYS = 14  # don't post the same company again within this window
 
@@ -180,6 +188,89 @@ def extract_salary(text):
 def is_hybrid(text):
     return "hybrid" in (text or "").lower()
 
+CLOSED_SIGNALS = (
+    "no longer accepting applications", "no longer accepting application",
+    "no longer available", "position has been filled", "position is filled",
+    "this position has been closed", "position has been closed",
+    "this job is closed", "applications are closed", "posting has expired",
+    "job posting has expired", "this job is no longer active",
+    "we are no longer accepting", "job not found", "posting is closed",
+    "role has been filled", "we've filled this role", "this opening is closed",
+)
+
+def is_closed(text):
+    """True if the job page says the role is filled/closed/expired."""
+    t = (text or "").lower()
+    return any(sig in t for sig in CLOSED_SIGNALS)
+
+def meets_min_pay(salary):
+    """True if the pay is at least MIN_HOURLY/hr (or the yearly equivalent)."""
+    s = (salary or "")
+    nums = [float(x.replace(",", "")) for x in re.findall(r"\d[\d,]*(?:\.\d+)?", s)]
+    if not nums:
+        return False
+    lo = min(nums)
+    if "hr" in s.lower() or "hour" in s.lower():
+        return lo >= MIN_HOURLY
+    if "k" in s.lower():
+        lo *= 1000
+    return lo >= MIN_HOURLY * 2080   # yearly equivalent of the hourly floor
+
+VAGUE_TITLES = ("opportunit", "talent community", "talent network",
+                "general application", "future opening", "expression of interest",
+                "candidate pool", "join our team")
+
+def parse_jsonld_job(html):
+    """Read the page's structured JobPosting data for an EXACT job title,
+    company, and salary. This is what fixes 'company and job are backwards'."""
+    for m in re.finditer(r'<script[^>]*application/ld\+json[^>]*>(.*?)</script>', html, re.S | re.I):
+        raw = m.group(1).strip()
+        try:
+            data = json.loads(raw)
+        except Exception:
+            continue
+        items = data if isinstance(data, list) else [data]
+        if isinstance(data, dict) and "@graph" in data:
+            items = data["@graph"]
+        for it in items:
+            if not isinstance(it, dict):
+                continue
+            t = it.get("@type")
+            is_job = t == "JobPosting" or (isinstance(t, list) and "JobPosting" in t)
+            if not is_job:
+                continue
+            title = (it.get("title") or "").strip()
+            org = it.get("hiringOrganization")
+            company = ""
+            if isinstance(org, dict):
+                company = (org.get("name") or "").strip()
+            elif isinstance(org, str):
+                company = org.strip()
+            salary = ""
+            bs = it.get("baseSalary")
+            if isinstance(bs, dict):
+                v = bs.get("value")
+                unit = (bs.get("unitText") or (v.get("unitText") if isinstance(v, dict) else "") or "").upper()
+                if isinstance(v, dict):
+                    mn, mx = v.get("minValue"), v.get("maxValue")
+                    if mn and mx:
+                        if "HOUR" in unit:
+                            salary = "$%s – $%s / hr" % (_num(mn), _num(mx))
+                        else:
+                            salary = "$%s – $%s" % (_num(mn, True), _num(mx, True))
+                    elif mn:
+                        salary = ("$%s / hr" % _num(mn)) if "HOUR" in unit else ("$" + _num(mn, True))
+            return title, company, salary
+    return "", "", ""
+
+def _num(x, comma=False):
+    try:
+        n = float(x)
+        n = int(n) if n == int(n) else n
+    except Exception:
+        return str(x)
+    return "{:,}".format(n) if comma else str(n)
+
 def tag_niches(text):
     tags = []
     for niche, words in NICHE_KEYWORDS.items():
@@ -279,6 +370,9 @@ def collect_slack():
             if not title:
                 print("    (skipped unreadable link — couldn't get clean details: %s)" % link)
                 continue
+            if is_closed(body):
+                print("    (skipped — this role looks closed/filled/expired: %s)" % link)
+                continue
             loc = "Hybrid" if is_hybrid(body) else "Remote"
             job = build_job(
                 title=title,
@@ -312,17 +406,22 @@ def enrich_link(url):
             html = r.read(200000).decode("utf-8", "ignore")
     except Exception:
         return ("", "", "", "")
-    m = re.search(r'<meta property="og:title" content="([^"]+)"', html) or \
-        re.search(r"<title>([^<]+)</title>", html)
-    title = (m.group(1).strip() if m else "")
-    company = ""
-    for sep in (" - ", " | ", " at ", " @ "):
-        if sep in title:
-            parts = title.split(sep)
-            title, company = parts[0].strip(), parts[-1].strip()
-            break
     body = strip_html(html)
-    salary = extract_salary(html)
+    # 1) Best source: structured JobPosting data → exact job title + company + pay.
+    jt, jc, js = parse_jsonld_job(html)
+    # 2) Fallback: the page/browser title (prefer "Job @ Company" style).
+    ot = re.search(r'<meta property="og:title" content="([^"]+)"', html) or \
+         re.search(r"<title>([^<]+)</title>", html)
+    otitle = (ot.group(1).strip() if ot else "")
+    ocompany = ""
+    for sep in (" @ ", " | ", " - ", " at "):
+        if sep in otitle:
+            parts = otitle.split(sep)
+            otitle, ocompany = parts[0].strip(), parts[-1].strip()
+            break
+    title = jt or otitle
+    company = jc or ocompany
+    salary = js or extract_salary(html)
     return (title, company, salary, body)
 
 def summarize(text, title=""):
@@ -404,8 +503,12 @@ def is_clean(job):
         return False
     if len(t) < 3 or t.lower().startswith("job lead"):
         return False
+    if any(v in t.lower() for v in VAGUE_TITLES):
+        return False                       # skip vague "Future Opportunities" posts
     if not job.get("salary", "").strip():
         return False                       # pay transparency REQUIRED
+    if not meets_min_pay(job.get("salary", "")):
+        return False                       # below the $18/hr floor
     if is_hybrid(job.get("remote", "")):
         return False                       # remote only — no hybrid
     return True
@@ -427,9 +530,29 @@ def score_job(job):
         s += 25                             # YOU hand-picked it → boost
     return s
 
+def mark_closed(jobs):
+    """Once a week (on WEEKLY_CHECK_DAY), re-check every posted job and label any
+    that are filled/closed with a CLOSED badge — instead of deleting them.
+    Conservative: only changes a job's status when its page actually loads, so a
+    temporary network glitch never mislabels the board."""
+    if datetime.date.today().weekday() != WEEKLY_CHECK_DAY:
+        return jobs                          # only runs on the weekly check day
+    print("  Weekly check: verifying which posted jobs are still open...")
+    for j in jobs:
+        try:
+            body = enrich_link(j.get("url", ""))[3]
+        except Exception:
+            body = ""
+        if body:                             # only update when the page loaded
+            was = j.get("closed", False)
+            j["closed"] = is_closed(body)
+            if j["closed"] and not was:
+                print("  (marked CLOSED: %s)" % j.get("title", ""))
+    return jobs
+
 def main():
     print("Curating today's remote jobs...")
-    existing = load_existing()
+    existing = mark_closed(load_existing())
 
     # Companies used in the last COMPANY_COOLDOWN_DAYS — skip them for freshness.
     cutoff = (datetime.date.today() -
@@ -438,13 +561,23 @@ def main():
               for j in existing if j.get("dateAdded", "") >= cutoff}
     existing_urls = {j.get("url") for j in existing if j.get("url")}
 
-    # How many slots are still open for today (so re-runs don't pile up).
-    todays_count = sum(1 for j in existing if j.get("dateAdded") == TODAY)
-    slots = max(0, DAILY_TARGET - todays_count)
+    # Which days need jobs? Any recent EMPTY weekday you missed (oldest first),
+    # then today with whatever room is left. New picks backfill the missed days
+    # first, so the board never has a blank weekday gap.
+    today = datetime.date.today()
+    fill_days = []
+    for i in range(BACKFILL_DAYS, 0, -1):                # look back a few recent days
+        d = today - datetime.timedelta(days=i)
+        if d.weekday() >= 5:                              # weekdays only (Mon–Fri)
+            continue
+        if sum(1 for j in existing if j.get("dateAdded") == d.isoformat()) == 0:
+            fill_days.append([d.isoformat(), DAILY_TARGET])   # missed weekday → fill it
+    todays_count = sum(1 for j in existing if j.get("dateAdded") == today.isoformat())
+    fill_days.append([today.isoformat(), max(0, DAILY_TARGET - todays_count)])
+    total_slots = sum(cap for _, cap in fill_days)
 
-    # Gather candidates. We use company-direct sources only (company ATS boards
-    # + the links YOU drop in Slack) so every link points to the real employer,
-    # not an aggregator. (Remotive is left out for that reason.)
+    # Gather candidates. Company-direct sources only (company ATS boards + your
+    # Slack links) so every link points to the real employer.
     candidates = collect_greenhouse() + collect_slack()
     candidates = [c for c in candidates
                   if is_clean(c)              # clean data + PAY LISTED + remote-only
@@ -454,7 +587,7 @@ def main():
 
     picked, per_co = [], {}
     for c in candidates:
-        if len(picked) >= slots:
+        if len(picked) >= total_slots:
             break
         co = normalize_company(c.get("company", ""))
         if not co or co in recent:                     # fresh companies only
@@ -464,8 +597,17 @@ def main():
         picked.append(c)
         per_co[co] = per_co.get(co, 0) + 1
         recent.add(co)
-    print("  Added %d fresh, curated job(s) today (%d slot[s] were open)."
-          % (len(picked), slots))
+
+    # Assign each pick to a day — fill the missed (empty) weekdays first, then today.
+    di = 0
+    for c in picked:
+        while di < len(fill_days) and fill_days[di][1] <= 0:
+            di += 1
+        if di >= len(fill_days):
+            break
+        c["dateAdded"] = fill_days[di][0]
+        fill_days[di][1] -= 1
+    print("  Added %d curated job(s), backfilling missed weekdays first." % len(picked))
 
     all_jobs = picked + existing
     all_jobs.sort(key=lambda j: j.get("dateAdded", ""), reverse=True)
