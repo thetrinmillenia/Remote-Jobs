@@ -1,4 +1,3 @@
-
 #!/usr/bin/env python3
 # =============================================================================
 #  Remote Jobs Scraper  ·  Data Wizards
@@ -187,6 +186,31 @@ def extract_salary(text):
 
 def is_hybrid(text):
     return "hybrid" in (text or "").lower()
+
+def normalize_salary(s):
+    """Force every pay value into a consistent look:
+    yearly  -> $100,000 – $150,000     hourly -> $20 – $24 / hr"""
+    s = (s or "").strip()
+    if not s:
+        return s
+    hourly = ("hr" in s.lower()) or ("hour" in s.lower())
+    vals = []
+    for n in re.findall(r"\d[\d,\.]*k?", s, re.I):
+        n = n.replace(",", "")
+        try:
+            vals.append(float(n[:-1]) * 1000 if n.lower().endswith("k") else float(n))
+        except Exception:
+            pass
+    if not vals:
+        return s
+
+    def fmt(v):
+        if hourly:
+            return ("%.2f" % v).rstrip("0").rstrip(".") if v % 1 else "%d" % v
+        return "{:,}".format(int(round(v)))
+
+    body = ("$%s – $%s" % (fmt(vals[0]), fmt(vals[1]))) if len(vals) >= 2 else ("$%s" % fmt(vals[0]))
+    return body + (" / hr" if hourly else "")
 
 CLOSED_SIGNALS = (
     "no longer accepting applications", "no longer accepting application",
@@ -463,10 +487,10 @@ def build_job(title, company, url, location, description, salary_text, source):
         "title": title.strip(),
         "company": company.strip(),
         "url": url.strip(),
-        "salary": extract_salary(salary_text),
+        "salary": normalize_salary(extract_salary(salary_text)),
         "level": "Entry" if any(w in blob for w in ["entry", "junior", "associate", "coordinator"]) else "Mid",
         "remote": location.strip() or "Remote",
-        "tags": tag_niches(blob),
+        "tags": tag_niches(blob)[:4],
         "feature": (not phone) and (salary_num >= MIN_FEATURE_SALARY),
         "phoneFlag": phone,
         "note": ("Heads up: this role looks phone-heavy." if phone else summarize(description, title)),
@@ -611,6 +635,12 @@ def main():
 
     all_jobs = picked + existing
     all_jobs.sort(key=lambda j: j.get("dateAdded", ""), reverse=True)
+
+    # Consistency pass: cap tags at 4 and standardize every salary format
+    # (applies to older jobs too, so the whole board looks uniform).
+    for j in all_jobs:
+        j["tags"] = (j.get("tags") or [])[:4]
+        j["salary"] = normalize_salary(j.get("salary", ""))
 
     # One featured job per day.
     featured_days = set()
