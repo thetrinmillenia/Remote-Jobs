@@ -72,7 +72,8 @@ MIN_FEATURE_SALARY = 80000
 REMOTIVE_LIMIT = 25
 
 # ---- Curation rules (the "keep it tight, keep it fresh" settings) ----
-DAILY_TARGET = 5            # add at most this many BEST new jobs per day
+DAILY_TARGET = 5            # top out at this many BEST new jobs per day
+MIN_PER_DAY = 3             # aim for at least this many jobs on every weekday
 MIN_HOURLY = 18             # skip anything paying less than this per hour (or yearly equiv)
 BACKFILL_DAYS = 4           # if you miss weekdays, fill up to this many recent empty ones first
 WEEKLY_CHECK_DAY = 0        # 0=Monday: the day the "is this job still open?" check runs
@@ -228,6 +229,34 @@ def load_flagged():
 def save_flagged(urls):
     with open("flagged.json", "w", encoding="utf-8") as f:
         json.dump(sorted(urls), f, indent=2)
+
+def slack_company_overrides():
+    """Read #remote-jobs for 'company: Name' next to a link. Returns {url: company}.
+    This is the FIX command — it corrects a card even if it's already on the board."""
+    token = os.environ.get("SLACK_TOKEN", "").strip()
+    if not token:
+        return {}
+    api = "https://slack.com/api/conversations.history?channel=%s&limit=100" % SLACK_CHANNEL_ID
+    req = urllib.request.Request(api, headers={"Authorization": "Bearer " + token})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            data = json.load(r)
+    except Exception:
+        return {}
+    if not data.get("ok"):
+        return {}
+    overrides = {}
+    for msg in data.get("messages", []):
+        text = msg.get("text", "")
+        mco = re.search(r"\b(?:company|co)\s*[:=]\s*([A-Za-z0-9 &.'\-]{2,45})", text, re.I)
+        if not mco:
+            continue
+        co = clean_company(mco.group(1))
+        if not co:
+            continue
+        for raw in re.findall(r"https?://[^\s|>]+", text):
+            overrides[raw.rstrip(">").strip()] = co
+    return overrides
 
 def normalize_salary(s):
     """Force every pay value into a consistent look:
@@ -635,6 +664,13 @@ def main():
     print("Curating today's remote jobs...")
     existing = mark_closed(load_existing())
 
+    # FIX command: apply any "company: Name" you typed in Slack to jobs already
+    # on the board (so you can correct a company without editing files).
+    overrides = slack_company_overrides()
+    for j in existing:
+        if j.get("url") in overrides:
+            j["company"] = overrides[j["url"]]
+
     # Companies used in the last COMPANY_COOLDOWN_DAYS — skip them for freshness.
     cutoff = (datetime.date.today() -
               datetime.timedelta(days=COMPANY_COOLDOWN_DAYS)).isoformat()
@@ -642,20 +678,17 @@ def main():
               for j in existing if j.get("dateAdded", "") >= cutoff}
     existing_urls = {j.get("url") for j in existing if j.get("url")}
 
-    # Which days need jobs? Any recent EMPTY weekday you missed (oldest first),
-    # then today with whatever room is left. New picks backfill the missed days
-    # first, so the board never has a blank weekday gap.
+    # Recent weekdays (oldest -> today) and how many jobs each has right now.
+    # We'll fill every one up to at least MIN_PER_DAY, then top up toward DAILY_TARGET.
     today = datetime.date.today()
-    fill_days = []
-    for i in range(BACKFILL_DAYS, 0, -1):                # look back a few recent days
+    day_counts = []
+    for i in range(BACKFILL_DAYS, -1, -1):               # include today (i = 0)
         d = today - datetime.timedelta(days=i)
         if d.weekday() >= 5:                              # weekdays only (Mon–Fri)
             continue
-        if sum(1 for j in existing if j.get("dateAdded") == d.isoformat()) == 0:
-            fill_days.append([d.isoformat(), DAILY_TARGET])   # missed weekday → fill it
-    todays_count = sum(1 for j in existing if j.get("dateAdded") == today.isoformat())
-    fill_days.append([today.isoformat(), max(0, DAILY_TARGET - todays_count)])
-    total_slots = sum(cap for _, cap in fill_days)
+        cnt = sum(1 for j in existing if j.get("dateAdded") == d.isoformat())
+        day_counts.append([d.isoformat(), cnt])
+    total_slots = sum(max(0, DAILY_TARGET - c) for _, c in day_counts)
 
     # Gather candidates. Company-direct sources only (company ATS boards + your
     # Slack links) so every link points to the real employer.
@@ -679,16 +712,24 @@ def main():
         per_co[co] = per_co.get(co, 0) + 1
         recent.add(co)
 
-    # Assign each pick to a day — fill the missed (empty) weekdays first, then today.
-    di = 0
+    # Assign picks to days in two passes: first bring EVERY weekday up to the
+    # required minimum (oldest first), then top up toward the daily target.
+    for target in (MIN_PER_DAY, DAILY_TARGET):
+        for c in picked:
+            if c.get("_day"):
+                continue
+            for day in day_counts:
+                if day[1] < target:
+                    c["_day"] = day[0]
+                    day[1] += 1
+                    break
     for c in picked:
-        while di < len(fill_days) and fill_days[di][1] <= 0:
-            di += 1
-        if di >= len(fill_days):
-            break
-        c["dateAdded"] = fill_days[di][0]
-        fill_days[di][1] -= 1
-    print("  Added %d curated job(s), backfilling missed weekdays first." % len(picked))
+        c["dateAdded"] = c.pop("_day", today.isoformat())
+    short = [d for d, c in day_counts if c < MIN_PER_DAY]
+    msg = "  Added %d curated job(s) (target %d–%d/day)." % (len(picked), MIN_PER_DAY, DAILY_TARGET)
+    if short:
+        msg += " Still under %d on: %s — needs more links." % (MIN_PER_DAY, ", ".join(short))
+    print(msg)
 
     all_jobs = picked + existing
     all_jobs.sort(key=lambda j: j.get("dateAdded", ""), reverse=True)
