@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,6 +71,12 @@
   }
   .job:hover{ transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.06); }
   .job.feature{ background:var(--butter-soft); border-color:#ecdf98; }
+  .job.closed{ opacity:.55; }
+  .cbadge{
+    position:absolute; top:-12px; right:14px; background:#e5e7eb; color:#4b5563;
+    font-size:10px; font-weight:800; letter-spacing:.5px; text-transform:uppercase;
+    padding:5px 11px; border-radius:999px; box-shadow:0 2px 6px rgba(0,0,0,.08);
+  }
   .fbadge{
     position:absolute; top:-12px; right:14px; display:flex; align-items:center; gap:4px;
     background:var(--butter); color:var(--butter-fg); font-size:10px; font-weight:800;
@@ -104,8 +111,8 @@
   <div class="header-inner">
     <span class="pill">Curated Daily</span>
     <h1 class="serif">Remote Jobs <span class="accent">Harvest</span></h1>
-    <p class="tagline">Top-Tier Remote Work So You Can Fund Your Freedom on Your Own Terms</p>
-    <a class="cta" href="https://stan.store/thetrinmillenia/p/doneforyou-resume-reset-copy" target="_blank" rel="noopener noreferrer">Unlock My Premium Resume Reset →</a>
+    <p class="tagline">Cultivating Top-Tier Remote Work So You Can Fund Your Freedom on Your Own Terms.</p>
+    <a class="cta" href="https://stan.store/thetrinmillenia" target="_blank" rel="noopener noreferrer">Get the 48-Hour Interview Playbook</a>
   </div>
 </header>
 
@@ -125,176 +132,6 @@
 // JOBS_START
 const JOBS = [
   {
-    "title": "Jobs with Housing",
-    "company": "CoolWorks.com",
-    "url": "https://www.coolworks.com/jobs-with-housing",
-    "salary": "$22 / hr",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "healthcare"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "job board for seasonal workers needing housing wanna travel",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-18"
-  },
-  {
-    "title": "Opportunities",
-    "company": "Bicycle Health",
-    "url": "https://www.bicyclehealth.com/careers-opportunities?gh_jid=6142704004",
-    "salary": "$28 – $30 / hr",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "healthcare",
-      "finance",
-      "tech/startup",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-14"
-  },
-  {
-    "title": "Customer Success Associate, Any location, United States",
-    "company": "Coalition, Inc.",
-    "url": "https://www.coalitioninc.com/job-posting/4721223005",
-    "salary": "$40,000 – $50,000",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-14"
-  },
-  {
-    "title": "Lone Wolf Technologies",
-    "company": "Customer Support Representative",
-    "url": "https://jobs.lever.co/lwolf/bd7568bb-f842-4188-b4e8-e0aba9879c9d",
-    "salary": "$26 – $28.50 / hr",
-    "level": "Mid",
-    "remote": "Remote",
-    "tags": [
-      "healthcare",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-14"
-  },
-  {
-    "title": "Consumer Support Specialist",
-    "company": "US",
-    "url": "https://jobs.ashbyhq.com/runway-ml/9f6d216d-2f54-4970-84d7-43ab0a2b4852",
-    "salary": "$75K – $90K",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "tech/startup",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-14"
-  },
-  {
-    "title": "Senior People Operations Coordinator",
-    "company": "Temp",
-    "url": "http://job-boards.greenhouse.io/life360/jobs/8688370002",
-    "salary": "$48.08 - $52.88 per hour",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "healthcare",
-      "tech/startup",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-14"
-  },
-  {
-    "title": "Account Executive",
-    "company": "Career Page",
-    "url": "https://belaycorporate.applytojob.com/apply/EPgL6HkfFn/Account-Executive?source=Our%20Career%20Page%20Widget&amp;_gl=1*13f2y6u*_gcl_au*NzA5NTIwNzkuMTc4NTg2MzE0MQ",
-    "salary": "$80,000 - $85,000",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "healthcare",
-      "finance",
-      "tech/startup",
-      "customer service",
-      "sales"
-    ],
-    "feature": true,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-13"
-  },
-  {
-    "title": "Associate Director, Customer Success",
-    "company": "springhealth66",
-    "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4713894005",
-    "salary": "$146,000 - $168,000",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "healthcare",
-      "tech/startup",
-      "customer service",
-      "sales"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Greenhouse",
-    "datePosted": "",
-    "dateAdded": "2026-08-13"
-  },
-  {
-    "title": "Team Leader, Operations",
-    "company": "Customer Support",
-    "url": "http://job-boards.greenhouse.io/truebill/jobs/7818110003",
-    "salary": "$60,000 - $75,000",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "healthcare",
-      "finance",
-      "tech/startup",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-13"
-  },
-  {
     "title": "Business Analyst, Operations Analytics",
     "company": "Spring Health",
     "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4710036005",
@@ -307,7 +144,7 @@ const JOBS = [
     ],
     "feature": true,
     "phoneFlag": false,
-    "note": "",
+    "note": "Shape ops strategy through data.",
     "dateAdded": "2026-08-12"
   },
   {
@@ -323,7 +160,7 @@ const JOBS = [
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "",
+    "note": "Owns multi-state payroll and compliance.",
     "dateAdded": "2026-08-12"
   },
   {
@@ -413,16 +250,13 @@ function render(){
 
 function card(j,feat){
   let tags=(j.tags||[]).map(t=>'<span class="tag">'+esc(t)+'</span>').join("");
-  return '<a class="job'+(feat?' feature':'')+'" href="'+esc(j.url)+'" target="_blank" rel="noopener noreferrer">'+
-    (feat?'<span class="fbadge">★ Featured</span>':'')+
+  return '<a class="job'+(feat&&!j.closed?' feature':'')+(j.closed?' closed':'')+'" href="'+esc(j.url)+'" target="_blank" rel="noopener noreferrer">'+
+    (j.closed?'<span class="cbadge">Closed</span>':(feat?'<span class="fbadge">★ Featured</span>':''))+
     '<div class="row"><div class="emoji">'+emojiFor(j.tags)+'</div><div class="body">'+
       '<h3 class="serif">'+esc(j.title)+'</h3>'+
       '<div class="meta"><span class="co">'+esc(j.company)+'</span>'+
-        '<span class="dot">•</span><span>'+esc(j.salary||"Not listed")+'</span>'+
-        '<span class="dot">•</span><span>'+esc(j.level||"—")+'</span>'+
-        '<span class="dot">•</span><span>'+esc(j.remote||"Remote")+'</span></div>'+
-      (j.phoneFlag?'<div class="warn">⚠ Direct phone interview required</div>':'')+
-      (j.note?'<p class="note">'+esc(j.note)+'</p>':'')+
+        (j.salary?'<span class="dot">•</span><span>'+esc(j.salary)+'</span>':'')+
+        (j.level?'<span class="dot">•</span><span>'+esc(j.level)+'</span>':'')+'</div>'+
       '<div class="tags">'+tags+'</div>'+
     '</div></div></a>';
 }
