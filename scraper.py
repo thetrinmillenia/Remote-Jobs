@@ -37,6 +37,8 @@ GREENHOUSE_COMPANIES = [
     "pairteam",         # Pair Team (community health / care management)
     "cadencehealth",    # Cadence Health (remote cardiac care)
     "perfectserve",     # PerfectServe (healthcare communications)
+    "garnerhealth",     # Garner Health (health navigation — lots of remote roles)
+    "omadahealth",      # Omada Health (virtual care — all-remote roles)
     # Add more anytime: grab the slug from any job-boards.greenhouse.io/SLUG link.
 ]
 
@@ -122,6 +124,11 @@ SLACK_BLOCK_DOMAINS = [
 # The scraper reads it ONLY if a SLACK_TOKEN is provided (as a GitHub secret).
 # Without a token, it simply skips Slack and does the auto-scrape only.
 SLACK_CHANNEL_ID = "C0BNT644UHK"
+
+# A SEPARATE channel just for whole company boards / careers pages. The robot
+# harvests EVERY remote job off each link you drop there (backup supply).
+# Leave "" until you make the channel, then paste its channel ID here.
+BOARDS_CHANNEL_ID = ""
 
 # -----------------------------------------------------------------------------
 # 2. Small helpers
@@ -428,6 +435,90 @@ def collect_remotive():
             ))
     return jobs
 
+def _board_root(url):
+    """If the link is a company's whole job board, return (kind, slug)."""
+    for kind, pat in (("greenhouse", r"https?://(?:job-boards|boards)\.greenhouse\.io/([^/?#]+)/?$"),
+                      ("lever",      r"https?://jobs\.lever\.co/([^/?#]+)/?$"),
+                      ("ashby",      r"https?://jobs\.ashbyhq\.com/([^/?#]+)/?$")):
+        m = re.match(pat, url, re.I)
+        if m:
+            return (kind, m.group(1))
+    return None
+
+def _is_single_job(url):
+    """True if the link points to one specific job posting (not a board/page)."""
+    pats = (r"greenhouse\.io/[^/]+/jobs/\d+", r"lever\.co/[^/]+/[0-9a-f\-]{18,}",
+            r"ashbyhq\.com/[^/]+/[0-9a-f\-]{18,}", r"workable\.com/.+/j/",
+            r"myworkdayjobs\.com/.+/job/", r"icims\.com/jobs/\d+",
+            r"/careers/jobs/\d+", r"/job/\d+")
+    return any(re.search(p, url, re.I) for p in pats)
+
+def board_job_urls(kind, slug, cap=20):
+    """Pull all REMOTE job URLs from a company's board via its public API."""
+    urls = []
+    try:
+        if kind == "greenhouse":
+            data = fetch_json("https://boards-api.greenhouse.io/v1/boards/%s/jobs?content=true" % slug)
+            for j in data.get("jobs", []):
+                loc = (j.get("location") or {}).get("name", "")
+                if is_remote(loc) or is_remote(j.get("content", "")):
+                    urls.append(j.get("absolute_url", ""))
+        elif kind == "lever":
+            data = fetch_json("https://api.lever.co/v0/postings/%s?mode=json" % slug)
+            for j in data:
+                blob = ((j.get("categories") or {}).get("location", "") + " " +
+                        (j.get("workplaceType") or ""))
+                if is_remote(blob):
+                    urls.append(j.get("hostedUrl", ""))
+        elif kind == "ashby":
+            data = fetch_json("https://api.ashbyhq.com/posting-api/job-board/%s" % slug)
+            for j in data.get("jobs", []):
+                if j.get("isRemote") or is_remote(j.get("location", "")):
+                    urls.append(j.get("jobUrl", ""))
+    except Exception as e:
+        print("  ! couldn't read %s board '%s': %s" % (kind, slug, e))
+    return [u for u in urls if u][:cap]
+
+def harvest_generic(url, cap=15):
+    """Grab individual job-application links off a listings/careers page."""
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "DataWizards-JobBoard/1.0"})
+        with urllib.request.urlopen(req, timeout=18) as r:
+            html = r.read(400000).decode("utf-8", "ignore")
+    except Exception:
+        return []
+    pats = (r"https?://[a-z0-9.\-]*greenhouse\.io/[^\"'<>\s]+/jobs/\d+",
+            r"https?://jobs\.lever\.co/[^\"'<>\s]+/[0-9a-f\-]{18,}",
+            r"https?://jobs\.ashbyhq\.com/[^\"'<>\s]+/[0-9a-f\-]{18,}",
+            r"https?://[a-z0-9.\-]*workable\.com/[^\"'<>\s]*/j/[A-Za-z0-9]+",
+            r"https?://[a-z0-9.\-]*myworkdayjobs\.com/[^\"'<>\s]+/job/[^\"'<>\s]+",
+            r"https?://[a-z0-9.\-]*icims\.com/jobs/\d+[^\"'<>\s]*")
+    found = []
+    for p in pats:
+        for m in re.findall(p, html, re.I):
+            u = m.rstrip(".,);\"'")
+            if u not in found:
+                found.append(u)
+    return found[:cap]
+
+def expand_slack_link(link):
+    """Turn one pasted link into the list of job links to actually process:
+    a board page -> all its remote jobs; a listings page -> the jobs found on it;
+    a single posting -> just itself."""
+    board = _board_root(link)
+    if board:
+        found = board_job_urls(*board)
+        if found:
+            print("  Found %d remote job(s) on the %s board: %s" % (len(found), board[0], link))
+            return found
+    if _is_single_job(link):
+        return [link]
+    found = harvest_generic(link)
+    if found:
+        print("  Harvested %d job link(s) from page: %s" % (len(found), link))
+        return found
+    return [link]
+
 def collect_slack():
     """Read job links YOU pasted into #remote-jobs and add them to the board.
     Runs only if a SLACK_TOKEN is provided; otherwise skips quietly."""
@@ -458,52 +549,98 @@ def collect_slack():
         typed_company = clean_company(mco.group(1)) if mco else ""
         note_src = re.sub(r"\b(?:company|co)\s*[:=]\s*[A-Za-z0-9 &.'\-]{2,45}", " ", extra, flags=re.I)
         for raw in re.findall(r"https?://[^\s|>]+", text):
-            link = raw.rstrip(">").strip()
-            if link in seen:
+            posted = raw.rstrip(">").strip()
+            if any(b in posted.lower() for b in SLACK_BLOCK_DOMAINS):
+                print("    (skipped reference link, not a job: %s)" % posted)
                 continue
-            seen.add(link)
-            low = link.lower()
-            if any(b in low for b in SLACK_BLOCK_DOMAINS):
-                print("    (skipped reference link, not a job: %s)" % link)
-                continue
-            title, company, salary, body = enrich_link(link)
-            if not title:
-                print("    (skipped unreadable link — couldn't get clean details: %s)" % link)
-                continue
-            if is_closed(body):
-                print("    (skipped — this role looks closed/filled/expired: %s)" % link)
-                continue
-            company = typed_company or clean_company(company)
-            if not company:
-                # Couldn't figure out the company — ask you in Slack (once), then skip.
-                if link not in flagged:
-                    slack_post(":label: I couldn't detect the *company* for this job:\n%s\n"
-                               "Edit that message and add `company: Company Name` after the "
-                               "link, and I'll add it to the board." % link)
-                    flagged.add(link)
-                print("    (flagged for missing company: %s)" % link)
-                continue
-            loc = "Hybrid" if is_hybrid(body) else "Remote"
-            job = build_job(
-                title=title,
-                company=company,
-                url=link,
-                location=loc,
-                description=(body + " " + extra),
-                salary_text=(salary + " " + extra + " " + body),
-                source="Slack",
-            )
-            # Whatever you typed after the link (minus pay and the company tag)
-            # becomes the card's short note.
-            note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:-|–|to)\s*\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)?", " ", note_src, flags=re.I)
-            note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)", " ", note, flags=re.I)
-            note = re.sub(r"\$\s?\d[\d,\.]*k?", " ", note)
-            note = re.sub(r"\s+", " ", note).strip(" -–·•,|")
-            if note and not job.get("phoneFlag"):
-                job["note"] = note[:90]
-            jobs.append(job)
+            # #remote-jobs is for individual job links only — keep it simple.
+            job_urls = [posted]
+            single = True
+            for link in job_urls:
+                if link in seen:
+                    continue
+                seen.add(link)
+                if any(b in link.lower() for b in SLACK_BLOCK_DOMAINS):
+                    continue
+                title, company, salary, body = enrich_link(link)
+                if not title:
+                    if single:
+                        print("    (skipped unreadable link — couldn't get details: %s)" % link)
+                    continue
+                if is_closed(body):
+                    continue
+                company = (typed_company if single else "") or clean_company(company)
+                if not company:
+                    if single and link not in flagged:
+                        slack_post(":label: I couldn't detect the *company* for this job:\n%s\n"
+                                   "Edit that message and add `company: Company Name` after the "
+                                   "link, and I'll add it to the board." % link)
+                        flagged.add(link)
+                    continue
+                loc = "Hybrid" if is_hybrid(body) else "Remote"
+                job = build_job(
+                    title=title,
+                    company=company,
+                    url=link,
+                    location=loc,
+                    description=(body + " " + (extra if single else "")),
+                    salary_text=(salary + " " + (extra if single else "") + " " + body),
+                    source=("Slack" if single else "Slack-board"),
+                )
+                # For a single posted link, use what you typed as the card's note.
+                if single:
+                    note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:-|–|to)\s*\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)?", " ", note_src, flags=re.I)
+                    note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)", " ", note, flags=re.I)
+                    note = re.sub(r"\$\s?\d[\d,\.]*k?", " ", note)
+                    note = re.sub(r"\s+", " ", note).strip(" -–·•,|")
+                    if note and not job.get("phoneFlag"):
+                        job["note"] = note[:90]
+                jobs.append(job)
     save_flagged(flagged)
     print("  Collected %d job link(s) from Slack." % len(jobs))
+    return jobs
+
+def collect_boards():
+    """Read the SEPARATE boards channel and harvest every remote job off each
+    board/careers page you drop there. Marked 'Slack-board' = backup supply."""
+    if not BOARDS_CHANNEL_ID:
+        return []
+    token = os.environ.get("SLACK_TOKEN", "").strip()
+    if not token:
+        return []
+    api = "https://slack.com/api/conversations.history?channel=%s&limit=100" % BOARDS_CHANNEL_ID
+    req = urllib.request.Request(api, headers={"Authorization": "Bearer " + token})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            data = json.load(r)
+    except Exception as e:
+        print("  ! boards channel read failed: %s" % e)
+        return []
+    if not data.get("ok"):
+        print("  ! boards channel error: %s" % data.get("error"))
+        return []
+    jobs, seen = [], set()
+    for msg in data.get("messages", []):
+        for raw in re.findall(r"https?://[^\s|>]+", msg.get("text", "")):
+            posted = raw.rstrip(">").strip()
+            if any(b in posted.lower() for b in SLACK_BLOCK_DOMAINS):
+                continue
+            for link in expand_slack_link(posted):
+                if link in seen:
+                    continue
+                seen.add(link)
+                title, company, salary, body = enrich_link(link)
+                if not title or is_closed(body):
+                    continue
+                company = clean_company(company)
+                if not company:
+                    continue
+                loc = "Hybrid" if is_hybrid(body) else "Remote"
+                jobs.append(build_job(
+                    title=title, company=company, url=link, location=loc,
+                    description=body, salary_text=(salary + " " + body),
+                    source="Slack-board"))
+    print("  Collected %d job(s) from the boards channel." % len(jobs))
     return jobs
 
 def enrich_link(url):
@@ -636,8 +773,12 @@ def score_job(job):
     elif job.get("salary") not in ("", "Not listed"):
         s += 8                              # hourly rate is listed
     s += 6 * len(job.get("tags", []))       # niche matches
-    if job.get("source") == "Slack":
-        s += 25                             # YOU hand-picked it → boost
+    src = job.get("source")
+    if src == "Slack":
+        s += 40                             # YOU hand-picked this exact link → first
+    elif src == "Slack-board":
+        s += 15                             # from a page/board you added → next
+    # (Greenhouse watchlist gets no boost → it's the backup filler)
     return s
 
 def mark_closed(jobs):
@@ -692,7 +833,7 @@ def main():
 
     # Gather candidates. Company-direct sources only (company ATS boards + your
     # Slack links) so every link points to the real employer.
-    candidates = collect_greenhouse() + collect_slack()
+    candidates = collect_greenhouse() + collect_slack() + collect_boards()
     candidates = [c for c in candidates
                   if is_clean(c)              # clean data + PAY LISTED + remote-only
                   and not c.get("phoneFlag")   # no phone-heavy roles
