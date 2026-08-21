@@ -60,6 +60,23 @@
     "dateAdded": "2026-08-21"
   },
   {
+    "title": "Bilt Rewards Careers",
+    "company": "Bilt",
+    "url": "https://jobs.gem.com/bilt/am9icG9zdDrYA2O6jy1uvHif3cW4uJ-9",
+    "salary": "$65,000 – $80,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "* *",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-20"
+  },
+  {
     "title": "Project Manager, Central & Care Operations",
     "company": "Pair Team",
     "url": "https://job-boards.greenhouse.io/pairteam/jobs/8692269002",
@@ -72,7 +89,7 @@
       "tech/startup",
       "customer service"
     ],
-    "feature": true,
+    "feature": false,
     "phoneFlag": false,
     "note": "your work will directly influence how pair team scales its model and serves…",
     "source": "Greenhouse",
@@ -140,7 +157,7 @@
   },
   {
     "title": "Remote Email Response Specialist",
-    "company": "Invicta Software -",
+    "company": "Invicta Software",
     "url": "https://jobs.polymer.co/invicta-software/40982",
     "salary": "$50,500 – $63,900",
     "level": "Entry",
@@ -538,7 +555,7 @@
   },
   {
     "title": "Team Leader, Operations",
-    "company": "Rocket Money Salary range of",
+    "company": "Rocket Money",
     "url": "http://job-boards.greenhouse.io/truebill/jobs/7818110003",
     "salary": "$60,000 – $75,000",
     "level": "Entry",
