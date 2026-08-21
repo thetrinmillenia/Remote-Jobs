@@ -1,5 +1,65 @@
 [
   {
+    "title": "Supply Analyst",
+    "company": "Goat Group",
+    "url": "https://job-boards.greenhouse.io/goatgroup/jobs/4673566005",
+    "salary": "$76,800 – $96,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "job-boards.greenhouse.io/goatgroup/jobs/ - USD",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-21"
+  },
+  {
+    "title": "Account Executive",
+    "company": "Belay",
+    "url": "https://belaycorporate.applytojob.com/apply/EPgL6HkfFn/Account-Executive?source=Our%20Career%20Page%20Widget&_gl=1*13f2y6u*_gcl_au*NzA5NTIwNzkuMTc4NTg2MzE0MQ",
+    "salary": "$80,000 – $85,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "with an OTE up to",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-21"
+  },
+  {
+    "title": "Customer Success Advisor",
+    "company": "Perfect Serve",
+    "url": "https://job-boards.greenhouse.io/perfectserve/jobs/6150021004",
+    "salary": "$70,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "job-boards.greenhouse.io/perfectserve/jobs/6150021004 * USD* *plus* *incentives* per year",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-21"
+  },
+  {
     "title": "Project Manager, Central & Care Operations",
     "company": "Pair Team",
     "url": "https://job-boards.greenhouse.io/pairteam/jobs/8692269002",
@@ -80,7 +140,7 @@
   },
   {
     "title": "Remote Email Response Specialist",
-    "company": "Invicta Software",
+    "company": "Invicta Software -",
     "url": "https://jobs.polymer.co/invicta-software/40982",
     "salary": "$50,500 – $63,900",
     "level": "Entry",
@@ -118,7 +178,7 @@
   },
   {
     "title": "Revenue Cycle Specialist",
-    "company": "MeBe",
+    "company": "MeBe Family",
     "url": "https://jobs.ashbyhq.com/mebe/09b3a345-35fa-49e4-839f-c9e6f45061ce",
     "salary": "$23 – $27 / hr",
     "level": "Entry",
@@ -155,8 +215,26 @@
     "dateAdded": "2026-08-19"
   },
   {
+    "title": "Data Entry Specialist (PDF to Excel)",
+    "company": "Invicta Software 52",
+    "url": "https://jobs.polymer.co/invicta-software/40980",
+    "salary": "$52,300 – $65,900",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Data Entry Specialist (PDF to Excel) - jobs.polymer.co/invicta-software/40980 , USD",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-18"
+  },
+  {
     "title": "RCM Coordinator- Payor Focused",
-    "company": "Lifestance Health",
+    "company": "LifeStance Health",
     "url": "https://careers.lifestance.com/jobs/corporate-roles/us/remote/rcm-coordinator-payor-focused/",
     "salary": "$20 – $24 / hr",
     "level": "Entry",
@@ -175,7 +253,7 @@
   },
   {
     "title": "Prior Authorization Specialist",
-    "company": "0100 Mass General Brigham Incorporated",
+    "company": "Mass General Brigham",
     "url": "https://massgeneralbrigham.wd1.myworkdayjobs.com/en-US/MGBExternal/job/Prior-Authorization-Specialist_RQ4075441",
     "salary": "$28.3 / hr",
     "level": "Mid",
@@ -230,7 +308,7 @@
   },
   {
     "title": "Recruiter",
-    "company": "Vetcove",
+    "company": "VetCove",
     "url": "https://jobs.ashbyhq.com/Vetcove/ea52dd05-8f8d-49be-b235-8e4523b86288",
     "salary": "$70,000 – $110,000",
     "level": "Entry",
@@ -365,7 +443,7 @@
   },
   {
     "title": "Lone Wolf Technologies",
-    "company": "Customer Support Representative",
+    "company": "Lone Wolf",
     "url": "https://jobs.lever.co/lwolf/bd7568bb-f842-4188-b4e8-e0aba9879c9d",
     "salary": "$26 – $28.5 / hr",
     "level": "Mid",
@@ -383,7 +461,7 @@
   },
   {
     "title": "Consumer Support Specialist",
-    "company": "Us",
+    "company": "Runway",
     "url": "https://jobs.ashbyhq.com/runway-ml/9f6d216d-2f54-4970-84d7-43ab0a2b4852",
     "salary": "$75,000 – $90,000",
     "level": "Entry",
@@ -460,7 +538,7 @@
   },
   {
     "title": "Team Leader, Operations",
-    "company": "Customer Support",
+    "company": "Rocket Money Salary range of",
     "url": "http://job-boards.greenhouse.io/truebill/jobs/7818110003",
     "salary": "$60,000 – $75,000",
     "level": "Entry",
