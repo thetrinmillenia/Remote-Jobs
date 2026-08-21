@@ -8,7 +8,7 @@ name: Scrape remote jobs daily
 
 on:
   schedule:
-    - cron: "0 13 * * *"   # 13:00 UTC = ~8:00 AM Central, every day
+    - cron: "0 13 * * 1-5"   # 13:00 UTC = ~8:00 AM Central, every day
   workflow_dispatch:        # also lets you run it manually with one click
 
 permissions:
