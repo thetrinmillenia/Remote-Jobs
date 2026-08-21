@@ -22,6 +22,7 @@
 import os
 import json
 import re
+import html
 import datetime
 import urllib.request
 import urllib.parse
@@ -143,8 +144,12 @@ def fetch_json(url):
         return json.load(resp)
 
 def strip_html(text):
-    """Remove HTML tags so we can scan plain description text."""
-    return re.sub(r"<[^>]+>", " ", text or "").lower()
+    """Turn HTML (or HTML-escaped text) into clean, readable plain text.
+    Decodes entities first (&lt;p&gt; -> <p>, &amp; -> &), then removes tags.
+    Keeps original casing so auto-written notes read normally."""
+    t = html.unescape(text or "")
+    t = re.sub(r"<[^>]+>", " ", t)
+    return re.sub(r"[ \t\r\f\v]+", " ", t).strip()
 
 def is_remote(text):
     t = (text or "").lower()
@@ -381,7 +386,8 @@ def tag_niches(text):
     return tags
 
 def is_phone_heavy(text):
-    return any(flag in text for flag in PHONE_FLAGS)
+    low = (text or "").lower()
+    return any(flag in low for flag in PHONE_FLAGS)
 
 # -----------------------------------------------------------------------------
 # 3. Collect jobs from each source into one common shape
@@ -840,16 +846,20 @@ def main():
                   and c.get("url") not in existing_urls]
     candidates.sort(key=score_job, reverse=True)
 
-    picked, per_co = [], {}
+    picked, per_co, seen_urls = [], {}, set()
     for c in candidates:
         if len(picked) >= total_slots:
             break
+        u = c.get("url", "")
+        if u in seen_urls:                             # same job from two sources
+            continue
         co = normalize_company(c.get("company", ""))
         if not co or co in recent:                     # fresh companies only
             continue
         if per_co.get(co, 0) >= MAX_PER_COMPANY:        # max 3 per company
             continue
         picked.append(c)
+        seen_urls.add(u)
         per_co[co] = per_co.get(co, 0) + 1
         recent.add(co)
 
@@ -905,7 +915,9 @@ def rebuild_index(jobs):
         print("  ! index.html not found — skipping page rebuild.")
         return
     block = "// JOBS_START\nconst JOBS = %s;\n// JOBS_END" % json.dumps(jobs, indent=2, ensure_ascii=False)
-    new_html = re.sub(r"// JOBS_START.*?// JOBS_END", block, html, flags=re.DOTALL)
+    # Use a replacement FUNCTION so backslashes/$-signs in job text are never
+    # mistaken for regex backreferences (which would corrupt or crash the write).
+    new_html = re.sub(r"// JOBS_START.*?// JOBS_END", lambda _m: block, html, flags=re.DOTALL)
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(new_html)
 
