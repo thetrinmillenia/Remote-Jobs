@@ -126,6 +126,10 @@ SLACK_BLOCK_DOMAINS = [
 # Without a token, it simply skips Slack and does the auto-scrape only.
 SLACK_CHANNEL_ID = "C0BNT644UHK"
 
+# The bot posts its OWN finds here so you can review/fix them — #ai-remote-jobs.
+# Fixes (company:/salary:/title:) are read from this channel too.
+BOT_LOG_CHANNEL_ID = "C0BRW4C7FGW"
+
 # A SEPARATE channel just for whole company boards / careers pages. The robot
 # harvests EVERY remote job off each link you drop there (backup supply).
 # Leave "" until you make the channel, then paste its channel ID here.
@@ -216,12 +220,12 @@ def clean_company(name):
         n = n.title()
     return n[:45].strip()
 
-def slack_post(text):
-    """Post a message into #remote-jobs (needs the bot's chat:write scope)."""
+def slack_post(text, channel=None):
+    """Post a message into a Slack channel (needs the bot's chat:write scope)."""
     token = os.environ.get("SLACK_TOKEN", "").strip()
     if not token:
         return
-    payload = json.dumps({"channel": SLACK_CHANNEL_ID, "text": text}).encode("utf-8")
+    payload = json.dumps({"channel": channel or SLACK_CHANNEL_ID, "text": text}).encode("utf-8")
     req = urllib.request.Request(
         "https://slack.com/api/chat.postMessage", data=payload,
         headers={"Authorization": "Bearer " + token,
@@ -242,33 +246,76 @@ def save_flagged(urls):
     with open("flagged.json", "w", encoding="utf-8") as f:
         json.dump(sorted(urls), f, indent=2)
 
-def slack_company_overrides():
-    """Read #remote-jobs for 'company: Name' next to a link. Returns {url: company}.
-    This is the FIX command — it corrects a card even if it's already on the board."""
+def _field(text, keys):
+    """Pull `keys: value` from a message, value runs until the next marker/end."""
+    pat = r"\b(?:%s)\s*[:=]\s*(.+?)(?=\s+(?:company|co|salary|pay|title)\s*[:=]|$)" % keys
+    m = re.search(pat, text, re.I)
+    return m.group(1).strip() if m else ""
+
+def slack_field_overrides():
+    """Read #remote-jobs for `company:` / `salary:` / `title:` typed next to a link.
+    Returns {url: {field: value}} so you can FIX any card — even a bot-found one."""
     token = os.environ.get("SLACK_TOKEN", "").strip()
     if not token:
         return {}
-    api = "https://slack.com/api/conversations.history?channel=%s&limit=100" % SLACK_CHANNEL_ID
-    req = urllib.request.Request(api, headers={"Authorization": "Bearer " + token})
-    try:
-        with urllib.request.urlopen(req, timeout=20) as r:
-            data = json.load(r)
-    except Exception:
-        return {}
-    if not data.get("ok"):
-        return {}
     overrides = {}
-    for msg in data.get("messages", []):
-        text = msg.get("text", "")
-        mco = re.search(r"\b(?:company|co)\s*[:=]\s*([A-Za-z0-9 &.'\-]{2,45})", text, re.I)
-        if not mco:
+    for chan in (SLACK_CHANNEL_ID, BOT_LOG_CHANNEL_ID):   # read both channels
+        if not chan:
             continue
-        co = clean_company(mco.group(1))
-        if not co:
+        api = "https://slack.com/api/conversations.history?channel=%s&limit=100" % chan
+        req = urllib.request.Request(api, headers={"Authorization": "Bearer " + token})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                data = json.load(r)
+        except Exception:
             continue
-        for raw in re.findall(r"https?://[^\s|>]+", text):
-            overrides[raw.rstrip(">").strip()] = co
+        if not data.get("ok"):
+            continue
+        for msg in data.get("messages", []):
+            if msg.get("bot_id"):        # ignore the bot's own posts
+                continue
+            text = msg.get("text", "")
+            fix = {}
+            co = clean_company(_field(text, "company|co"))
+            sal = normalize_salary(_field(text, "salary|pay"))
+            ttl = _field(text, "title")
+            if co:
+                fix["company"] = co
+            if sal:
+                fix["salary"] = sal
+            if ttl:
+                fix["title"] = ttl[:100]
+            if not fix:
+                continue
+            for raw in re.findall(r"https?://[^\s|>]+", text):
+                overrides[raw.rstrip(">").strip()] = fix
     return overrides
+
+def load_posted():
+    try:
+        with open("posted.json", "r", encoding="utf-8") as f:
+            return set(json.load(f))
+    except Exception:
+        return set()
+
+def save_posted(urls):
+    with open("posted.json", "w", encoding="utf-8") as f:
+        json.dump(sorted(urls), f, indent=2)
+
+def post_bot_finds(jobs):
+    """Post the bot's OWN finds into #ai-remote-jobs so you have a record and can
+    correct them. Each job is posted only once."""
+    if not (os.environ.get("SLACK_TOKEN", "").strip() and BOT_LOG_CHANNEL_ID):
+        return
+    posted = load_posted()
+    for j in jobs:
+        u = j.get("url", "")
+        if not u or u in posted:
+            continue
+        slack_post(":robot_face: Added *%s* — %s\n%s\nFix it? Post the link here with `company:` / `salary:` / `title:`"
+                   % (j.get("title", ""), j.get("company", ""), u), channel=BOT_LOG_CHANNEL_ID)
+        posted.add(u)
+    save_posted(posted)
 
 def normalize_salary(s):
     """Force every pay value into a consistent look:
@@ -546,6 +593,8 @@ def collect_slack():
     jobs, seen = [], set()
     flagged = load_flagged()
     for msg in data.get("messages", []):
+        if msg.get("bot_id"):          # ignore the bot's own posts, only read YOURS
+            continue
         text = msg.get("text", "")
         # Anything you typed next to the link: pay ("21 to 32 an hour"), a short
         # note, and/or an explicit company ("company: Acme Health").
@@ -811,12 +860,13 @@ def main():
     print("Curating today's remote jobs...")
     existing = mark_closed(load_existing())
 
-    # FIX command: apply any "company: Name" you typed in Slack to jobs already
-    # on the board (so you can correct a company without editing files).
-    overrides = slack_company_overrides()
+    # FIX command: apply any `company:` / `salary:` / `title:` you typed in Slack
+    # to jobs already on the board (correct any card without editing files).
+    overrides = slack_field_overrides()
     for j in existing:
-        if j.get("url") in overrides:
-            j["company"] = overrides[j["url"]]
+        fix = overrides.get(j.get("url"))
+        if fix:
+            j.update(fix)
 
     # Companies used in the last COMPANY_COOLDOWN_DAYS — skip them for freshness.
     cutoff = (datetime.date.today() -
@@ -881,6 +931,9 @@ def main():
     if short:
         msg += " Still under %d on: %s — needs more links." % (MIN_PER_DAY, ", ".join(short))
     print(msg)
+
+    # Post the bot's OWN finds into Slack so you can review / fix them.
+    post_bot_finds([c for c in picked if c.get("source") in ("Greenhouse", "Slack-board")])
 
     all_jobs = picked + existing
     all_jobs.sort(key=lambda j: j.get("dateAdded", ""), reverse=True)
