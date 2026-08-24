@@ -599,58 +599,45 @@ def collect_slack():
         # Anything you typed next to the link: pay ("21 to 32 an hour"), a short
         # note, and/or an explicit company ("company: Acme Health").
         extra = re.sub(r"https?://[^\s|>]+", " ", text)
-        extra = re.sub(r"[<>|]", " ", extra)
-        mco = re.search(r"\b(?:company|co)\s*[:=]\s*([A-Za-z0-9 &.'\-]{2,45})", extra, re.I)
-        typed_company = clean_company(mco.group(1)) if mco else ""
-        note_src = re.sub(r"\b(?:company|co)\s*[:=]\s*[A-Za-z0-9 &.'\-]{2,45}", " ", extra, flags=re.I)
+        extra = re.sub(r"[<>|*]", " ", extra)          # also drop Slack *bold* stars
+        # Trust what YOU type: title / company / pay markers win over the page.
+        typed_company = clean_company(_field(extra, "company|co"))
+        typed_title = _field(extra, "title").strip(" -–·").strip()
+        typed_salary = extract_salary(extra)
         for raw in re.findall(r"https?://[^\s|>]+", text):
             posted = raw.rstrip(">").strip()
             if any(b in posted.lower() for b in SLACK_BLOCK_DOMAINS):
                 print("    (skipped reference link, not a job: %s)" % posted)
                 continue
-            # #remote-jobs is for individual job links only — keep it simple.
-            job_urls = [posted]
-            single = True
-            for link in job_urls:
-                if link in seen:
-                    continue
-                seen.add(link)
-                if any(b in link.lower() for b in SLACK_BLOCK_DOMAINS):
-                    continue
-                title, company, salary, body = enrich_link(link)
-                if not title:
-                    if single:
-                        print("    (skipped unreadable link — couldn't get details: %s)" % link)
-                    continue
-                if is_closed(body):
-                    continue
-                company = (typed_company if single else "") or clean_company(company)
-                if not company:
-                    if single and link not in flagged:
-                        slack_post(":label: I couldn't detect the *company* for this job:\n%s\n"
-                                   "Edit that message and add `company: Company Name` after the "
-                                   "link, and I'll add it to the board." % link)
-                        flagged.add(link)
-                    continue
-                loc = "Hybrid" if is_hybrid(body) else "Remote"
-                job = build_job(
-                    title=title,
-                    company=company,
-                    url=link,
-                    location=loc,
-                    description=(body + " " + (extra if single else "")),
-                    salary_text=(salary + " " + (extra if single else "") + " " + body),
-                    source=("Slack" if single else "Slack-board"),
-                )
-                # For a single posted link, use what you typed as the card's note.
-                if single:
-                    note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:-|–|to)\s*\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)?", " ", note_src, flags=re.I)
-                    note = re.sub(r"\$?\s?\d[\d,\.]*k?\s*(?:/\s*hr|per\s*hour|an\s*hour|hourly)", " ", note, flags=re.I)
-                    note = re.sub(r"\$\s?\d[\d,\.]*k?", " ", note)
-                    note = re.sub(r"\s+", " ", note).strip(" -–·•,|")
-                    if note and not job.get("phoneFlag"):
-                        job["note"] = note[:90]
-                jobs.append(job)
+            if posted in seen:
+                continue
+            seen.add(posted)
+            title, company, salary, body = enrich_link(posted)
+            if not (typed_title or title):
+                print("    (skipped unreadable link — couldn't get details: %s)" % posted)
+                continue
+            if is_closed(body):
+                continue
+            title = typed_title or title
+            company = typed_company or clean_company(company)
+            if not company:
+                if posted not in flagged:
+                    slack_post(":label: I couldn't detect the *company* for this job:\n%s\n"
+                               "Post the link with `company: Company Name` and I'll add it." % posted)
+                    flagged.add(posted)
+                continue
+            loc = "Hybrid" if is_hybrid(body) else "Remote"
+            job = build_job(
+                title=title,
+                company=company,
+                url=posted,
+                location=loc,
+                description=body,
+                salary_text=(typed_salary + " " + salary + " " + body),   # YOUR pay first
+                source="Slack",
+            )
+            job["srcMsg"] = posted     # remember the message that created it (delete-sync)
+            jobs.append(job)
     save_flagged(flagged)
     print("  Collected %d job link(s) from Slack." % len(jobs))
     return jobs
@@ -676,6 +663,8 @@ def collect_boards():
         return []
     jobs, seen = [], set()
     for msg in data.get("messages", []):
+        if msg.get("bot_id"):
+            continue
         for raw in re.findall(r"https?://[^\s|>]+", msg.get("text", "")):
             posted = raw.rstrip(">").strip()
             if any(b in posted.lower() for b in SLACK_BLOCK_DOMAINS):
@@ -691,12 +680,41 @@ def collect_boards():
                 if not company:
                     continue
                 loc = "Hybrid" if is_hybrid(body) else "Remote"
-                jobs.append(build_job(
+                job = build_job(
                     title=title, company=company, url=link, location=loc,
                     description=body, salary_text=(salary + " " + body),
-                    source="Slack-board"))
+                    source="Slack-board")
+                job["srcMsg"] = posted     # the board link you posted (delete-sync)
+                jobs.append(job)
     print("  Collected %d job(s) from the boards channel." % len(jobs))
     return jobs
+
+def slack_live_links():
+    """Every job/board link still present in your Slack channels right now, plus a
+    flag for whether we read them fully (so we NEVER prune on a partial read)."""
+    token = os.environ.get("SLACK_TOKEN", "").strip()
+    if not token:
+        return set(), False
+    links, ok = set(), True
+    for chan in (SLACK_CHANNEL_ID, BOT_LOG_CHANNEL_ID, BOARDS_CHANNEL_ID):
+        if not chan:
+            continue
+        api = "https://slack.com/api/conversations.history?channel=%s&limit=200" % chan
+        req = urllib.request.Request(api, headers={"Authorization": "Bearer " + token})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                data = json.load(r)
+        except Exception:
+            ok = False
+            continue
+        if not data.get("ok") or data.get("has_more"):
+            ok = False
+        for msg in data.get("messages", []):
+            if msg.get("bot_id"):
+                continue
+            for raw in re.findall(r"https?://[^\s|>]+", msg.get("text", "")):
+                links.add(raw.rstrip(">").strip())
+    return links, ok
 
 def enrich_link(url):
     """Read a job page thoroughly: pull title, company, listed salary, and the
@@ -867,6 +885,23 @@ def main():
         fix = overrides.get(j.get("url"))
         if fix:
             j.update(fix)
+
+    # Delete-sync: if you removed a Slack message, drop the job(s) it created.
+    # Guarded — if Slack can't be read fully, nothing is removed.
+    live_links, links_ok = slack_live_links()
+    if links_ok:
+        def _keep(j):
+            src = j.get("source")
+            if src not in ("Slack", "Slack-board"):
+                return True                       # watchlist jobs are never pruned
+            key = j.get("srcMsg") or (j.get("url") if src == "Slack" else "")
+            if not key:
+                return True                       # can't tell (older board job) -> keep
+            return key in live_links
+        before = len(existing)
+        existing = [j for j in existing if _keep(j)]
+        if before - len(existing):
+            print("  Removed %d job(s) whose Slack message was deleted." % (before - len(existing)))
 
     # Companies used in the last COMPANY_COOLDOWN_DAYS — skip them for freshness.
     cutoff = (datetime.date.today() -
