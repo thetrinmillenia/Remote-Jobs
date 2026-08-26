@@ -207,7 +207,7 @@ def is_hybrid(text):
 def clean_company(name):
     """Make company names tidy and consistent: real words, capitalized,
     no URL-slug leftovers (springhealth66) and no trailing US/Inc/LLC."""
-    n = (name or "").strip()
+    n = re.sub(r"\s+", " ", (name or "").strip())     # collapse "People   Finders" -> one space
     if not n:
         return ""
     # URL-slug style (no spaces, all lowercase or has digits) -> prettify
@@ -247,9 +247,15 @@ def save_flagged(urls):
         json.dump(sorted(urls), f, indent=2)
 
 def _field(text, keys):
-    """Pull `keys: value` from a message, value runs until the next marker/end."""
-    pat = r"\b(?:%s)\s*[:=]\s*(.+?)(?=\s+(?:company|co|salary|pay|title)\s*[:=]|$)" % keys
-    m = re.search(pat, text, re.I)
+    """Pull `keys: value` from a message.
+    Best (precise): wrap the value in parentheses -> title: (Payroll Associate).
+    Otherwise the value runs until the next marker, a line break, or the end."""
+    # 1) value in parentheses wins — captures exactly that (allows one nested pair)
+    m = re.search(r"\b(?:%s)\s*[:=]\s*\(((?:[^()]|\([^()]*\))*)\)" % keys, text, re.I)
+    if m:
+        return m.group(1).strip()
+    # 2) fallback: until the next marker or end (line breaks already stop it)
+    m = re.search(r"\b(?:%s)\s*[:=]\s*(.+?)(?=\s+(?:company|co|salary|pay|title)\s*[:=]|$)" % keys, text, re.I)
     return m.group(1).strip() if m else ""
 
 def slack_field_overrides():
@@ -303,8 +309,9 @@ def save_posted(urls):
         json.dump(sorted(urls), f, indent=2)
 
 def post_bot_finds(jobs):
-    """Post the bot's OWN finds into #ai-remote-jobs so you have a record and can
-    correct them. Each job is posted only once."""
+    """Post every job the bot added into #ai-remote-jobs, tagged :white_check_mark:
+    (looks good) or :warning: REVIEW (auto-pulled data looks off, check it).
+    Each job is posted only once."""
     if not (os.environ.get("SLACK_TOKEN", "").strip() and BOT_LOG_CHANNEL_ID):
         return
     posted = load_posted()
@@ -312,10 +319,38 @@ def post_bot_finds(jobs):
         u = j.get("url", "")
         if not u or u in posted:
             continue
-        slack_post(":robot_face: Added *%s* — %s\n%s\nFix it? Post the link here with `company:` / `salary:` / `title:`"
-                   % (j.get("title", ""), j.get("company", ""), u), channel=BOT_LOG_CHANNEL_ID)
+        base = "*%s* — %s · %s\n%s" % (j.get("title", ""), j.get("company", ""),
+                                       j.get("salary", ""), u)
+        if j.get("needsReview"):
+            slack_post(":warning: *REVIEW* %s\nFix: post the link with `title:(…)` / `company:(…)` / `salary:(…)`"
+                       % base, channel=BOT_LOG_CHANNEL_ID)
+        else:
+            slack_post(":white_check_mark: %s" % base, channel=BOT_LOG_CHANNEL_ID)
         posted.add(u)
     save_posted(posted)
+
+def audit_existing(jobs):
+    """Re-check jobs ALREADY on the board for mistakes and flag any that look off
+    into #ai-remote-jobs. Clean jobs stay silent. Each flagged job posts once, so
+    you get a running punch-list of only the ones worth fixing."""
+    if not (os.environ.get("SLACK_TOKEN", "").strip() and BOT_LOG_CHANNEL_ID):
+        return
+    posted = load_posted()
+    changed = False
+    for j in jobs:
+        u = j.get("url", "")
+        if not u or u in posted:
+            continue
+        if job_needs_review(j.get("title", ""), j.get("company", ""),
+                             j.get("salary", ""), "", ""):
+            base = "*%s* — %s · %s\n%s" % (j.get("title", ""), j.get("company", ""),
+                                           j.get("salary", ""), u)
+            slack_post(":mag: *ON BOARD — REVIEW* %s\nFix: post the link with `title:(…)` / `company:(…)` / `salary:(…)`"
+                       % base, channel=BOT_LOG_CHANNEL_ID)
+            posted.add(u)
+            changed = True
+    if changed:
+        save_posted(posted)
 
 def normalize_salary(s):
     """Force every pay value into a consistent look:
@@ -436,6 +471,54 @@ def is_phone_heavy(text):
     low = (text or "").lower()
     return any(flag in low for flag in PHONE_FLAGS)
 
+REVIEW_JUNK = ("http", "www.", "|", "<", ">", "careers", "apply now",
+               "job description", "view job", "read more", "applicant ui")
+
+# Titles that are really a page name, not a role.
+GENERIC_TITLES = {"recruitment", "open positions", "opportunities", "careers",
+                  "open roles", "current openings", "openings", "job openings",
+                  "application", "apply", "apply here", "home", "job", "jobs",
+                  "careers page", "join us", "join our team", "our team"}
+
+# Words that, if they're ALL that's left after removing the company name from the
+# title, mean the "title" is basically just the company name.
+COMPANY_SUFFIX_JUNK = {"technologies", "technology", "careers", "group", "inc",
+                       "llc", "ltd", "corp", "co", "company", "team", "rewards",
+                       "health", "software", "labs", "global"}
+
+def job_needs_review(title, company, salary, typed_title, typed_company):
+    """Flag a job whose auto-pulled data looks off, so you only check those.
+    Anything YOU typed (typed_title/typed_company) is trusted and never flagged."""
+    t, c = (title or "").strip(), (company or "").strip()
+    tl, cl = t.lower(), c.lower()
+    if not typed_title:                                  # title came from the page
+        if len(t) > 65 or len(t) < 3:
+            return True
+        if tl in GENERIC_TITLES:                         # generic page title, not a role
+            return True
+        if any(x in tl for x in REVIEW_JUNK):
+            return True
+        if tl and tl == cl:                              # title == company (backwards)
+            return True
+        if cl and len(cl) > 3 and cl in tl:              # title is just the company (+ filler)
+            leftover = re.sub(r"[^a-z0-9 ]", " ", tl.replace(cl, " ")).split()
+            if leftover and all(w in COMPANY_SUFFIX_JUNK for w in leftover):
+                return True
+    if not typed_company:                                # company came from the page
+        if len(c) > 40 or cl in ("us", "usa", "remote", "careers", "company", "inc", "life"):
+            return True
+        if "*" in c:                                     # stray markup, e.g. "Bilt*"
+            return True
+        if re.search(r"\.(com|io|net|org|co)\b", cl):    # a domain leaked in, e.g. "…Finders.com"
+            return True
+        if "$" in c or (re.search(r"\d", c) and any(w in cl for w in
+                ("hour", "year", "annually", "/hr", "per "))):
+            return True                                  # salary leaked into company
+    nums = [float(x.replace(",", "")) for x in re.findall(r"\d[\d,]*(?:\.\d+)?", salary or "")]
+    if len(nums) >= 2 and min(nums) > 0 and max(nums) / min(nums) > 6:
+        return True                                       # absurdly wide pay range
+    return False
+
 # -----------------------------------------------------------------------------
 # 3. Collect jobs from each source into one common shape
 # -----------------------------------------------------------------------------
@@ -454,7 +537,7 @@ def collect_greenhouse():
             if not is_remote(location) and not is_remote(j.get("content", "")):
                 continue
             desc = strip_html(j.get("content", ""))
-            jobs.append(build_job(
+            job = build_job(
                 title=j.get("title", ""),
                 company=clean_company(j.get("company_name") or data.get("name") or token),
                 url=j.get("absolute_url", ""),
@@ -462,7 +545,11 @@ def collect_greenhouse():
                 description=desc,
                 salary_text=desc,
                 source="Greenhouse",
-            ))
+            )
+            # Greenhouse title/company are structured + trusted; only sanity-check pay.
+            job["needsReview"] = job_needs_review(job["title"], job["company"],
+                                                  job.get("salary", ""), "ok", "ok")
+            jobs.append(job)
     return jobs
 
 def collect_remotive():
@@ -604,8 +691,16 @@ def collect_slack():
         typed_company = clean_company(_field(extra, "company|co"))
         typed_title = _field(extra, "title").strip(" -–·").strip()
         typed_salary = extract_salary(extra)
+        # Any link inside ( ) is a reference — do NOT add it to the board.
+        skip_urls = set()
+        for grp in re.findall(r"\(([^()]*)\)", text):
+            for u in re.findall(r"https?://[^\s|>)]+", grp):
+                skip_urls.add(u.rstrip(">").strip())
         for raw in re.findall(r"https?://[^\s|>]+", text):
             posted = raw.rstrip(">").strip()
+            if posted in skip_urls:
+                print("    (skipped link in parentheses — reference only: %s)" % posted)
+                continue
             if any(b in posted.lower() for b in SLACK_BLOCK_DOMAINS):
                 print("    (skipped reference link, not a job: %s)" % posted)
                 continue
@@ -637,6 +732,8 @@ def collect_slack():
                 source="Slack",
             )
             job["srcMsg"] = posted     # remember the message that created it (delete-sync)
+            job["needsReview"] = job_needs_review(title, company, job.get("salary", ""),
+                                                  typed_title, typed_company)
             jobs.append(job)
     save_flagged(flagged)
     print("  Collected %d job link(s) from Slack." % len(jobs))
@@ -685,6 +782,7 @@ def collect_boards():
                     description=body, salary_text=(salary + " " + body),
                     source="Slack-board")
                 job["srcMsg"] = posted     # the board link you posted (delete-sync)
+                job["needsReview"] = job_needs_review(title, company, job.get("salary", ""), "", "")
                 jobs.append(job)
     print("  Collected %d job(s) from the boards channel." % len(jobs))
     return jobs
@@ -967,8 +1065,8 @@ def main():
         msg += " Still under %d on: %s — needs more links." % (MIN_PER_DAY, ", ".join(short))
     print(msg)
 
-    # Post the bot's OWN finds into Slack so you can review / fix them.
-    post_bot_finds([c for c in picked if c.get("source") in ("Greenhouse", "Slack-board")])
+    # Log every added job into #ai-remote-jobs, tagged good vs needs-review.
+    post_bot_finds(picked)
 
     all_jobs = picked + existing
     all_jobs.sort(key=lambda j: j.get("dateAdded", ""), reverse=True)
@@ -979,6 +1077,9 @@ def main():
         j["tags"] = (j.get("tags") or [])[:4]
         j["salary"] = normalize_salary(j.get("salary", ""))
         j["company"] = clean_company(j.get("company", ""))
+
+    # Re-check jobs already on the board and flag any mistakes (once each).
+    audit_existing(all_jobs)
 
     # One featured job per day.
     featured_days = set()
