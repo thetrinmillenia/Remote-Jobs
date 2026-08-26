@@ -1,12 +1,141 @@
 [
   {
+    "title": "Medical Billing Team Lead",
+    "company": "Dreem Healthy By Sunrise",
+    "url": "http://job-boards.greenhouse.io/dreemhealth/jobs/5405285008",
+    "salary": "$75,000 – $90,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "You'll report directly to the Director of Revenue Cycle.",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-26",
+    "srcMsg": "http://job-boards.greenhouse.io/dreemhealth/jobs/5405285008",
+    "needsReview": false
+  },
+  {
+    "title": "Account Executive",
+    "company": "Belay",
+    "url": "https://belaycorporate.applytojob.com/apply/EPgL6HkfFn/Account-Executive?source=Our%20Career%20Page%20Widget&_gl=1*13f2y6u*_gcl_au*NzA5NTIwNzkuMTc4NTg2MzE0MQ",
+    "salary": "$80,000 – $85,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Job purpose The Account Executive is responsible for driving new client acquisition for…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-26",
+    "srcMsg": "https://belaycorporate.applytojob.com/apply/EPgL6HkfFn/Account-Executive?source=Our%20Career%20Page%20Widget&_gl=1*13f2y6u*_gcl_au*NzA5NTIwNzkuMTc4NTg2MzE0MQ",
+    "needsReview": false
+  },
+  {
+    "title": "Bilt Rewards Careers",
+    "company": "Bilt",
+    "url": "https://jobs.gem.com/bilt/am9icG9zdDrYA2O6jy1uvHif3cW4uJ-9",
+    "salary": "$65,000 – $80,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-26",
+    "srcMsg": "https://jobs.gem.com/bilt/am9icG9zdDrYA2O6jy1uvHif3cW4uJ-9",
+    "needsReview": true
+  },
+  {
+    "title": "Recruitment",
+    "company": "PharmaLogic",
+    "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=6fdcb75d-12f7-487c-b0b2-fa6ea2c6c2ea&amp;ccId=19000101_000001&amp;jobId=563822&amp;lang=en_US",
+    "salary": "$65,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "_wireOtBtn(); // MDF is a SPA: navigating pages removes and re-inserts #ot-sdk-btn as…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-26",
+    "srcMsg": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=6fdcb75d-12f7-487c-b0b2-fa6ea2c6c2ea&amp;ccId=19000101_000001&amp;jobId=563822&amp;lang=en_US",
+    "needsReview": true
+  },
+  {
+    "title": "Intake Coordinator (Bilingual)",
+    "company": "Alpaca Health",
+    "url": "https://jobs.ashbyhq.com/alpacahealth/26672013-8e60-4154-94fc-f0bcede21113",
+    "salary": "$18 – $25 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "🎯 Role: Intake Coordinator We are hiring a Bilingual Intake Coordinator (Spanish/English) to…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-26",
+    "srcMsg": "https://jobs.ashbyhq.com/alpacahealth/26672013-8e60-4154-94fc-f0bcede21113",
+    "needsReview": false
+  },
+  {
+    "title": "Technical Success Specialist",
+    "company": "Black Cloak",
+    "url": "https://jobs.lever.co/BlackCloak/73f38a83-47dc-4918-9cc6-bf61ebb14a66",
+    "salary": "$55,000 – $70,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-25",
+    "srcMsg": "https://jobs.lever.co/BlackCloak/73f38a83-47dc-4918-9cc6-bf61ebb14a66",
+    "needsReview": false
+  },
+  {
     "title": "Project Manager, Operational Excellence",
-    "company": "LifeStance Health",
+    "company": "LifeStance Health $82,000 - 100,000 Annually",
     "url": "https://careers.lifestance.com/jobs/corporate-roles/us/remote/project-manager-operational-excellence/",
     "salary": "$82,000 – $100,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["healthcare", "finance", "tech/startup", "customer service"],
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
     "feature": true,
     "phoneFlag": false,
     "note": "",
@@ -16,12 +145,15 @@
   },
   {
     "title": "Payment Operations Representative",
-    "company": "PeopleFinders",
+    "company": "<http://PeopleFinders.com|People><http://Peop",
     "url": "http://job-boards.greenhouse.io/peoplefinders/jobs/5217226007",
     "salary": "$30 – $35 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["finance", "customer service"],
+    "tags": [
+      "finance",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -36,7 +168,9 @@
     "salary": "$60,000 – $65,000",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare"],
+    "tags": [
+      "healthcare"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -46,12 +180,14 @@
   },
   {
     "title": "Virtual Executive Assistant",
-    "company": "Belay",
+    "company": "Belay $20.00 - $23.00/hour",
     "url": "https://web.fountain.com/apply/belay/opening/virtual-executive-assistant?utm_campaign=BELAY+Website&utm_source=BELAY+Website",
     "salary": "$20 – $23 / hr",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["customer service"],
+    "tags": [
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -66,7 +202,11 @@
     "salary": "$35 – $40 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["healthcare", "finance", "tech/startup"],
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -74,13 +214,17 @@
     "dateAdded": "2026-08-24"
   },
   {
-    "title": "Billing Specialist",
+    "title": "Billing Specialist <https://jobs.ashbyhq.com/careerswift.ai/3c0780fd-6a71-44cf-8fa8-33cd5fb4431a|htt",
     "company": "Career Swift",
     "url": "https://jobs.ashbyhq.com/careerswift.ai/3c0780fd-6a71-44cf-8fa8-33cd5fb4431a",
     "salary": "$20 – $27 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["healthcare", "finance", "tech/startup"],
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -94,7 +238,10 @@
     "salary": "$28.85 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["tech/startup", "customer service"],
+    "tags": [
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -108,7 +255,10 @@
     "salary": "$47.12 – $62.02 / hr",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["customer service", "sales"],
+    "tags": [
+      "customer service",
+      "sales"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -122,7 +272,10 @@
     "salary": "$23 – $27 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["tech/startup", "customer service"],
+    "tags": [
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -136,7 +289,10 @@
     "salary": "$56,800 – $64,800",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["finance", "customer service"],
+    "tags": [
+      "finance",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -145,13 +301,17 @@
     "closed": false
   },
   {
-    "title": "Insurance Billing Team Lead",
+    "title": "Insurance Billing Team Lead <https://careers.cognizant.com/us-en/jobs/00069367981/insurance-billing-",
     "company": "Cognizant",
     "url": "https://careers.cognizant.com/us-en/jobs/00069367981/insurance-billing-team-lead-remote/",
     "salary": "$20 / hr",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "finance", "customer service"],
+    "tags": [
+      "healthcare",
+      "finance",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -166,23 +326,11 @@
     "salary": "$76,800 – $96,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["finance", "tech/startup"],
+    "tags": [
+      "finance",
+      "tech/startup"
+    ],
     "feature": true,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "dateAdded": "2026-08-21",
-    "closed": false
-  },
-  {
-    "title": "Account Executive",
-    "company": "Belay",
-    "url": "https://belaycorporate.applytojob.com/apply/EPgL6HkfFn/Account-Executive?source=Our%20Career%20Page%20Widget",
-    "salary": "$80,000 – $85,000",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": ["tech/startup", "customer service", "sales"],
-    "feature": false,
     "phoneFlag": false,
     "note": "",
     "source": "Slack",
@@ -196,7 +344,11 @@
     "salary": "$70,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["healthcare", "tech/startup", "customer service"],
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -211,7 +363,11 @@
     "salary": "$115,000 – $165,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["finance", "tech/startup", "customer service"],
+    "tags": [
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
     "feature": true,
     "phoneFlag": false,
     "note": "",
@@ -226,7 +382,11 @@
     "salary": "$105,000 – $125,000",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "tech/startup", "customer service"],
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -241,7 +401,11 @@
     "salary": "$160,000 – $175,000",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "tech/startup", "sales"],
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "sales"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -256,7 +420,11 @@
     "salary": "$400,000 – $445,000",
     "level": "Senior",
     "remote": "Remote",
-    "tags": ["healthcare", "finance", "tech/startup"],
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -271,7 +439,10 @@
     "salary": "$80,000 – $100,000",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "tech/startup"],
+    "tags": [
+      "healthcare",
+      "tech/startup"
+    ],
     "feature": true,
     "phoneFlag": false,
     "note": "",
@@ -286,7 +457,10 @@
     "salary": "$50,500 – $63,900",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["tech/startup", "customer service"],
+    "tags": [
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -301,7 +475,10 @@
     "salary": "$60,000 – $70,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["healthcare", "tech/startup"],
+    "tags": [
+      "healthcare",
+      "tech/startup"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -316,7 +493,11 @@
     "salary": "$23 – $27 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["healthcare", "finance", "customer service"],
+    "tags": [
+      "healthcare",
+      "finance",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -331,7 +512,9 @@
     "salary": "$65,000 – $75,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["customer service"],
+    "tags": [
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -346,7 +529,10 @@
     "salary": "$52,300 – $65,900",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["tech/startup", "customer service"],
+    "tags": [
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -361,7 +547,11 @@
     "salary": "$20 – $24 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["healthcare", "tech/startup", "customer service"],
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -373,10 +563,14 @@
     "title": "Prior Authorization Specialist",
     "company": "Mass General Brigham",
     "url": "https://massgeneralbrigham.wd1.myworkdayjobs.com/en-US/MGBExternal/job/Prior-Authorization-Specialist_RQ4075441",
-    "salary": "$28.50 / hr",
+    "salary": "$28.5 / hr",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "finance", "customer service"],
+    "tags": [
+      "healthcare",
+      "finance",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -391,7 +585,10 @@
     "salary": "$125,000 – $155,000",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "tech/startup"],
+    "tags": [
+      "healthcare",
+      "tech/startup"
+    ],
     "feature": true,
     "phoneFlag": false,
     "note": "",
@@ -401,12 +598,15 @@
   },
   {
     "title": "Recruiter",
-    "company": "VetCove",
+    "company": "VetCove $70,000/year - $120,000/year + bonus",
     "url": "https://jobs.ashbyhq.com/Vetcove/ea52dd05-8f8d-49be-b235-8e4523b86288",
     "salary": "$70,000 – $110,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["tech/startup", "customer service"],
+    "tags": [
+      "tech/startup",
+      "customer service"
+    ],
     "feature": true,
     "phoneFlag": false,
     "note": "",
@@ -421,7 +621,9 @@
     "salary": "$100,000 – $150,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["tech/startup"],
+    "tags": [
+      "tech/startup"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -436,7 +638,11 @@
     "salary": "$90,000 – $110,000",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "tech/startup", "customer service"],
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -451,7 +657,11 @@
     "salary": "$100,000 – $115,000",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "finance", "tech/startup"],
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -466,7 +676,11 @@
     "salary": "$23.43 – $30.46 / hr",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "finance", "customer service"],
+    "tags": [
+      "healthcare",
+      "finance",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -480,7 +694,10 @@
     "salary": "$28 – $30 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["healthcare", "customer service"],
+    "tags": [
+      "healthcare",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -495,7 +712,9 @@
     "salary": "$40,000 – $50,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["customer service"],
+    "tags": [
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -507,10 +726,13 @@
     "title": "Customer Support Representative",
     "company": "Lone Wolf",
     "url": "https://jobs.lever.co/lwolf/bd7568bb-f842-4188-b4e8-e0aba9879c9d",
-    "salary": "$26 – $28.50 / hr",
+    "salary": "$26 – $28.5 / hr",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["tech/startup", "customer service"],
+    "tags": [
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -525,7 +747,10 @@
     "salary": "$75,000 – $90,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["tech/startup", "customer service"],
+    "tags": [
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -535,12 +760,15 @@
   },
   {
     "title": "Senior People Operations Coordinator",
-    "company": "Life360",
+    "company": "Life",
     "url": "http://job-boards.greenhouse.io/life360/jobs/8688370002",
     "salary": "$48.08 – $52.88 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["tech/startup", "customer service"],
+    "tags": [
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -555,7 +783,12 @@
     "salary": "$146,000 – $168,000",
     "level": "Senior",
     "remote": "Remote",
-    "tags": ["healthcare", "tech/startup", "customer service", "sales"],
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -570,7 +803,11 @@
     "salary": "$60,000 – $75,000",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["finance", "tech/startup", "customer service"],
+    "tags": [
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -585,7 +822,10 @@
     "salary": "$106,500 – $118,000",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["healthcare", "finance"],
+    "tags": [
+      "healthcare",
+      "finance"
+    ],
     "feature": true,
     "phoneFlag": false,
     "note": "",
@@ -600,7 +840,10 @@
     "salary": "$129,780 – $130,000",
     "level": "Senior",
     "remote": "Remote",
-    "tags": ["finance", "healthcare"],
+    "tags": [
+      "finance",
+      "healthcare"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -614,7 +857,11 @@
     "salary": "$101,200 – $115,000",
     "level": "Mid",
     "remote": "Remote",
-    "tags": ["data", "healthcare", "tech/startup"],
+    "tags": [
+      "data",
+      "healthcare",
+      "tech/startup"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
@@ -629,7 +876,10 @@
     "salary": "$20 – $27 / hr",
     "level": "Entry",
     "remote": "Remote",
-    "tags": ["customer service", "legal-tech"],
+    "tags": [
+      "customer service",
+      "legal-tech"
+    ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
