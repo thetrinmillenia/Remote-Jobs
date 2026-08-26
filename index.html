@@ -18,11 +18,13 @@
     --white:       #ffffff;
   }
   *{ box-sizing: border-box; }
+  html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
   body{
     margin:0; background:var(--white); color:var(--ink);
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height:1.5;
+    line-height:1.5; overflow-x:hidden;
   }
+  .job h3, .meta, .note{ overflow-wrap:anywhere; }
   .serif{ font-family: Georgia, "Times New Roman", Times, serif; }
 
   /* Header */
@@ -99,9 +101,55 @@
     text-transform:uppercase; padding:4px 9px; border-radius:7px; }
   .empty{ text-align:center; color:var(--muted); padding:40px 0; }
 
-  footer{ border-top:1px solid var(--line); padding:26px 20px; text-align:center; color:var(--muted); font-size:13px; }
+  footer{ border-top:1px solid var(--line); padding:26px 20px; text-align:center; color:var(--muted); font-size:13px; line-height:1.7; }
 
-  @media (max-width:640px){ h1{ font-size:34px; } .cta{ display:block; } }
+  /* Call-out blocks + FAQ */
+  .block{ max-width:600px; margin:0 auto; padding:40px 20px; text-align:center; border-top:1px solid var(--line); }
+  .block h2{ font-size:27px; margin:0 0 10px; }
+  .block p{ color:var(--muted); font-size:16px; max-width:480px; margin:0 auto 20px; }
+  .eyebrow{ font-size:12px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; color:var(--butter-fg); margin-bottom:8px; }
+  .btn2{ display:inline-block; background:var(--butter); color:var(--butter-fg); font-weight:800; text-decoration:none; padding:15px 30px; border-radius:16px; font-size:15px; }
+  .btn2:hover{ filter:brightness(.96); }
+  .fine{ font-size:12px; color:var(--muted); margin-top:12px; }
+  .faq{ max-width:600px; margin:0 auto; padding:40px 20px 20px; border-top:1px solid var(--line); }
+  .faq h2{ font-size:27px; text-align:center; margin:0 0 20px; }
+  .faq details{ border:1.5px solid var(--card-line); border-radius:14px; padding:2px 18px; margin-bottom:12px; background:#fff; }
+  .faq summary{ cursor:pointer; font-weight:700; padding:14px 0; list-style:none; font-size:16px; }
+  .faq summary::-webkit-details-marker{ display:none; }
+  .faq summary::after{ content:"+"; float:right; color:var(--blue); font-weight:800; }
+  .faq details[open] summary::after{ content:"–"; }
+  .faq details p{ color:var(--muted); margin:0 0 14px; font-size:15px; }
+
+  @media (max-width:640px){
+    header{ padding:40px 18px 26px; }
+    h1{ font-size:32px; }
+    .tagline{ font-size:16px; margin-top:12px; }
+    .cta{ display:block; margin-top:24px; padding:16px 24px; }        /* full-width tap target */
+    .btn2{ display:block; padding:16px 24px; }
+
+    .search-wrap{ padding:10px 14px; }
+    #search{ font-size:16px; }                                        /* 16px stops iOS zoom-on-focus */
+
+    main{ padding:16px 14px 64px; }
+    .day{ margin-top:26px; }
+
+    .job{ padding:16px; border-radius:20px; }
+    .row{ gap:12px; }
+    .emoji{ width:42px; height:42px; font-size:21px; border-radius:12px; }
+    .job h3{ font-size:17px; }
+    .meta{ font-size:13.5px; gap:6px; }
+    .fbadge, .cbadge{ right:10px; }
+
+    .block{ padding:32px 18px; }
+    .block h2, .faq h2{ font-size:23px; }
+    .block p{ font-size:15px; }
+    .faq{ padding:32px 18px 12px; }
+    .faq summary{ font-size:15px; }
+  }
+  @media (max-width:380px){
+    h1{ font-size:28px; }
+    .job h3{ font-size:16px; }
+  }
 </style>
 </head>
 <body>
@@ -124,7 +172,59 @@
 
 <main id="board"></main>
 
-<footer>Remote jobs curated with care · © 2026 Trin Millenia · Not affiliated with the companies listed.</footer>
+<!-- Earn while you apply (AttaPoll affiliate) -->
+<section class="block">
+  <div class="eyebrow">Earn While You Apply</div>
+  <h2 class="serif">Make Money While You Job Hunt</h2>
+  <p>Job searching takes time — get paid for some of it. AttaPoll pays you real cash for quick surveys on your phone, whenever you have a spare minute.</p>
+  <!-- TODO: replace the # with your AttaPoll affiliate link -->
+  <a class="btn2" href="#" id="attapollLink" target="_blank" rel="noopener noreferrer sponsored">Start Earning with AttaPoll →</a>
+  <p class="fine">Affiliate link — I may earn a small commission at no extra cost to you.</p>
+</section>
+
+<!-- Second Stan CTA -->
+<section class="block">
+  <div class="eyebrow">Never Miss a Drop</div>
+  <h2 class="serif">Get New Remote Jobs First</h2>
+  <p>Want the freshest, best-paying remote roles sent straight to you? Grab it inside my store and stay ahead of everyone else.</p>
+  <a class="cta" href="https://stan.store/thetrinmillenia" id="stanJobsLink" target="_blank" rel="noopener noreferrer">Get New Remote Jobs →</a>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <h2 class="serif">Frequently Asked Questions</h2>
+  <details>
+    <summary>Are these real remote jobs?</summary>
+    <p>Yes. Every listing is a currently-open remote role pulled straight from the company's own careers page (or hand-added by me). Each links directly to the employer's application — no middlemen, no scams.</p>
+  </details>
+  <details>
+    <summary>How often is the board updated?</summary>
+    <p>New roles are added every weekday, automatically each morning. Jobs that get filled or closed are marked so you never waste time on a dead link.</p>
+  </details>
+  <details>
+    <summary>Do you check the pay?</summary>
+    <p>Always. Every job shows a real salary or hourly rate — no "competitive pay" mystery. If the pay isn't listed, it doesn't make the board.</p>
+  </details>
+  <details>
+    <summary>Are these free to apply to?</summary>
+    <p>100%. The board is free to browse, and every job links to the company's free application. My paid resources (like the 48-Hour Interview Playbook) are optional extras to help you land the role.</p>
+  </details>
+  <details>
+    <summary>Are these U.S. only?</summary>
+    <p>Most are remote in the U.S., but some are open worldwide — check each listing's location tag before you apply.</p>
+  </details>
+</section>
+
+<footer>
+  Remote jobs curated with care · © 2026 Trin Millenia · Not affiliated with the companies listed.<br>
+  Some links on this page are affiliate links — I may earn a small commission at no cost to you.
+</footer>
+
+<script>
+  // Optional: set your AttaPoll affiliate link once here and it wires the button.
+  var ATTAPOLL_URL = ""; // e.g. "https://share.attapoll.app/xxxx"
+  if (ATTAPOLL_URL) { document.getElementById("attapollLink").href = ATTAPOLL_URL; }
+</script>
 
 <script>
 // The robot (scraper.py) updates the list between the two markers below.
@@ -132,7 +232,7 @@
 const JOBS = [
   {
     "title": "Project Manager, Operational Excellence",
-    "company": "LifeStance Health $82,000 - 100,000 Annually",
+    "company": "LifeStance Health",
     "url": "https://careers.lifestance.com/jobs/corporate-roles/us/remote/project-manager-operational-excellence/",
     "salary": "$82,000 – $100,000",
     "level": "Entry",
@@ -145,51 +245,28 @@ const JOBS = [
     ],
     "feature": true,
     "phoneFlag": false,
-    "note": "It\\u2019s a lofty goal; we know.",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-25",
     "srcMsg": "https://careers.lifestance.com/jobs/corporate-roles/us/remote/project-manager-operational-excellence/"
   },
   {
     "title": "Payment Operations Representative",
-    "company": "People    Finders.com",
+    "company": "PeopleFinders",
     "url": "http://job-boards.greenhouse.io/peoplefinders/jobs/5217226007",
     "salary": "$30 – $35 / hr",
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
       "finance",
-      "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "The role is responsible for keeping revenue flowing cleanly – processing transactions, resolving…",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-25",
     "srcMsg": "http://job-boards.greenhouse.io/peoplefinders/jobs/5217226007"
-  },
-  {
-    "title": "Recruitment",
-    "company": "PharmaLogic",
-    "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=6fdcb75d-12f7-487c-b0b2-fa6ea2c6c2ea&amp;ccId=19000101_000001&amp;jobId=563822&amp;lang=en_US",
-    "salary": "$65,000",
-    "level": "Mid",
-    "remote": "Remote",
-    "tags": [
-      "tech/startup",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "_wireOtBtn(); // MDF is a SPA: navigating pages removes and re-inserts #ot-sdk-btn as…",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-25",
-    "srcMsg": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=6fdcb75d-12f7-487c-b0b2-fa6ea2c6c2ea&amp;ccId=19000101_000001&amp;jobId=563822&amp;lang=en_US"
   },
   {
     "title": "RCM Benefits Verification / Prior Authorization Specialist",
@@ -205,23 +282,23 @@ const JOBS = [
     "phoneFlag": false,
     "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-25",
     "srcMsg": "https://jobs.lever.co/Osmind/b184192b-5327-488e-b133-84ffc66cfb82"
   },
   {
-    "title": "Fountain Applicant UI",
-    "company": "Belay $20.00 - $23.00/hour",
+    "title": "Virtual Executive Assistant",
+    "company": "Belay",
     "url": "https://web.fountain.com/apply/belay/opening/virtual-executive-assistant?utm_campaign=BELAY+Website&utm_source=BELAY+Website",
     "salary": "$20 – $23 / hr",
     "level": "Mid",
     "remote": "Remote",
-    "tags": [],
+    "tags": [
+      "customer service"
+    ],
     "feature": false,
     "phoneFlag": false,
-    "note": "Fountain Applicant UI If you're seeing this message, that means JavaScript has been…",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-25",
     "srcMsg": "https://web.fountain.com/apply/belay/opening/virtual-executive-assistant?utm_campaign=BELAY+Website&utm_source=BELAY+Website"
   },
@@ -235,18 +312,16 @@ const JOBS = [
     "tags": [
       "healthcare",
       "finance",
-      "tech/startup",
-      "customer service"
+      "tech/startup"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": ": Payroll Associate (B2B SaaS)",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-24"
   },
   {
-    "title": "Billing Specialist <https://jobs.ashbyhq.com/careerswift.ai/3c0780fd-6a71-44cf-8fa8-33cd5fb4431a|htt",
+    "title": "Billing Specialist",
     "company": "Career Swift",
     "url": "https://jobs.ashbyhq.com/careerswift.ai/3c0780fd-6a71-44cf-8fa8-33cd5fb4431a",
     "salary": "$20 – $27 / hr",
@@ -255,14 +330,12 @@ const JOBS = [
     "tags": [
       "healthcare",
       "finance",
-      "tech/startup",
-      "customer service"
+      "tech/startup"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": ": Billing Specialist",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-24"
   },
   {
@@ -273,16 +346,13 @@ const JOBS = [
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
-      "finance",
       "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "Microsoft Solutions Associate * - * vizi.vizirecruiter.com/CONNECTION-3063/413676/index.ht",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-24"
   },
   {
@@ -290,64 +360,55 @@ const JOBS = [
     "company": "Marriott Bonvoy",
     "url": "https://careers.marriott.com/complex-senior-sales-executive/job/7CCA4585ED1090DE8D2739E3151EF21A",
     "salary": "$47.12 – $62.02 / hr",
-    "level": "Entry",
+    "level": "Mid",
     "remote": "Remote",
     "tags": [
-      "healthcare",
-      "tech/startup",
       "customer service",
       "sales"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "*Complex Senior Sales Executive* careers.marriott.com/complex-senior-sales-executive/job/…",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-24"
   },
   {
-    "title": "Customer Support Specialist - English (Evening)",
+    "title": "Customer Support Specialist, English (Evening)",
     "company": "Mudflap",
     "url": "https://jobs.ashbyhq.com/mudflap/8edb7190-7a88-40e1-b5a4-7f3b78425f98",
     "salary": "$23 – $27 / hr",
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
-      "finance",
       "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "jobs.ashbyhq.com/mudflap/…",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-24"
   },
   {
-    "title": "Travel Specialist, Principal Coordinator - Velocity Black (Remote)",
+    "title": "Travel Specialist, Principal Coordinator, Velocity Black",
     "company": "Capital One",
     "url": "https://www.capitalonecareers.com/job/richmond/travel-specialist-principal-coordinator-velocity-black-remote/1732/98891970640",
     "salary": "$56,800 – $64,800",
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
       "finance",
-      "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "Travel Specialist, Principal Coordinator capitalonecareers.com/job/richmond/…/98891970640",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-21",
     "closed": false
   },
   {
-    "title": "Insurance Billing Team Lead <https://careers.cognizant.com/us-en/jobs/00069367981/insurance-billing-",
+    "title": "Insurance Billing Team Lead",
     "company": "Cognizant",
     "url": "https://careers.cognizant.com/us-en/jobs/00069367981/insurance-billing-team-lead-remote/",
     "salary": "$20 / hr",
@@ -356,14 +417,12 @@ const JOBS = [
     "tags": [
       "healthcare",
       "finance",
-      "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "title: Insurance Billing Team Lead",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-21",
     "closed": false
   },
@@ -375,37 +434,32 @@ const JOBS = [
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
       "finance",
-      "tech/startup",
-      "customer service"
+      "tech/startup"
     ],
     "feature": true,
     "phoneFlag": false,
-    "note": "job-boards.greenhouse.io/goatgroup/jobs/ - USD",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-21",
     "closed": false
   },
   {
     "title": "Account Executive",
     "company": "Belay",
-    "url": "https://belaycorporate.applytojob.com/apply/EPgL6HkfFn/Account-Executive?source=Our%20Career%20Page%20Widget&_gl=1*13f2y6u*_gcl_au*NzA5NTIwNzkuMTc4NTg2MzE0MQ",
+    "url": "https://belaycorporate.applytojob.com/apply/EPgL6HkfFn/Account-Executive?source=Our%20Career%20Page%20Widget",
     "salary": "$80,000 – $85,000",
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
-      "finance",
       "tech/startup",
-      "customer service"
+      "customer service",
+      "sales"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "with an OTE up to",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-21",
     "closed": false
   },
@@ -418,15 +472,13 @@ const JOBS = [
     "remote": "Remote",
     "tags": [
       "healthcare",
-      "finance",
       "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "job-boards.greenhouse.io/perfectserve/jobs/6150021004 * USD* *plus* *incentives* per year",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-21",
     "closed": false
   },
@@ -438,33 +490,14 @@ const JOBS = [
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
+      "finance",
       "tech/startup",
       "customer service"
     ],
     "feature": true,
     "phoneFlag": false,
-    "note": "Administrative Assistant IV job-boards.greenhouse.io/affirm/jobs/7850544003",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-20",
-    "closed": false
-  },
-  {
-    "title": "Bilt Rewards Careers",
-    "company": "Bilt*",
-    "url": "https://jobs.gem.com/bilt/am9icG9zdDrYA2O6jy1uvHif3cW4uJ-9",
-    "salary": "$65,000 – $80,000",
-    "level": "Mid",
-    "remote": "Remote",
-    "tags": [
-      "healthcare"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "* *",
-    "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-20",
     "closed": false
   },
@@ -474,23 +507,21 @@ const JOBS = [
     "url": "https://job-boards.greenhouse.io/pairteam/jobs/8692269002",
     "salary": "$105,000 – $125,000",
     "level": "Mid",
-    "remote": "Remote (United States)",
+    "remote": "Remote",
     "tags": [
       "healthcare",
-      "finance",
       "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "your work will directly influence how pair team scales its model and serves…",
+    "note": "",
     "source": "Greenhouse",
-    "datePosted": "",
     "dateAdded": "2026-08-20",
     "closed": false
   },
   {
-    "title": "Account Executive - Central",
+    "title": "Account Executive, Central",
     "company": "Garner Health",
     "url": "https://job-boards.greenhouse.io/garnerhealth/jobs/6132250004",
     "salary": "$160,000 – $175,000",
@@ -499,14 +530,12 @@ const JOBS = [
     "tags": [
       "healthcare",
       "tech/startup",
-      "customer service",
       "sales"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "&lt;div class=&quot;content-intro&quot;&gt;&lt;h2&gt;&lt;strong&gt;what you’ll be part of&lt;/strong&gt;&lt;/h2&gt; &lt;p&gt;garner is on a mission to transform…",
+    "note": "",
     "source": "Greenhouse",
-    "datePosted": "",
     "dateAdded": "2026-08-20",
     "closed": false
   },
@@ -515,19 +544,17 @@ const JOBS = [
     "company": "Omada Health",
     "url": "https://job-boards.greenhouse.io/omadahealth/jobs/7816243",
     "salary": "$400,000 – $445,000",
-    "level": "Mid",
-    "remote": "Remote, USA",
+    "level": "Senior",
+    "remote": "Remote",
     "tags": [
       "healthcare",
       "finance",
-      "tech/startup",
-      "customer service"
+      "tech/startup"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "learn more at omadahealth.com.&lt;/p&gt; &lt;p&gt;omada is thrilled to share that we’ve been certified…",
+    "note": "",
     "source": "Greenhouse",
-    "datePosted": "",
     "dateAdded": "2026-08-20",
     "closed": false
   },
@@ -540,14 +567,12 @@ const JOBS = [
     "remote": "Remote",
     "tags": [
       "healthcare",
-      "tech/startup",
-      "customer service"
+      "tech/startup"
     ],
     "feature": true,
     "phoneFlag": false,
-    "note": "they are not to be construed as an exhaustive list of job duties…",
+    "note": "",
     "source": "Greenhouse",
-    "datePosted": "",
     "dateAdded": "2026-08-19",
     "closed": false
   },
@@ -559,15 +584,13 @@ const JOBS = [
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
       "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "Remote Email Response Specialist - USD a year - jobs.polymer.co/invicta-software/40982",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-19",
     "closed": false
   },
@@ -580,14 +603,12 @@ const JOBS = [
     "remote": "Remote",
     "tags": [
       "healthcare",
-      "tech/startup",
-      "customer service"
+      "tech/startup"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "jobs.ashbyhq.com/rosariumhealth/… - • Offers Equity • full benefits",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-19",
     "closed": false
   },
@@ -601,33 +622,29 @@ const JOBS = [
     "tags": [
       "healthcare",
       "finance",
-      "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "jobs.ashbyhq.com/mebe/… - hr",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-19",
     "closed": false
   },
   {
-    "title": "Open Positions",
+    "title": "Contractor Onboarding Specialist",
     "company": "Budderfly",
     "url": "https://www.budderfly.com/open-positions/?gh_jid=4706086006",
     "salary": "$65,000 – $75,000",
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "budderfly.com/open-positions?gh_jid= - USD",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-19",
     "closed": false
   },
@@ -639,19 +656,18 @@ const JOBS = [
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
+      "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "Data Entry Specialist (PDF to Excel) - jobs.polymer.co/invicta-software/40980 , USD",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-18",
     "closed": false
   },
   {
-    "title": "RCM Coordinator- Payor Focused",
+    "title": "RCM Coordinator, Payor Focused",
     "company": "LifeStance Health",
     "url": "https://careers.lifestance.com/jobs/corporate-roles/us/remote/rcm-coordinator-payor-focused/",
     "salary": "$20 – $24 / hr",
@@ -664,9 +680,8 @@ const JOBS = [
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "careers.lifestance.com/jobs/…/rcm-coordinator-payor-focused",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-18",
     "closed": false
   },
@@ -674,7 +689,7 @@ const JOBS = [
     "title": "Prior Authorization Specialist",
     "company": "Mass General Brigham",
     "url": "https://massgeneralbrigham.wd1.myworkdayjobs.com/en-US/MGBExternal/job/Prior-Authorization-Specialist_RQ4075441",
-    "salary": "$28.3 / hr",
+    "salary": "$28.50 / hr",
     "level": "Mid",
     "remote": "Remote",
     "tags": [
@@ -684,9 +699,8 @@ const JOBS = [
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "massgeneralbrigham.wd1.myworkdayjobs.com/en-US/MGBExternal/job/Prior-Author… - 28.50 a hr",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-18",
     "closed": false
   },
@@ -699,35 +713,30 @@ const JOBS = [
     "remote": "Remote",
     "tags": [
       "healthcare",
-      "tech/startup",
-      "customer service"
+      "tech/startup"
     ],
     "feature": true,
     "phoneFlag": false,
-    "note": "they are not to be construed as an exhaustive list of job duties…",
+    "note": "",
     "source": "Greenhouse",
-    "datePosted": "",
     "dateAdded": "2026-08-18",
     "closed": false
   },
   {
     "title": "Recruiter",
-    "company": "VetCove $70,000/year - $120,000/year + bonus",
+    "company": "VetCove",
     "url": "https://jobs.ashbyhq.com/Vetcove/ea52dd05-8f8d-49be-b235-8e4523b86288",
     "salary": "$70,000 – $110,000",
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
-      "finance",
       "tech/startup",
       "customer service"
     ],
     "feature": true,
     "phoneFlag": false,
-    "note": "in this role, you’ll partner closely with leadership, the cofounders, and hiring managers…",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-17",
     "closed": false
   },
@@ -739,56 +748,50 @@ const JOBS = [
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "tech/startup",
-      "customer service"
+      "tech/startup"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "about the role we're hiring a social media specialist, influencer marketing to run…",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-17",
     "closed": false
   },
   {
-    "title": "Project Manager - US Remote",
-    "company": "Perfectserve",
+    "title": "Project Manager, US Remote",
+    "company": "PerfectServe",
     "url": "https://job-boards.greenhouse.io/perfectserve/jobs/6016381004",
     "salary": "$90,000 – $110,000",
     "level": "Mid",
     "remote": "Remote",
     "tags": [
       "healthcare",
-      "finance",
       "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "the company was founded in 1997 and has grown steadily since then, with…",
+    "note": "",
     "source": "Greenhouse",
-    "datePosted": "",
     "dateAdded": "2026-08-17",
     "closed": false
   },
   {
     "title": "Compliance Manager",
-    "company": "Pairteam",
+    "company": "Pair Team",
     "url": "https://job-boards.greenhouse.io/pairteam/jobs/8646529002",
     "salary": "$100,000 – $115,000",
     "level": "Mid",
-    "remote": "Remote (United States)",
+    "remote": "Remote",
     "tags": [
       "healthcare",
       "finance",
-      "tech/startup",
-      "customer service"
+      "tech/startup"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "&lt;h3&gt;&lt;strong&gt;about pair team&lt;/strong&gt;&lt;/h3&gt; &lt;p&gt;pair team is a public benefit company reimagining care for…",
+    "note": "",
     "source": "Greenhouse",
-    "datePosted": "",
     "dateAdded": "2026-08-17",
     "closed": false
   },
@@ -802,18 +805,16 @@ const JOBS = [
     "tags": [
       "healthcare",
       "finance",
-      "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "jobs.franciscanhealth.org/us/en/…/Denial-Reimburse-Specialist",
+    "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-17"
   },
   {
-    "title": "Opportunities",
+    "title": "Credentialing Associate",
     "company": "Bicycle Health",
     "url": "https://www.bicyclehealth.com/careers-opportunities?gh_jid=6142704004",
     "salary": "$28 – $30 / hr",
@@ -821,20 +822,17 @@ const JOBS = [
     "remote": "Remote",
     "tags": [
       "healthcare",
-      "finance",
-      "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-14",
     "closed": false
   },
   {
-    "title": "Customer Success Associate, Any location, United States",
+    "title": "Customer Success Associate",
     "company": "Coalition",
     "url": "https://www.coalitioninc.com/job-posting/4721223005",
     "salary": "$40,000 – $50,000",
@@ -847,26 +845,24 @@ const JOBS = [
     "phoneFlag": false,
     "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-14",
     "closed": false
   },
   {
-    "title": "Lone Wolf Technologies",
+    "title": "Customer Support Representative",
     "company": "Lone Wolf",
     "url": "https://jobs.lever.co/lwolf/bd7568bb-f842-4188-b4e8-e0aba9879c9d",
-    "salary": "$26 – $28.5 / hr",
+    "salary": "$26 – $28.50 / hr",
     "level": "Mid",
     "remote": "Remote",
     "tags": [
-      "healthcare",
+      "tech/startup",
       "customer service"
     ],
     "feature": false,
     "phoneFlag": false,
     "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-14",
     "closed": false
   },
@@ -885,19 +881,17 @@ const JOBS = [
     "phoneFlag": false,
     "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-14",
     "closed": false
   },
   {
     "title": "Senior People Operations Coordinator",
-    "company": "Life",
+    "company": "Life360",
     "url": "http://job-boards.greenhouse.io/life360/jobs/8688370002",
     "salary": "$48.08 – $52.88 / hr",
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
       "tech/startup",
       "customer service"
     ],
@@ -905,16 +899,15 @@ const JOBS = [
     "phoneFlag": false,
     "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-14",
     "closed": false
   },
   {
     "title": "Associate Director, Customer Success",
-    "company": "Springhealth",
+    "company": "Spring Health",
     "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4713894005",
     "salary": "$146,000 – $168,000",
-    "level": "Entry",
+    "level": "Senior",
     "remote": "Remote",
     "tags": [
       "healthcare",
@@ -926,7 +919,6 @@ const JOBS = [
     "phoneFlag": false,
     "note": "",
     "source": "Greenhouse",
-    "datePosted": "",
     "dateAdded": "2026-08-13",
     "closed": false
   },
@@ -938,7 +930,6 @@ const JOBS = [
     "level": "Entry",
     "remote": "Remote",
     "tags": [
-      "healthcare",
       "finance",
       "tech/startup",
       "customer service"
@@ -947,7 +938,6 @@ const JOBS = [
     "phoneFlag": false,
     "note": "",
     "source": "Slack",
-    "datePosted": "",
     "dateAdded": "2026-08-13",
     "closed": false
   },
@@ -957,7 +947,7 @@ const JOBS = [
     "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4710036005",
     "salary": "$106,500 – $118,000",
     "level": "Mid",
-    "remote": "Remote (US)",
+    "remote": "Remote",
     "tags": [
       "healthcare",
       "finance"
@@ -965,6 +955,7 @@ const JOBS = [
     "feature": true,
     "phoneFlag": false,
     "note": "",
+    "source": "Greenhouse",
     "dateAdded": "2026-08-12",
     "closed": false
   },
@@ -982,6 +973,7 @@ const JOBS = [
     "feature": false,
     "phoneFlag": false,
     "note": "",
+    "source": "Greenhouse",
     "dateAdded": "2026-08-12"
   },
   {
@@ -994,11 +986,12 @@ const JOBS = [
     "tags": [
       "data",
       "healthcare",
-      "startup"
+      "tech/startup"
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "SQL + BI role at a remote-first startup.",
+    "note": "",
+    "source": "Greenhouse",
     "dateAdded": "2026-08-12",
     "closed": false
   },
@@ -1015,7 +1008,8 @@ const JOBS = [
     ],
     "feature": false,
     "phoneFlag": false,
-    "note": "Solid entry-level CS role.",
+    "note": "",
+    "source": "Slack",
     "dateAdded": "2026-08-12",
     "closed": false
   }
