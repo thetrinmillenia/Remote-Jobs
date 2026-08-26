@@ -297,6 +297,36 @@ def slack_field_overrides():
                 overrides[raw.rstrip(">").strip()] = fix
     return overrides
 
+def slack_close_urls():
+    """Read Slack for a link you posted with a close phrase (e.g. "no longer there").
+    Returns a set of URLs to pull off the board and never re-add. Your own words,
+    not the bot's — bot posts are skipped."""
+    token = os.environ.get("SLACK_TOKEN", "").strip()
+    if not token:
+        return set()
+    closed = set()
+    for chan in (SLACK_CHANNEL_ID, BOT_LOG_CHANNEL_ID):
+        if not chan:
+            continue
+        api = "https://slack.com/api/conversations.history?channel=%s&limit=100" % chan
+        req = urllib.request.Request(api, headers={"Authorization": "Bearer " + token})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                data = json.load(r)
+        except Exception:
+            continue
+        if not data.get("ok"):
+            continue
+        for msg in data.get("messages", []):
+            if msg.get("bot_id"):        # ignore the bot's own posts
+                continue
+            text = msg.get("text", "")
+            if not any(cmd in text.lower() for cmd in CLOSE_COMMANDS):
+                continue
+            for raw in re.findall(r"https?://[^\s|>]+", text):
+                closed.add(raw.rstrip(">").strip())
+    return closed
+
 def load_posted():
     try:
         with open("posted.json", "r", encoding="utf-8") as f:
@@ -345,7 +375,7 @@ def audit_existing(jobs):
                              j.get("salary", ""), "", ""):
             base = "*%s* — %s · %s\n%s" % (j.get("title", ""), j.get("company", ""),
                                            j.get("salary", ""), u)
-            slack_post(":mag: *ON BOARD — REVIEW* %s\nFix: post the link with `title:(…)` / `company:(…)` / `salary:(…)`"
+            slack_post(":warning: *REVIEW (on the board)* %s\nFix: post the link with `title:(…)` / `company:(…)` / `salary:(…)`"
                        % base, channel=BOT_LOG_CHANNEL_ID)
             posted.add(u)
             changed = True
@@ -391,6 +421,16 @@ def is_closed(text):
     """True if the job page says the role is filled/closed/expired."""
     t = (text or "").lower()
     return any(sig in t for sig in CLOSED_SIGNALS)
+
+# Phrases YOU type next to a link in Slack to pull a job off the board yourself
+# (for links that are dead / no longer posted / were added incorrectly).
+CLOSE_COMMANDS = (
+    "no longer there", "no longer posted", "no longer up", "no longer available",
+    "not posted anymore", "not there anymore", "not up anymore", "taken down",
+    "take it down", "dead link", "remove this", "please remove", "delete this",
+    "it's gone", "its gone", "job is gone", "position filled", "role filled",
+    "already filled", "closed now",
+)
 
 def meets_min_pay(salary):
     """True if the pay is at least MIN_HOURLY/hr (or the yearly equivalent)."""
@@ -1001,6 +1041,15 @@ def main():
         if before - len(existing):
             print("  Removed %d job(s) whose Slack message was deleted." % (before - len(existing)))
 
+    # CLOSE command: pull any job you marked "no longer there" (or dead/filled) in
+    # Slack, and never re-add it. Works even when you can't delete the message.
+    close_urls = slack_close_urls()
+    if close_urls:
+        before = len(existing)
+        existing = [j for j in existing if j.get("url") not in close_urls]
+        if before - len(existing):
+            print("  Removed %d job(s) you marked no longer there." % (before - len(existing)))
+
     # Companies used in the last COMPANY_COOLDOWN_DAYS — skip them for freshness.
     cutoff = (datetime.date.today() -
               datetime.timedelta(days=COMPANY_COOLDOWN_DAYS)).isoformat()
@@ -1026,7 +1075,8 @@ def main():
     candidates = [c for c in candidates
                   if is_clean(c)              # clean data + PAY LISTED + remote-only
                   and not c.get("phoneFlag")   # no phone-heavy roles
-                  and c.get("url") not in existing_urls]
+                  and c.get("url") not in existing_urls
+                  and c.get("url") not in close_urls]   # you marked it no longer there
     candidates.sort(key=score_job, reverse=True)
 
     picked, per_co, seen_urls = [], {}, set()
