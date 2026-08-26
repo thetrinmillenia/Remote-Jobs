@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Remote Jobs Harvest · Trin Millenia</title>
+<title>Remote Jobs Harvest | Hand Picked Remote Jobs That Pay Well</title>
+<meta name="description" content="A free, hand picked board of remote, non phone jobs that list real pay. Fresh roles in tech, healthcare, finance, and customer service every weekday.">
+<meta property="og:title" content="Remote Jobs Harvest | Hand Picked Remote Jobs That Pay Well">
+<meta property="og:description" content="A free, hand picked board of remote, non phone jobs that list real pay. New roles every weekday.">
+<meta property="og:type" content="website">
 <style>
   :root{
     --butter:      #F6E7A0;
@@ -46,6 +50,18 @@
   }
   .cta:hover{ background:#2071b0; }
   .cta:active{ transform:scale(.97); }
+  .cta-sub{ margin:14px auto 0; max-width:430px; font-size:14px; color:var(--muted); }
+  .scroll-cue{ display:flex; justify-content:center; gap:16px; margin:2px 0; color:var(--blue); }
+  .scroll-cue svg{ animation:bob 1.6s ease-in-out infinite; }
+  .scroll-cue svg:nth-child(2){ animation-delay:.15s; }
+  .scroll-cue svg:nth-child(3){ animation-delay:.3s; }
+  @keyframes bob{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(6px); } }
+  .pulse{ animation:pulseGlow 1.9s ease-in-out infinite; }
+  @keyframes pulseGlow{
+    0%,100%{ transform:scale(1); box-shadow:0 0 0 0 rgba(224,196,80,.55); }
+    50%{ transform:scale(1.05); box-shadow:0 0 22px 5px rgba(224,196,80,.55); }
+  }
+  @media (prefers-reduced-motion: reduce){ .scroll-cue svg, .pulse{ animation:none; } }
 
   /* Search */
   .search-wrap{ position:sticky; top:0; z-index:20; background:rgba(255,255,255,.85);
@@ -102,6 +118,9 @@
   .empty{ text-align:center; color:var(--muted); padding:40px 0; }
 
   footer{ border-top:1px solid var(--line); padding:26px 20px; text-align:center; color:var(--muted); font-size:13px; line-height:1.7; }
+  footer a{ color:var(--blue); text-decoration:none; }
+  footer a:hover{ text-decoration:underline; }
+  .legal-links{ display:inline-block; margin-top:6px; font-weight:600; }
 
   /* Call-out blocks + FAQ */
   .block{ max-width:600px; margin:0 auto; padding:40px 20px; text-align:center; border-top:1px solid var(--line); }
@@ -158,8 +177,9 @@
   <div class="header-inner">
     <span class="pill">Curated Daily</span>
     <h1 class="serif">Remote Jobs <span class="accent">Harvest</span></h1>
-    <p class="tagline">Cultivating Top-Tier Remote Work So You Can Fund Your Freedom on Your Own Terms.</p>
-    <a class="cta" href="https://stan.store/thetrinmillenia" target="_blank" rel="noopener noreferrer">Get the 48-Hour Interview Playbook</a>
+    <p class="tagline">Cultivating Top Tier Remote Work So You Can Fund Your Freedom on Your Own Terms.</p>
+    <a class="cta" href="https://stan.store/thetrinmillenia" target="_blank" rel="noopener noreferrer">Send Me the Playbook</a>
+    <p class="cta-sub">Your next offer starts here. Walk in interview ready.</p>
   </div>
 </header>
 
@@ -170,24 +190,28 @@
   </div>
 </div>
 
+<a class="scroll-cue" href="#board" aria-label="Scroll to jobs">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+</a>
+
 <main id="board"></main>
 
-<!-- Earn while you apply (AttaPoll affiliate) -->
+<!-- Resume help (Stan store, career packages) -->
 <section class="block">
-  <div class="eyebrow">Earn While You Apply</div>
-  <h2 class="serif">Make Money While You Job Hunt</h2>
-  <p>Job searching takes time — get paid for some of it. AttaPoll pays you real cash for quick surveys on your phone, whenever you have a spare minute.</p>
-  <!-- TODO: replace the # with your AttaPoll affiliate link -->
-  <a class="btn2" href="#" id="attapollLink" target="_blank" rel="noopener noreferrer sponsored">Start Earning with AttaPoll →</a>
-  <p class="fine">Affiliate link — I may earn a small commission at no extra cost to you.</p>
+  <div class="eyebrow">Career Help</div>
+  <h2 class="serif">Need Help With Your Resume?</h2>
+  <p>Not getting interviews, or want to make sure your resume is ready before you apply? Check out my resume resources and professional resume help.</p>
+  <a class="cta" href="https://stan.store/calebcareers" target="_blank" rel="noopener noreferrer">View Resume Resources</a>
 </section>
 
-<!-- Second Stan CTA -->
+<!-- Get paid for your opinions (survey affiliate) -->
 <section class="block">
-  <div class="eyebrow">Never Miss a Drop</div>
-  <h2 class="serif">Get New Remote Jobs First</h2>
-  <p>Want the freshest, best-paying remote roles sent straight to you? Grab it inside my store and stay ahead of everyone else.</p>
-  <a class="cta" href="https://stan.store/thetrinmillenia" id="stanJobsLink" target="_blank" rel="noopener noreferrer">Get New Remote Jobs →</a>
+  <div class="eyebrow">While You Apply</div>
+  <h2 class="serif">Get Paid for Your Opinions</h2>
+  <p>Earn a little on the side while you job hunt. Answer quick surveys from your phone whenever you have free time, then redeem through PayPal, gift cards, or direct bank transfer.</p>
+  <a class="btn2 pulse" href="https://attapoll.app/join/vsuyo" target="_blank" rel="noopener noreferrer sponsored">Start Earning</a>
 </section>
 
 <!-- FAQ -->
@@ -217,14 +241,8 @@
 
 <footer>
   Remote jobs curated with care · © 2026 Trin Millenia · Not affiliated with the companies listed.<br>
-  Some links on this page are affiliate links — I may earn a small commission at no cost to you.
+  <span class="legal-links"><a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms</a> · <a href="/affiliate-disclosure.html">Affiliate Disclosure</a></span>
 </footer>
-
-<script>
-  // Optional: set your AttaPoll affiliate link once here and it wires the button.
-  var ATTAPOLL_URL = ""; // e.g. "https://share.attapoll.app/xxxx"
-  if (ATTAPOLL_URL) { document.getElementById("attapollLink").href = ATTAPOLL_URL; }
-</script>
 
 <script>
 // The robot (scraper.py) updates the list between the two markers below.
