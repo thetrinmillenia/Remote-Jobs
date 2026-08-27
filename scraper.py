@@ -432,6 +432,45 @@ CLOSE_COMMANDS = (
     "already filled", "closed now",
 )
 
+# -----------------------------------------------------------------------------
+#  PERMANENT MANUAL FIXES  —  applied on EVERY run so hand-cleaned jobs stay
+#  clean even though the scraper re-reads the raw links each morning.
+#  Keyed by a unique piece of the job's URL. Add/adjust these as needed.
+# -----------------------------------------------------------------------------
+MANUAL_FIXES = {
+    "lifestance.com/jobs/corporate-roles/us/remote/project-manager-operational-excellence":
+        {"company": "LifeStance Health"},
+    "peoplefinders/jobs/5217226007": {"company": "PeopleFinders"},
+    "fountain.com/apply/belay": {"title": "Virtual Executive Assistant", "company": "Belay"},
+    "careerswift.ai/3c0780fd": {"title": "Billing Specialist", "company": "Career Swift"},
+    "cognizant.com/us-en/jobs/00069367981": {"title": "Insurance Billing Team Lead"},
+    "capitalonecareers.com/job/richmond/travel-specialist-principal-coordinator":
+        {"title": "Travel Specialist, Principal Coordinator, Velocity Black"},
+    "budderfly.com/open-positions": {"title": "Contractor Onboarding Specialist"},
+    "bicyclehealth.com/careers-opportunities": {"title": "Credentialing Associate"},
+    "coalitioninc.com/job-posting/4721223005": {"title": "Customer Success Associate"},
+    "jobs.lever.co/lwolf/bd7568bb": {"title": "Customer Support Representative", "company": "Lone Wolf"},
+    "life360/jobs/8688370002": {"company": "Life360"},
+    "Vetcove/ea52dd05": {"company": "VetCove"},
+    "springhealth66/jobs/4713894005": {"company": "Spring Health"},
+    "pairteam/jobs/8646529002": {"company": "Pair Team"},
+    "perfectserve/jobs/6016381004": {"company": "PerfectServe"},
+}
+
+# Links to ALWAYS drop (dead / JS-only pages with no real job title).
+MANUAL_REMOVE = ("workforcenow.adp.com", "jobs.gem.com/bilt")
+
+def manual_removed(job):
+    u = job.get("url", "")
+    return any(s in u for s in MANUAL_REMOVE)
+
+def apply_manual_fix(job):
+    u = job.get("url", "")
+    for sub, fields in MANUAL_FIXES.items():
+        if sub in u:
+            job.update(fields)
+    return job
+
 def meets_min_pay(salary):
     """True if the pay is at least MIN_HOURLY/hr (or the yearly equivalent)."""
     s = (salary or "")
@@ -1016,6 +1055,9 @@ def main():
     print("Curating today's remote jobs...")
     existing = mark_closed(load_existing())
 
+    # Permanent cleanup: drop always-remove links, apply hand fixes to the rest.
+    existing = [apply_manual_fix(j) for j in existing if not manual_removed(j)]
+
     # FIX command: apply any `company:` / `salary:` / `title:` you typed in Slack
     # to jobs already on the board (correct any card without editing files).
     overrides = slack_field_overrides()
@@ -1076,7 +1118,9 @@ def main():
                   if is_clean(c)              # clean data + PAY LISTED + remote-only
                   and not c.get("phoneFlag")   # no phone-heavy roles
                   and c.get("url") not in existing_urls
-                  and c.get("url") not in close_urls]   # you marked it no longer there
+                  and c.get("url") not in close_urls    # you marked it no longer there
+                  and not manual_removed(c)]            # always-remove links
+    candidates = [apply_manual_fix(c) for c in candidates]   # apply hand fixes to new finds
     candidates.sort(key=score_job, reverse=True)
 
     picked, per_co, seen_urls = [], {}, set()
