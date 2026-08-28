@@ -1,5 +1,45 @@
 [
   {
+    "title": "Deputy Chief Medical Officer",
+    "company": "Spring Health",
+    "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4678084005",
+    "salary": "$292,500 – $336,500",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "As an AI-native company, we believe technology should expand the reach, quality, and…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-08-27",
+    "needsReview": false
+  },
+  {
+    "title": "Payment Operations Representative",
+    "company": "People Finders.com",
+    "url": "http://PeopleFinders.com",
+    "salary": "$30 – $35 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "We’re experiencing intermittent technical issues and are working to resolve them.",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-27",
+    "srcMsg": "http://PeopleFinders.com",
+    "needsReview": false
+  },
+  {
     "title": "Medical Billing Team Lead",
     "company": "Dreem Healthy By Sunrise",
     "url": "http://job-boards.greenhouse.io/dreemhealth/jobs/5405285008",
@@ -42,45 +82,6 @@
     "dateAdded": "2026-08-26",
     "srcMsg": "https://belaycorporate.applytojob.com/apply/EPgL6HkfFn/Account-Executive?source=Our%20Career%20Page%20Widget&_gl=1*13f2y6u*_gcl_au*NzA5NTIwNzkuMTc4NTg2MzE0MQ",
     "needsReview": false
-  },
-  {
-    "title": "Bilt Rewards Careers",
-    "company": "Bilt*",
-    "url": "https://jobs.gem.com/bilt/am9icG9zdDrYA2O6jy1uvHif3cW4uJ-9",
-    "salary": "$65,000 – $80,000",
-    "level": "Mid",
-    "remote": "Remote",
-    "tags": [
-      "healthcare"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-26",
-    "srcMsg": "https://jobs.gem.com/bilt/am9icG9zdDrYA2O6jy1uvHif3cW4uJ-9",
-    "needsReview": true
-  },
-  {
-    "title": "Recruitment",
-    "company": "PharmaLogic",
-    "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=6fdcb75d-12f7-487c-b0b2-fa6ea2c6c2ea&amp;ccId=19000101_000001&amp;jobId=563822&amp;lang=en_US",
-    "salary": "$65,000",
-    "level": "Mid",
-    "remote": "Remote",
-    "tags": [
-      "tech/startup",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "_wireOtBtn(); // MDF is a SPA: navigating pages removes and re-inserts #ot-sdk-btn as…",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-26",
-    "srcMsg": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=6fdcb75d-12f7-487c-b0b2-fa6ea2c6c2ea&amp;ccId=19000101_000001&amp;jobId=563822&amp;lang=en_US",
-    "needsReview": true
   },
   {
     "title": "Intake Coordinator (Bilingual)",
