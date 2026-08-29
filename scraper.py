@@ -207,7 +207,12 @@ def is_hybrid(text):
 def clean_company(name):
     """Make company names tidy and consistent: real words, capitalized,
     no URL-slug leftovers (springhealth66) and no trailing US/Inc/LLC."""
-    n = re.sub(r"\s+", " ", (name or "").strip())     # collapse "People   Finders" -> one space
+    n = (name or "").strip()
+    n = re.sub(r"<[^|>]*\|([^>]*)>", r"\1", n)         # Slack <url|label> -> label
+    n = re.sub(r"<[^>]*>?", "", n)                     # drop leftover <...> markup
+    n = n.split("$")[0]                                # cut a salary tail off the name
+    n = re.split(r"https?://", n)[0]                   # cut a URL tail off the name
+    n = re.sub(r"\s+", " ", n).strip()                 # collapse "People   Finders" -> one space
     if not n:
         return ""
     # URL-slug style (no spaces, all lowercase or has digits) -> prettify
@@ -458,7 +463,7 @@ MANUAL_FIXES = {
 }
 
 # Links to ALWAYS drop (dead / JS-only pages with no real job title).
-MANUAL_REMOVE = ("workforcenow.adp.com", "jobs.gem.com/bilt")
+MANUAL_REMOVE = ("workforcenow.adp.com", "jobs.gem.com/bilt", "PeopleFinders.com")
 
 # How much of the archive to SHOW on the live board. jobs.json always keeps the
 # FULL history; these only trim what's visible so the page stays short.
@@ -1173,6 +1178,10 @@ def main():
     # Consistency pass: cap tags at 4 and standardize every salary format
     # (applies to older jobs too, so the whole board looks uniform).
     for j in all_jobs:
+        t = j.get("title", "")
+        t = re.sub(r"\s*<\s*https?://.*$", "", t)   # cut a Slack link tail off the title
+        t = re.sub(r"\s*\|.*$", "", t)              # cut a pipe tail off the title
+        j["title"] = t.strip()
         j["tags"] = (j.get("tags") or [])[:4]
         j["salary"] = normalize_salary(j.get("salary", ""))
         j["company"] = clean_company(j.get("company", ""))
