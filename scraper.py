@@ -1204,10 +1204,17 @@ def main():
     with open("jobs.json", "w", encoding="utf-8") as f:
         json.dump(all_jobs, f, indent=2, ensure_ascii=False)
 
-    # The VISIBLE board shows only the recent window, capped, newest first —
-    # older jobs cycle off the page (still safe in jobs.json).
+    # The VISIBLE board shows only the recent window, newest first — older jobs
+    # cycle off the page (still safe in jobs.json). We add WHOLE days up to the
+    # cap so a day is never cut below its full 3–5 jobs.
     cut = (today - datetime.timedelta(days=BOARD_KEEP_DAYS)).isoformat()
-    board = [j for j in all_jobs if j.get("dateAdded", "") >= cut][:MAX_BOARD_JOBS]
+    recent = [j for j in all_jobs if j.get("dateAdded", "") >= cut]
+    board = []
+    for d in sorted({j.get("dateAdded", "") for j in recent}, reverse=True):
+        day_jobs = [j for j in recent if j.get("dateAdded", "") == d]
+        if board and len(board) + len(day_jobs) > MAX_BOARD_JOBS:
+            break                       # stop before splitting a day
+        board.extend(day_jobs)
     rebuild_index(board)
     print("Done. Board shows %d of %d archived jobs." % (len(board), len(all_jobs)))
 
