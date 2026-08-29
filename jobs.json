@@ -21,25 +21,6 @@
     "needsReview": false
   },
   {
-    "title": "Payment Operations Representative",
-    "company": "<http://PeopleFinders.com|People><http://Peop",
-    "url": "http://PeopleFinders.com",
-    "salary": "$30 – $35 / hr",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "We’re experiencing intermittent technical issues and are working to resolve them.",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-08-27",
-    "srcMsg": "http://PeopleFinders.com",
-    "needsReview": false
-  },
-  {
     "title": "Medical Billing Team Lead",
     "company": "Dreem Healthy By Sunrise",
     "url": "http://job-boards.greenhouse.io/dreemhealth/jobs/5405285008",
@@ -126,7 +107,7 @@
   },
   {
     "title": "Project Manager, Operational Excellence",
-    "company": "LifeStance Health $82,000 - 100,000 Annually",
+    "company": "LifeStance Health",
     "url": "https://careers.lifestance.com/jobs/corporate-roles/us/remote/project-manager-operational-excellence/",
     "salary": "$82,000 – $100,000",
     "level": "Entry",
@@ -146,7 +127,7 @@
   },
   {
     "title": "Payment Operations Representative",
-    "company": "<http://PeopleFinders.com|People><http://Peop",
+    "company": "PeopleFinders.com",
     "url": "http://job-boards.greenhouse.io/peoplefinders/jobs/5217226007",
     "salary": "$30 – $35 / hr",
     "level": "Entry",
@@ -181,7 +162,7 @@
   },
   {
     "title": "Virtual Executive Assistant",
-    "company": "Belay $20.00 - $23.00/hour",
+    "company": "Belay",
     "url": "https://web.fountain.com/apply/belay/opening/virtual-executive-assistant?utm_campaign=BELAY+Website&utm_source=BELAY+Website",
     "salary": "$20 – $23 / hr",
     "level": "Mid",
@@ -215,7 +196,7 @@
     "dateAdded": "2026-08-24"
   },
   {
-    "title": "Billing Specialist <https://jobs.ashbyhq.com/careerswift.ai/3c0780fd-6a71-44cf-8fa8-33cd5fb4431a|htt",
+    "title": "Billing Specialist",
     "company": "Career Swift",
     "url": "https://jobs.ashbyhq.com/careerswift.ai/3c0780fd-6a71-44cf-8fa8-33cd5fb4431a",
     "salary": "$20 – $27 / hr",
@@ -302,7 +283,7 @@
     "closed": false
   },
   {
-    "title": "Insurance Billing Team Lead <https://careers.cognizant.com/us-en/jobs/00069367981/insurance-billing-",
+    "title": "Insurance Billing Team Lead",
     "company": "Cognizant",
     "url": "https://careers.cognizant.com/us-en/jobs/00069367981/insurance-billing-team-lead-remote/",
     "salary": "$20 / hr",
@@ -599,7 +580,7 @@
   },
   {
     "title": "Recruiter",
-    "company": "VetCove $70,000/year - $120,000/year + bonus",
+    "company": "VetCove",
     "url": "https://jobs.ashbyhq.com/Vetcove/ea52dd05-8f8d-49be-b235-8e4523b86288",
     "salary": "$70,000 – $110,000",
     "level": "Entry",
