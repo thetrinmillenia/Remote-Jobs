@@ -460,6 +460,11 @@ MANUAL_FIXES = {
 # Links to ALWAYS drop (dead / JS-only pages with no real job title).
 MANUAL_REMOVE = ("workforcenow.adp.com", "jobs.gem.com/bilt")
 
+# How much of the archive to SHOW on the live board. jobs.json always keeps the
+# FULL history; these only trim what's visible so the page stays short.
+BOARD_KEEP_DAYS = 14      # show jobs added in the last ~2 weeks
+MAX_BOARD_JOBS  = 25      # …and never more than this many, newest first
+
 def manual_removed(job):
     u = job.get("url", "")
     return any(s in u for s in MANUAL_REMOVE)
@@ -1185,10 +1190,17 @@ def main():
             else:
                 featured_days.add(day)
 
+    # Save the FULL archive (history) — nothing is ever lost; the History tab
+    # can read this later to show every job you've ever posted.
     with open("jobs.json", "w", encoding="utf-8") as f:
         json.dump(all_jobs, f, indent=2, ensure_ascii=False)
-    rebuild_index(all_jobs)
-    print("Done. Board now shows %d jobs total." % len(all_jobs))
+
+    # The VISIBLE board shows only the recent window, capped, newest first —
+    # older jobs cycle off the page (still safe in jobs.json).
+    cut = (today - datetime.timedelta(days=BOARD_KEEP_DAYS)).isoformat()
+    board = [j for j in all_jobs if j.get("dateAdded", "") >= cut][:MAX_BOARD_JOBS]
+    rebuild_index(board)
+    print("Done. Board shows %d of %d archived jobs." % (len(board), len(all_jobs)))
 
 def rebuild_index(jobs):
     try:
