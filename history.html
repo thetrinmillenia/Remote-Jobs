@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job History · Remote Jobs Harvest by Trin Millenia</title>
+<meta name="description" content="Every remote job posted on Remote Jobs Harvest by Trin Millenia, archived by month.">
+<link rel="icon" href="/logo.png">
+<style>
+  :root{
+    --butter-soft:#FBF3CE; --butter-fg:#6b5a12; --blue:#257ec4; --ink:#1f2430; --muted:#6b7280;
+    --line:#e7e2cf; --card-line:#ececec; --gold:#257ec4; --gold-soft:#e7e2cf;
+  }
+  *{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+  body{ margin:0; background:#fff; color:var(--ink); line-height:1.5; overflow-x:hidden;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .serif{ font-family: Georgia, "Times New Roman", Times, serif; }
+
+  .topbar{ display:flex; align-items:center; justify-content:space-between;
+    max-width:1000px; margin:0 auto; padding:16px 22px; border-bottom:1px solid var(--gold-soft); }
+  .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink); }
+  .brand .mark{ width:42px; height:auto; display:block; border-radius:10px; box-shadow:0 2px 8px rgba(37,126,196,.22); }
+  .brand-text{ display:flex; flex-direction:column; line-height:1.15; }
+  .brand-name{ font-family:Georgia,serif; font-size:17px; font-weight:700; }
+  .brand-name .accent{ color:var(--blue); }
+  .brand-by{ font-size:10.5px; font-weight:700; letter-spacing:1.8px; text-transform:uppercase; color:var(--ink); margin-top:2px; }
+  .nav-link{ font-size:12px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+    text-decoration:none; color:var(--butter-fg); background:var(--butter-soft); padding:5px 14px; border-radius:999px; transition:filter .15s; }
+  .nav-link:hover{ filter:brightness(.97); }
+
+  header{ text-align:center; padding:44px 20px 10px; }
+  header .pill{ display:inline-block; background:#fff; color:var(--gold); border:1px solid var(--gold-soft);
+    font-size:11px; font-weight:800; letter-spacing:2.5px; text-transform:uppercase; padding:6px 16px; border-radius:999px; margin-bottom:16px; }
+  h1{ font-size:38px; margin:0; }
+  .sub{ color:var(--muted); margin:12px 0 0; font-style:italic; }
+
+  main{ max-width:640px; margin:0 auto; padding:26px 18px 80px; }
+  details{ border:1px solid var(--card-line); border-radius:14px; margin-bottom:14px; background:#fff; overflow:hidden; }
+  summary{ cursor:pointer; list-style:none; padding:16px 20px; font-family:Georgia,serif; font-size:19px; font-weight:700;
+    display:flex; justify-content:space-between; align-items:center; }
+  summary::-webkit-details-marker{ display:none; }
+  summary .count{ font-family:ui-sans-serif,system-ui,sans-serif; font-size:12px; font-weight:700; letter-spacing:1px;
+    text-transform:uppercase; color:var(--gold); }
+  summary::after{ content:"+"; color:var(--gold); font-weight:800; margin-left:12px; }
+  details[open] summary::after{ content:"–"; }
+
+  .row{ display:flex; justify-content:space-between; gap:14px; align-items:baseline;
+    text-decoration:none; color:inherit; padding:13px 20px; border-top:1px solid #f3f1ea; }
+  .row:hover{ background:#fcfbf6; }
+  .row .l{ min-width:0; }
+  .row .t{ font-weight:700; font-size:15px; }
+  .row .c{ font-size:13px; color:var(--muted); margin-top:2px; }
+  .row .pay{ white-space:nowrap; font-size:13.5px; font-weight:700; color:var(--blue); }
+  .row.closed{ opacity:.5; }
+  .row.closed .pay{ color:var(--muted); }
+  .tagx{ font-size:10px; font-weight:800; letter-spacing:.5px; text-transform:uppercase; color:var(--muted); }
+  .loading, .empty{ text-align:center; color:var(--muted); padding:50px 0; }
+
+  footer{ border-top:1px solid var(--line); margin-top:30px; padding:24px 20px; text-align:center; color:var(--muted); font-size:13px; }
+  footer a{ color:var(--blue); text-decoration:none; }
+  @media (max-width:640px){ h1{ font-size:30px; } main{ padding:20px 14px 64px; } }
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <a class="brand" href="/" aria-label="Remote Jobs Harvest home">
+    <img class="mark" src="/logo.png" alt="Remote Jobs Harvest logo">
+    <span class="brand-text">
+      <span class="brand-name">Remote Jobs <span class="accent">Harvest</span></span>
+      <span class="brand-by">by Trin Millenia</span>
+    </span>
+  </a>
+  <a class="nav-link" href="/">← Board</a>
+</nav>
+
+<header>
+  <span class="pill">The Archive</span>
+  <h1 class="serif">Job History</h1>
+  <p class="sub" id="sub">Every remote role we have posted, kept on record.</p>
+</header>
+
+<main id="wrap"><p class="loading">Loading the archive…</p></main>
+
+<footer>
+  © 2026 Trin Millenia · <a href="/">Home</a> · <a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · <a href="/affiliate-disclosure.html">Affiliate Disclosure</a>
+</footer>
+
+<script>
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+function esc(s){ return (s||"").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function monthKey(d){ const p=(d||"").split("-"); return p.length>=2 ? p[0]+"-"+p[1] : "unknown"; }
+function monthLabel(k){ const p=k.split("-"); return p.length===2 ? MONTHS[+p[1]-1]+" "+p[0] : "Undated"; }
+
+fetch("jobs.json").then(r=>r.json()).then(jobs=>{
+  const wrap = document.getElementById("wrap");
+  if(!Array.isArray(jobs) || !jobs.length){ wrap.innerHTML='<p class="empty">No history yet.</p>'; return; }
+  jobs.sort((a,b)=>(b.dateAdded||"").localeCompare(a.dateAdded||""));
+  document.getElementById("sub").textContent = jobs.length + " roles posted and counting.";
+  const groups = {};
+  jobs.forEach(j=>{ const k=monthKey(j.dateAdded); (groups[k]=groups[k]||[]).push(j); });
+  const keys = Object.keys(groups).sort().reverse();
+  let html = "";
+  keys.forEach((k,i)=>{
+    const list = groups[k];
+    html += '<details'+(i===0?' open':'')+'><summary><span>'+esc(monthLabel(k))+'</span><span class="count">'+list.length+' job'+(list.length>1?'s':'')+'</span></summary>';
+    list.forEach(j=>{
+      const closed = j.closed ? ' closed' : '';
+      const day = (j.dateAdded||"").split("-").slice(1).reverse().join("/");
+      html += '<a class="row'+closed+'" href="'+esc(j.url)+'" target="_blank" rel="noopener noreferrer">'
+           +  '<span class="l"><span class="t">'+esc(j.title)+(j.closed?' <span class="tagx">· filled</span>':'')+'</span>'
+           +  '<span class="c">'+esc(j.company)+(day?' · '+day:'')+'</span></span>'
+           +  '<span class="pay">'+esc(j.salary||"")+'</span></a>';
+    });
+    html += '</details>';
+  });
+  wrap.innerHTML = html;
+}).catch(()=>{ document.getElementById("wrap").innerHTML='<p class="empty">Could not load the archive right now.</p>'; });
+</script>
+</body>
+</html>
