@@ -1,5 +1,133 @@
 [
   {
+    "title": "Provider Onboarding Associate",
+    "company": "Prosper Health",
+    "url": "http://job-boards.greenhouse.io/prosperhealth/jobs/5176376007",
+    "salary": "$25 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "The Role We're looking for a warm, organized contractor to join the Provider…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-31",
+    "srcMsg": "http://job-boards.greenhouse.io/prosperhealth/jobs/5176376007",
+    "needsReview": false
+  },
+  {
+    "title": "Customer Support Specialist",
+    "company": "7Seventy",
+    "url": "https://7seventy.net/7job/1118-lkdn-910-remote-united-states-customer-support-specialist",
+    "salary": "$70,000 – $77,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "What You’ll Do Respond to customer questions and issues through email, live chat…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-28",
+    "srcMsg": "https://7seventy.net/7job/1118-lkdn-910-remote-united-states-customer-support-specialist",
+    "needsReview": false
+  },
+  {
+    "title": "Specialist II, Authorizations",
+    "company": "Grow Therapy",
+    "url": "https://jobs.ashbyhq.com/grow-therapy/ccc9803a-6845-4456-a1fb-2e6e2b29e405",
+    "salary": "$26.44 – $26.44 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "We're looking for an experienced Authorization Specialist II who is passionate about improving…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-28",
+    "srcMsg": "https://jobs.ashbyhq.com/grow-therapy/ccc9803a-6845-4456-a1fb-2e6e2b29e405",
+    "needsReview": false
+  },
+  {
+    "title": "HR Systems &amp; Payroll Data Specialist",
+    "company": "Equip",
+    "url": "https://jobs.ashbyhq.com/equip/cfb46074-ccd7-42be-95e3-0c502d289ed8",
+    "salary": "$30 – $30 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Created by clinical experts in the field and people with lived experience, Equip…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-28",
+    "srcMsg": "https://jobs.ashbyhq.com/equip/cfb46074-ccd7-42be-95e3-0c502d289ed8",
+    "needsReview": false
+  },
+  {
+    "title": "Medical Coding Specialist",
+    "company": "Headway",
+    "url": "https://jobs.ashbyhq.com/headway/dd9cb2bf-453c-46cb-9d70-d50176c627a5",
+    "salary": "$60,520 – $89,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "Providers on Headway are responsible for their own coding and documentation, and many…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-27",
+    "srcMsg": "https://jobs.ashbyhq.com/headway/dd9cb2bf-453c-46cb-9d70-d50176c627a5",
+    "needsReview": false
+  },
+  {
+    "title": "Credentialing &amp; Enrollment Associate",
+    "company": "Rula",
+    "url": "https://jobs.ashbyhq.com/rula/4a1cc6ac-7e93-48bc-b210-274450f885da",
+    "salary": "$51,000 – $57,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "We aim to create a world where mental health is no longer stigmatized…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-27",
+    "srcMsg": "https://jobs.ashbyhq.com/rula/4a1cc6ac-7e93-48bc-b210-274450f885da",
+    "needsReview": false
+  },
+  {
     "title": "Deputy Chief Medical Officer",
     "company": "Spring Health",
     "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4678084005",
@@ -12,7 +140,7 @@
       "customer service",
       "sales"
     ],
-    "feature": true,
+    "feature": false,
     "phoneFlag": false,
     "note": "As an AI-native company, we believe technology should expand the reach, quality, and…",
     "source": "Greenhouse",
