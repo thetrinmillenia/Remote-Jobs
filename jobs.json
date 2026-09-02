@@ -1,5 +1,111 @@
 [
   {
+    "title": "Customer Support Advocate",
+    "company": "Hospitable",
+    "url": "https://apply.workable.com/hospitable/j/75777DB9CF/",
+    "salary": "$76,958",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-09-02",
+    "srcMsg": "https://apply.workable.com/hospitable/j/75777DB9CF/",
+    "needsReview": false
+  },
+  {
+    "title": "Workers’ Compensation Appeal Specialist",
+    "company": "Reliant Health",
+    "url": "http://job-boards.greenhouse.io/reliant/jobs/5393842008",
+    "salary": "$55,000 – $65,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "As a Workers’ Compensation Appeals Specialist, you will play a critical role in…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-09-01",
+    "srcMsg": "http://job-boards.greenhouse.io/reliant/jobs/5393842008",
+    "needsReview": false
+  },
+  {
+    "title": "Customer Training Specialist",
+    "company": "Instinct Science",
+    "url": "https://instinctscience.applytojob.com/apply/TFRsBDth9i/Customer-Training-Specialist",
+    "salary": "$55,000 – $70,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "The compensation range for this role is $55,000 - $70,000.",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-09-01",
+    "srcMsg": "https://instinctscience.applytojob.com/apply/TFRsBDth9i/Customer-Training-Specialist",
+    "needsReview": false
+  },
+  {
+    "title": "Insurance Verification Specialist",
+    "company": "BlueWaterThinking",
+    "url": "http://job-boards.greenhouse.io/bluewaterthinking/jobs/4708558006",
+    "salary": "$21.6 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "From recent graduates and transitioning service members to seasoned professionals, exciting opportunities exist…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-09-01",
+    "srcMsg": "http://job-boards.greenhouse.io/bluewaterthinking/jobs/4708558006",
+    "needsReview": false
+  },
+  {
+    "title": "Support Specialist",
+    "company": "Syllo",
+    "url": "http://job-boards.greenhouse.io/syllo/jobs/4285559009?gh_src=80mbojz59us",
+    "salary": "$83,200 – $93,600",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "Completing this form is voluntary, and we hope that you will choose to…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-08-31",
+    "srcMsg": "http://job-boards.greenhouse.io/syllo/jobs/4285559009?gh_src=80mbojz59us",
+    "needsReview": false
+  },
+  {
     "title": "Creative Support Specialist, Enterprise",
     "company": "Runway",
     "url": "https://jobs.ashbyhq.com/runway-ml/f6e8f3fa-0440-484e-92f7-6ae2e67f1d07",
@@ -10,7 +116,7 @@
       "tech/startup",
       "customer service"
     ],
-    "feature": true,
+    "feature": false,
     "phoneFlag": false,
     "note": "We're looking for an experienced support professional with 3-5+ years in customer-facing technical…",
     "source": "Slack",
