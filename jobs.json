@@ -1,5 +1,68 @@
 [
   {
+    "title": "Account Executive - Mid-Central",
+    "company": "Garner Health",
+    "url": "https://job-boards.greenhouse.io/garnerhealth/jobs/6132252004",
+    "salary": "$160,000 – $175,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "What you’ll be part of Garner is on a mission to transform the…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-09-04",
+    "needsReview": false
+  },
+  {
+    "title": "Customer Experience Enablement Senior Manager",
+    "company": "Omada Health",
+    "url": "https://job-boards.greenhouse.io/omadahealth/jobs/8103250",
+    "salary": "$161,920 – $202,400",
+    "level": "Mid",
+    "remote": "Remote, USA",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "You will love this job if you: Have successfully enabled teams working across…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-09-04",
+    "needsReview": false
+  },
+  {
+    "title": "Compliance Manager",
+    "company": "Pair Team",
+    "url": "https://pairteam.com/careers?gh_jid=8646529002",
+    "salary": "$100,000 – $115,000",
+    "level": "Mid",
+    "remote": "Remote (United States)",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "You will partner directly with engineering, operations, clinical, and growth teams (and others)…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-09-03",
+    "needsReview": false
+  },
+  {
     "title": "Chat & Email Support Agent",
     "company": "Invicta Software",
     "url": "https://jobs.polymer.co/invicta-software/40805",
@@ -32,7 +95,7 @@
       "tech/startup",
       "customer service"
     ],
-    "feature": true,
+    "feature": false,
     "phoneFlag": false,
     "note": "Cadence has been recognized by TIME as one of the Top 100 HealthTech…",
     "source": "Greenhouse",
