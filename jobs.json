@@ -1,5 +1,87 @@
 [
   {
+    "title": "Epic Application Analyst Sr",
+    "company": "Advocate Health Careers",
+    "url": "https://careers.advocatehealth.org/job/22923757/epic-application-analyst-sr-epic-professional-coding-remote",
+    "salary": "$47.5 – $71.25 / hr",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-09-07",
+    "srcMsg": "https://careers.advocatehealth.org/job/22923757/epic-application-analyst-sr-epic-professional-coding-remote",
+    "needsReview": false
+  },
+  {
+    "title": "Director of Product Management  - US Remote",
+    "company": "PerfectServe",
+    "url": "https://job-boards.greenhouse.io/perfectserve/jobs/6013939004",
+    "salary": "$180,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "At PerfectServe, you'll have a unique opportunity to join a collaborative team with…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-09-07",
+    "needsReview": false
+  },
+  {
+    "title": "Customer Service Representative",
+    "company": "Cognizant",
+    "url": "https://careers.cognizant.com/us-en/jobs/00069786291/customer-service-representative/",
+    "salary": "$18.5 / hr",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-09-07",
+    "srcMsg": "https://careers.cognizant.com/us-en/jobs/00069786291/customer-service-representative/",
+    "needsReview": false
+  },
+  {
+    "title": "Partner Operations Manager",
+    "company": "Ascertain",
+    "url": "https://www.ascertain.com/careers?ashby_jid=27f83deb-fc72-4088-b3ad-8d0d232a585f",
+    "salary": "$85,000 – $95,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Note: I'm new to WebFlow but this was a crisis as the Ashby…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-09-04",
+    "srcMsg": "https://www.ascertain.com/careers?ashby_jid=27f83deb-fc72-4088-b3ad-8d0d232a585f",
+    "needsReview": false
+  },
+  {
     "title": "Account Executive - Mid-Central",
     "company": "Garner Health",
     "url": "https://job-boards.greenhouse.io/garnerhealth/jobs/6132252004",
@@ -18,7 +100,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-09-04",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Customer Experience Enablement Senior Manager",
@@ -39,7 +122,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-09-04",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Compliance Manager",
@@ -60,7 +144,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-09-03",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Chat & Email Support Agent",
@@ -81,7 +166,8 @@
     "datePosted": "",
     "dateAdded": "2026-09-03",
     "srcMsg": "https://jobs.polymer.co/invicta-software/40805",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Remote Nurse Practitioner, Pacific Time Schedule - CA, WA, or AZ License Preferred",
@@ -101,13 +187,14 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-09-03",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Clinical Reimbursement Specialist",
-    "company": "Veracyte",
+    "company": "VeraCyte",
     "url": "https://www.veracyte.com/company/careers/job-detail/?gh_jid=5183623007",
-    "salary": "$113,276 – $125,000",
+    "salary": "$86,098 – $137,657",
     "level": "Entry",
     "remote": "Remote",
     "tags": [
@@ -123,29 +210,8 @@
     "datePosted": "",
     "dateAdded": "2026-09-02",
     "srcMsg": "https://www.veracyte.com/company/careers/job-detail/?gh_jid=5183623007",
-    "needsReview": false
-  },
-  {
-    "title": "Business Operations Specialist",
-    "company": "UnitedHealth Group",
-    "url": "https://careers.unitedhealthgroup.com/job/dallas/business-operations-specialist/34088/100040277680",
-    "salary": "$91,700 – $163,700",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "healthcare",
-      "finance",
-      "tech/startup",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "You'll enjoy the flexibility to telecommute* from anywhere within the U.S.",
-    "source": "Slack",
-    "datePosted": "",
-    "dateAdded": "2026-09-02",
-    "srcMsg": "https://careers.unitedhealthgroup.com/job/dallas/business-operations-specialist/34088/100040277680",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Customer Support Advocate",
@@ -165,7 +231,8 @@
     "datePosted": "",
     "dateAdded": "2026-09-02",
     "srcMsg": "https://apply.workable.com/hospitable/j/75777DB9CF/",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Workers’ Compensation Appeal Specialist",
@@ -187,7 +254,8 @@
     "datePosted": "",
     "dateAdded": "2026-09-01",
     "srcMsg": "http://job-boards.greenhouse.io/reliant/jobs/5393842008",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Customer Training Specialist",
@@ -230,7 +298,8 @@
     "datePosted": "",
     "dateAdded": "2026-09-01",
     "srcMsg": "http://job-boards.greenhouse.io/bluewaterthinking/jobs/4708558006",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Support Specialist",
@@ -251,7 +320,8 @@
     "datePosted": "",
     "dateAdded": "2026-08-31",
     "srcMsg": "http://job-boards.greenhouse.io/syllo/jobs/4285559009?gh_src=80mbojz59us",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Creative Support Specialist, Enterprise",
@@ -271,7 +341,8 @@
     "datePosted": "",
     "dateAdded": "2026-08-31",
     "srcMsg": "https://jobs.ashbyhq.com/runway-ml/f6e8f3fa-0440-484e-92f7-6ae2e67f1d07",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Provider Onboarding Associate",
@@ -292,7 +363,8 @@
     "datePosted": "",
     "dateAdded": "2026-08-31",
     "srcMsg": "http://job-boards.greenhouse.io/prosperhealth/jobs/5176376007",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Customer Support Specialist",
@@ -313,7 +385,8 @@
     "datePosted": "",
     "dateAdded": "2026-08-28",
     "srcMsg": "https://7seventy.net/7job/1118-lkdn-910-remote-united-states-customer-support-specialist",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Specialist II, Authorizations",
@@ -335,7 +408,8 @@
     "datePosted": "",
     "dateAdded": "2026-08-28",
     "srcMsg": "https://jobs.ashbyhq.com/grow-therapy/ccc9803a-6845-4456-a1fb-2e6e2b29e405",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "HR Systems &amp; Payroll Data Specialist",
@@ -356,7 +430,8 @@
     "datePosted": "",
     "dateAdded": "2026-08-28",
     "srcMsg": "https://jobs.ashbyhq.com/equip/cfb46074-ccd7-42be-95e3-0c502d289ed8",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Medical Coding Specialist",
@@ -377,7 +452,8 @@
     "datePosted": "",
     "dateAdded": "2026-08-27",
     "srcMsg": "https://jobs.ashbyhq.com/headway/dd9cb2bf-453c-46cb-9d70-d50176c627a5",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Credentialing &amp; Enrollment Associate",
@@ -399,7 +475,8 @@
     "datePosted": "",
     "dateAdded": "2026-08-27",
     "srcMsg": "https://jobs.ashbyhq.com/rula/4a1cc6ac-7e93-48bc-b210-274450f885da",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Deputy Chief Medical Officer",
