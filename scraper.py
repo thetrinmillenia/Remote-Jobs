@@ -1179,12 +1179,20 @@ def main():
     # (applies to older jobs too, so the whole board looks uniform).
     for j in all_jobs:
         t = j.get("title", "")
+        t = html.unescape(t)                        # &amp; -> &, &#39; -> ', etc.
         t = re.sub(r"\s*<\s*https?://.*$", "", t)   # cut a Slack link tail off the title
         t = re.sub(r"\s*\|.*$", "", t)              # cut a pipe tail off the title
         j["title"] = t.strip()
         j["tags"] = (j.get("tags") or [])[:4]
         j["salary"] = normalize_salary(j.get("salary", ""))
         j["company"] = clean_company(j.get("company", ""))
+
+    # Drop entries whose title is just a generic page name ("Jobs", "Careers",
+    # "Open Positions", …) — those are page titles, never a real role.
+    before = len(all_jobs)
+    all_jobs = [j for j in all_jobs if j.get("title", "").strip().lower() not in GENERIC_TITLES]
+    if before - len(all_jobs):
+        print("  Dropped %d generic-title job(s) (e.g. 'Jobs')." % (before - len(all_jobs)))
 
     # Re-check jobs already on the board and flag any mistakes (once each).
     audit_existing(all_jobs)
