@@ -43,6 +43,17 @@ GREENHOUSE_COMPANIES = [
     # Add more anytime: grab the slug from any job-boards.greenhouse.io/SLUG link.
 ]
 
+# Ashby company boards to auto-pull as a BACKUP when you don't post enough links.
+# These are remote-friendly, pay-transparent companies. Add the slug from any
+# jobs.ashbyhq.com/SLUG link. A big list = the bot always has fresh roles to fill days.
+ASHBY_COMPANIES = [
+    "grow-therapy", "rula", "headway", "sprinter-health", "equip",
+    "medely", "talkiatry", "brightsidehealth", "twinhealth", "sword",
+    "found", "sana", "clipboardhealth", "cedar", "commure", "parsley-health",
+    "two-chairs", "form-health", "oshi-health", "calibrate", "nourish",
+    "carbon-health", "spring-care", "brightline", "valera-health", "firefly-health",
+]
+
 # Keyword searches run against the free Remotive API (general remote board).
 REMOTIVE_SEARCHES = [
     "customer support",
@@ -641,6 +652,47 @@ def collect_greenhouse():
             jobs.append(job)
     return jobs
 
+def collect_ashby():
+    """Auto-pull remote, pay-listed roles from the Ashby watchlist — the backup
+    supply so days still fill when you haven't posted enough links."""
+    jobs = []
+    for org in ASHBY_COMPANIES:
+        url = "https://api.ashbyhq.com/posting-api/job-board/%s?includeCompensation=true" % org
+        try:
+            data = fetch_json(url)
+        except Exception as e:
+            print("  ! Ashby '%s' failed: %s" % (org, e))
+            continue
+        name = data.get("name") or org
+        for j in data.get("jobs", []):
+            if j.get("isListed") is False:
+                continue
+            loc = j.get("location") or ""
+            sec = " ".join((s or {}).get("location", "") for s in (j.get("secondaryLocations") or []))
+            if not (j.get("isRemote") or is_remote((loc + " " + sec))):
+                continue
+            comp = j.get("compensation") or {}
+            pay = comp.get("compensationTierSummary")
+            if not pay:
+                pay = ", ".join(p for p in
+                                [c.get("summary", "") for c in (comp.get("summaryComponents") or [])] if p)
+            if not pay:
+                continue                                  # PAY MUST BE LISTED
+            desc = j.get("descriptionPlain") or ""
+            job = build_job(
+                title=j.get("title", ""),
+                company=clean_company(name),
+                url=j.get("jobUrl", ""),
+                location=loc or "Remote",
+                description=desc,
+                salary_text=(pay + " " + desc),
+                source="Ashby",
+            )
+            job["needsReview"] = job_needs_review(job["title"], job["company"],
+                                                  job.get("salary", ""), "ok", "ok")
+            jobs.append(job)
+    return jobs
+
 def collect_remotive():
     jobs = []
     for term in REMOTIVE_SEARCHES:
@@ -1123,7 +1175,7 @@ def main():
 
     # Gather candidates. Company-direct sources only (company ATS boards + your
     # Slack links) so every link points to the real employer.
-    candidates = collect_greenhouse() + collect_slack() + collect_boards()
+    candidates = collect_greenhouse() + collect_ashby() + collect_slack() + collect_boards()
     candidates = [c for c in candidates
                   if is_clean(c)              # clean data + PAY LISTED + remote-only
                   and not c.get("phoneFlag")   # no phone-heavy roles
