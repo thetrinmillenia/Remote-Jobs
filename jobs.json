@@ -1,5 +1,152 @@
 [
   {
+    "title": "Senior Product Manager",
+    "company": "Medely",
+    "url": "https://jobs.ashbyhq.com/medely/ebff736e-649d-4bbf-99d2-062e6b1c7255",
+    "salary": "$150,000 – $165,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "We are looking for passionate and skilled professionals to join our team and…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-15",
+    "needsReview": false
+  },
+  {
+    "title": "Senior Product Data Scientist",
+    "company": "Talkiatry",
+    "url": "https://jobs.ashbyhq.com/talkiatry/0e6880af-3bd1-430f-a0d1-9ee1e4ba0751",
+    "salary": "$145,000 – $180,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "We are looking for this individual to bring analytical thought leadership as we…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-15",
+    "needsReview": false
+  },
+  {
+    "title": "Mid Level Front End Engineer",
+    "company": "Cedar",
+    "url": "https://jobs.ashbyhq.com/cedar/22a41449-5095-4936-8061-bf5821b6059e",
+    "salary": "$100,000 – $150,000",
+    "level": "Mid",
+    "remote": "Remote - USA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "As our mid-level front-end engineer, you’ll build what people touch every day: the…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-15",
+    "needsReview": false
+  },
+  {
+    "title": "Staff AI Engineer - Foundation (Remote)",
+    "company": "Rula",
+    "url": "https://jobs.ashbyhq.com/rula/d477da0d-6d23-4166-8afd-6a6a334f4710",
+    "salary": "$208,000 – $260,000",
+    "level": "Mid",
+    "remote": "Remote - United States",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "We aim to create a world where mental health is no longer stigmatized…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-14",
+    "needsReview": false
+  },
+  {
+    "title": "Data Analyst - Billing Systems",
+    "company": "Sprinter Health",
+    "url": "https://jobs.ashbyhq.com/sprinter-health/63c96b98-fadd-4c4c-ac07-238332a4198d",
+    "salary": "$100,000 – $120,000",
+    "level": "Mid",
+    "remote": "Menlo Park, CA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "About The Role You’ll design and maintain the systems that translate patient engagement…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-14",
+    "needsReview": false
+  },
+  {
+    "title": "Telehealth Physician Assistant - Eating Disorders  (Indiana)",
+    "company": "Equip",
+    "url": "https://jobs.ashbyhq.com/equip/bf0c8f60-5721-4326-85ae-79d6a2c9cd3e",
+    "salary": "$120,000 – $150,000",
+    "level": "Entry",
+    "remote": "Remote - USA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "About the Role: The Physician Assistant will be responsible for caring for children…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-14",
+    "needsReview": false
+  },
+  {
+    "title": "Staff Software Engineer, Billing Agents",
+    "company": "Commure",
+    "url": "https://jobs.ashbyhq.com/commure/260bc248-ed7d-4d10-bcc5-158139231a38",
+    "salary": "$210,000 – $275,000",
+    "level": "Mid",
+    "remote": "Mountain View, CA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "If you're energized by hard problems, high stakes, and a team that holds…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-11",
+    "needsReview": false
+  },
+  {
     "title": "Customer Success Manager",
     "company": "NuvemRX",
     "url": "https://job-boards.greenhouse.io/nuvem/jobs/4324543009",
@@ -25,7 +172,7 @@
     "title": "Release of Information Specialist",
     "company": "Charlie Health",
     "url": "https://www.charliehealth.com/careers?gh_jid=4529132004",
-    "salary": "$44,000",
+    "salary": "$44,000 – $60,000",
     "level": "Entry",
     "remote": "Remote",
     "tags": [
