@@ -1,5 +1,48 @@
 [
   {
+    "title": "Admissions Coordinator",
+    "company": "Charlie Health",
+    "url": "https://www.charliehealth.com/careers?gh_jid=6161976004",
+    "salary": "$66,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "key ) { return; } var pollAttempts = 0; var POLL_INTERVAL_MS = 50…",
+    "source": "Slack",
+    "datePosted": "",
+    "dateAdded": "2026-09-24",
+    "srcMsg": "https://www.charliehealth.com/careers?gh_jid=6161976004",
+    "needsReview": false
+  },
+  {
+    "title": "Senior Technical Recruiter",
+    "company": "Commure",
+    "url": "https://jobs.ashbyhq.com/commure/563c02e3-96c0-4838-adb7-be38faafe07b",
+    "salary": "$130,000 – $160,000",
+    "level": "Mid",
+    "remote": "Mountain View, CA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "If you're energized by hard problems, high stakes, and a team that holds…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-24",
+    "needsReview": false
+  },
+  {
     "title": "CX Tooling Engineer",
     "company": "Spring Health",
     "url": "https://job-boards.greenhouse.io/springhealth66/jobs/4731955005",
@@ -18,7 +61,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-09-21",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Product Designer, Provider Acquisition",
@@ -39,7 +83,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-09-21",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Manager, Provider Recruitment",
@@ -60,7 +105,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-09-21",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Junior QA Engineer - US Remote",
@@ -81,7 +127,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-09-18",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Charge Capture Specialist I",
@@ -119,7 +166,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-09-17",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Director, Product Marketing",
@@ -140,7 +188,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-09-17",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Registered Nurse Supervisor - Alerts",
@@ -493,7 +542,7 @@
     "dateAdded": "2026-09-09",
     "srcMsg": "https://imagine360.isolvedhire.com/jobs/1827032.html",
     "needsReview": false,
-    "closed": false
+    "closed": true
   },
   {
     "title": "Billing & Finance Specialist",
