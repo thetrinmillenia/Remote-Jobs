@@ -1,5 +1,47 @@
 [
   {
+    "title": "Enterprise Account Executive",
+    "company": "Medely",
+    "url": "https://jobs.ashbyhq.com/medely/2391a690-bcf7-465b-973e-819efb9826e8",
+    "salary": "$113,000 – $125,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "We are looking for passionate and skilled professionals to join our team and…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-28",
+    "needsReview": false
+  },
+  {
+    "title": "Manager, Provider Partnerships",
+    "company": "Talkiatry",
+    "url": "https://jobs.ashbyhq.com/talkiatry/a2f3ea5f-4eba-45bd-8290-5bab43cdd3bd",
+    "salary": "$80,000 – $105,000",
+    "level": "Mid",
+    "remote": "Long Island, NY",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "This role blends new business prospecting with account ownership and field engagement.",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-09-28",
+    "needsReview": false
+  },
+  {
     "title": "Sr. Product Data Scientist (Remote)",
     "company": "Rula",
     "url": "https://jobs.ashbyhq.com/rula/b61c33f6-a56a-486b-95c9-f7ef27aacd40",
