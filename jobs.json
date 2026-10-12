@@ -1,5 +1,68 @@
 [
   {
+    "title": "Sr. Regional Sales Manager - Healthcare",
+    "company": "Rula",
+    "url": "https://jobs.ashbyhq.com/rula/b82bfccb-2029-48d3-930a-93f0ab442ff7",
+    "salary": "$217,000 – $257,450",
+    "level": "Mid",
+    "remote": "California",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "We aim to create a world where mental health is no longer stigmatized…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-10-08",
+    "needsReview": false
+  },
+  {
+    "title": "Analytics Engineer (Senior)",
+    "company": "Sprinter Health",
+    "url": "https://jobs.ashbyhq.com/sprinter-health/e0af8c4c-9442-4e84-ba0c-065d675125bf",
+    "salary": "$165,000 – $215,000",
+    "level": "Mid",
+    "remote": "San Francisco, CA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "This role will own the canonical models, metric definitions, transformation logic, documentation, and…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-10-08",
+    "needsReview": false
+  },
+  {
+    "title": "Telehealth Family Nurse Practitioner - Eating Disorders (New Jersey-Remote)",
+    "company": "Equip",
+    "url": "https://jobs.ashbyhq.com/equip/246764c8-9706-4d97-8ff3-aadeab65404c",
+    "salary": "$120,000 – $150,000",
+    "level": "Entry",
+    "remote": "Remote - USA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "About the Role: The Family Nurse Practitioner will be responsible for caring for…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-10-08",
+    "needsReview": false
+  },
+  {
     "title": "Senior Engineering Manager, Payments & Reconciliation",
     "company": "Commure",
     "url": "https://jobs.ashbyhq.com/commure/04fc9c4e-7ff1-49ac-8f5d-b1b70a0567c8",
@@ -18,7 +81,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-05",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior/Staff Product Designer, Growth",
@@ -39,7 +103,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-02",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Engineering Manager (Provider)",
@@ -60,7 +125,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-02",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Clinical Integration Analyst - US Remote",
@@ -81,7 +147,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-01",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Remote Nurse Practitioner - TX License Required",
