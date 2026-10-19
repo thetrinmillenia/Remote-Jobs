@@ -1,5 +1,47 @@
 [
   {
+    "title": "Senior Data Analyst, Lives Covered",
+    "company": "Grow Therapy",
+    "url": "https://jobs.ashbyhq.com/grow-therapy/c4d6d3fe-57ec-4d3e-9c94-a80c24c30bd5",
+    "salary": "$152,000 – $177,000",
+    "level": "Mid",
+    "remote": "San Francisco",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "The Opportunity: We are looking for a Sr.",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-10-15",
+    "needsReview": false
+  },
+  {
+    "title": "Senior Manager, Accounting",
+    "company": "Headway",
+    "url": "https://jobs.ashbyhq.com/headway/f2437c6e-22ab-479f-9c1d-52f61bbb6e73",
+    "salary": "$130,560 – $204,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "You'll manage a team of four accountants, owning month-end close, financial reporting, and…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-10-15",
+    "needsReview": false
+  },
+  {
     "title": "Data Engineer - US Remote",
     "company": "PerfectServe",
     "url": "https://job-boards.greenhouse.io/perfectserve/jobs/6200392004",
@@ -18,7 +60,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-13",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Registered Nurse - APCM - Compact License Required",
@@ -38,7 +81,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-13",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Accounts Receivable Specialist",
@@ -58,7 +102,8 @@
     "datePosted": "",
     "dateAdded": "2026-10-12",
     "srcMsg": "https://geodehealth.wd1.myworkdayjobs.com/geode/job/Remote-USA/Accounts-Receivable-Specialist_JR103005-1",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Client Success Manager (Small-Market)",
@@ -79,7 +124,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-12",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Director, Employer Sales - National Accounts",
@@ -100,7 +146,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-12",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Counsel",
@@ -121,7 +168,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-09",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Manager, Customer Success - Strategic Accounts",
@@ -142,7 +190,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-09",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Manager, Provider Partnerships - Miami, FL",
@@ -163,7 +212,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-09",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Sr. Regional Sales Manager - Healthcare",
@@ -184,7 +234,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-08",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Analytics Engineer (Senior)",
@@ -205,7 +256,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-08",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Telehealth Family Nurse Practitioner - Eating Disorders (New Jersey-Remote)",
@@ -226,7 +278,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-08",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Engineering Manager, Payments & Reconciliation",
@@ -1563,7 +1616,7 @@
     "dateAdded": "2026-08-28",
     "srcMsg": "https://7seventy.net/7job/1118-lkdn-910-remote-united-states-customer-support-specialist",
     "needsReview": false,
-    "closed": false
+    "closed": true
   },
   {
     "title": "Specialist II, Authorizations",
