@@ -1,5 +1,26 @@
 [
   {
+    "title": "Senior Software Engineer, Applied AI (RCM)",
+    "company": "Commure",
+    "url": "https://jobs.ashbyhq.com/commure/ad72cee4-6a9e-47ef-a959-91bb7847c263",
+    "salary": "$180,000 – $230,000",
+    "level": "Mid",
+    "remote": "Mountain View, CA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "If you're energized by hard problems, high stakes, and a team that holds…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-10-29",
+    "needsReview": false
+  },
+  {
     "title": "Staff Product Marketing Manager (PMM), Provider Growth",
     "company": "Headway",
     "url": "https://jobs.ashbyhq.com/headway/97c067b4-101d-4c40-af0c-56457fa58937",
@@ -18,7 +39,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-27",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Staff Product Manager, New Models & Markets",
@@ -39,7 +61,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-26",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Mobile Developer I - US Remote",
@@ -60,7 +83,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-26",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Patient Activation Specialist",
@@ -80,7 +104,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-26",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Consultant Relations VP",
@@ -101,7 +126,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-23",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Director, GLP-1 & Cardiometabolic Product Marketing",
@@ -122,7 +148,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-23",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Strategic Partnerships Director - Northeast",
@@ -143,7 +170,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-22",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "IT Systems Administrator",
@@ -164,7 +192,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-22",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Part-Time Family Physician (Remote)",
@@ -184,7 +213,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-10-22",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Telehealth Physician Assistant - Eating Disorders (New Jersey-Remote)",
