@@ -1,5 +1,68 @@
 [
   {
+    "title": "Senior Data Product Manager",
+    "company": "Talkiatry",
+    "url": "https://jobs.ashbyhq.com/talkiatry/5cc505aa-ef66-46f8-986c-a2422407bc9b",
+    "salary": "$150,000 – $187,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "You will expand our metrics and proprietary data layers so that the definitions…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-03",
+    "needsReview": false
+  },
+  {
+    "title": "Associate General Counsel",
+    "company": "Pair Team",
+    "url": "https://job-boards.greenhouse.io/pairteam/jobs/8932178002",
+    "salary": "$215,000 – $240,000",
+    "level": "Entry",
+    "remote": "Remote (United States)",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "You’ll take on a wide range of matters, from regulatory strategy to complex…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-11-02",
+    "needsReview": false
+  },
+  {
+    "title": "Revenue Enablement Lead",
+    "company": "Medely",
+    "url": "https://jobs.ashbyhq.com/medely/b287d552-26be-441e-b9b0-f09e2b1be4ca",
+    "salary": "$150,000 – $175,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "We are looking for passionate and skilled professionals to join our team and…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-02",
+    "needsReview": false
+  },
+  {
     "title": "Telehealth Family Nurse Practitioner - Eating Disorders (New York-Remote)",
     "company": "Equip",
     "url": "https://jobs.ashbyhq.com/equip/cb0c5444-1daa-46ba-814c-861c322bd002",
@@ -12,7 +75,7 @@
       "tech/startup",
       "customer service"
     ],
-    "feature": true,
+    "feature": false,
     "phoneFlag": false,
     "note": "About the Role: The Family Nurse Practitioner will be responsible for caring for…",
     "source": "Ashby",
