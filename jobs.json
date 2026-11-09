@@ -1,5 +1,47 @@
 [
   {
+    "title": "Enterprise Sales VP, Labor and Trust",
+    "company": "Garner Health",
+    "url": "https://job-boards.greenhouse.io/garnerhealth/jobs/6139049004",
+    "salary": "$425,000 – $475,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "What you’ll be part of Garner is on a mission to transform the…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-11-05",
+    "needsReview": false
+  },
+  {
+    "title": "Senior Product and Design Strategist",
+    "company": "Omada Health",
+    "url": "https://job-boards.greenhouse.io/omadahealth/jobs/8211273",
+    "salary": "$192,280 – $240,350",
+    "level": "Mid",
+    "remote": "Remote, USA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "What began as an internal project grounded in deep user research evolved into…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-11-05",
+    "needsReview": false
+  },
+  {
     "title": "Senior Data Product Manager",
     "company": "Talkiatry",
     "url": "https://jobs.ashbyhq.com/talkiatry/5cc505aa-ef66-46f8-986c-a2422407bc9b",
@@ -18,7 +60,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-11-03",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Associate General Counsel",
@@ -39,7 +82,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-11-02",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Revenue Enablement Lead",
@@ -60,7 +104,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-11-02",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Telehealth Family Nurse Practitioner - Eating Disorders (New York-Remote)",
@@ -81,7 +126,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-11-02",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Staff Software Engineer (Remote)",
@@ -123,7 +169,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-10-30",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Software Engineer, Applied AI (RCM)",
