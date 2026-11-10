@@ -1,5 +1,67 @@
 [
   {
+    "title": "Senior Platform Engineer - US Remote",
+    "company": "PerfectServe",
+    "url": "https://job-boards.greenhouse.io/perfectserve/jobs/6200434004",
+    "salary": "$140,000 – $160,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "At PerfectServe, you'll have a unique opportunity to join a collaborative team with…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-11-06",
+    "needsReview": false
+  },
+  {
+    "title": "Senior/Staff  Security Engineer, Incident Response",
+    "company": "Grow Therapy",
+    "url": "https://jobs.ashbyhq.com/grow-therapy/fa101721-1fba-42ae-a949-5389e82e11c0",
+    "salary": "$220,000 – $280,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "The base compensation for this role will vary depending on several factors, including…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-06",
+    "needsReview": false
+  },
+  {
+    "title": "Registered Nurse - Float Pool",
+    "company": "Cadence Health",
+    "url": "https://job-boards.greenhouse.io/cadencehealth/jobs/4648206006",
+    "salary": "$85,000 – $95,000",
+    "level": "Entry",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Cadence has been recognized by TIME as one of the Top 100 HealthTech…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-11-06",
+    "needsReview": false
+  },
+  {
     "title": "Enterprise Sales VP, Labor and Trust",
     "company": "Garner Health",
     "url": "https://job-boards.greenhouse.io/garnerhealth/jobs/6139049004",
@@ -3071,24 +3133,6 @@
     "phoneFlag": false,
     "note": "",
     "source": "Greenhouse",
-    "dateAdded": "2026-08-12",
-    "closed": false
-  },
-  {
-    "title": "Customer Support Specialist",
-    "company": "InfoTrack",
-    "url": "https://apply.workable.com/infotrack-us/j/462F770AA3/",
-    "salary": "$20 – $27 / hr",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "customer service",
-      "legal-tech"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
     "dateAdded": "2026-08-12",
     "closed": false
   }
