@@ -1,5 +1,26 @@
 [
   {
+    "title": "Senior Technical Recruiter",
+    "company": "Commure",
+    "url": "https://jobs.ashbyhq.com/Commure/563c02e3-96c0-4838-adb7-be38faafe07b",
+    "salary": "$130,000 – $160,000",
+    "level": "Mid",
+    "remote": "Mountain View, CA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "If you're energized by hard problems, high stakes, and a team that holds…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-09",
+    "needsReview": false
+  },
+  {
     "title": "Senior Data Engineer",
     "company": "Headway",
     "url": "https://jobs.ashbyhq.com/headway/75017946-1062-40fb-a78f-9e1edf5424a7",
@@ -2857,24 +2878,6 @@
     "note": "",
     "source": "Slack",
     "dateAdded": "2026-08-17"
-  },
-  {
-    "title": "Credentialing Associate",
-    "company": "Bicycle Health",
-    "url": "https://www.bicyclehealth.com/careers-opportunities?gh_jid=6142704004",
-    "salary": "$28 – $30 / hr",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "healthcare",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "dateAdded": "2026-08-14",
-    "closed": false
   },
   {
     "title": "Associate Director, Customer Success",
