@@ -1,5 +1,47 @@
 [
   {
+    "title": "Sr. Product Designer",
+    "company": "Rula",
+    "url": "https://jobs.ashbyhq.com/rula/30f6551a-c008-407c-a8c4-ac0369e82098",
+    "salary": "$180,000 – $221,000",
+    "level": "Mid",
+    "remote": "Remote - United States",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "We aim to create a world where mental health is no longer stigmatized…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-12",
+    "needsReview": false
+  },
+  {
+    "title": "Senior Product Manager, Platform (Clinical)",
+    "company": "Sprinter Health",
+    "url": "https://jobs.ashbyhq.com/sprinter-health/61461da9-9082-4c22-b605-fb3aa34e5b62",
+    "salary": "$175,000 – $220,000",
+    "level": "Mid",
+    "remote": "San Francisco, CA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Fair warning that this role says no a lot: five teams consume your…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-12",
+    "needsReview": false
+  },
+  {
     "title": "Senior Technical Recruiter",
     "company": "Commure",
     "url": "https://jobs.ashbyhq.com/Commure/563c02e3-96c0-4838-adb7-be38faafe07b",
@@ -18,7 +60,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-11-09",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Data Engineer",
@@ -39,7 +82,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-11-09",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Platform Engineer - US Remote",
@@ -60,7 +104,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-11-06",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior/Staff  Security Engineer, Incident Response",
@@ -81,7 +126,8 @@
     "source": "Ashby",
     "datePosted": "",
     "dateAdded": "2026-11-06",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Registered Nurse - Float Pool",
@@ -101,7 +147,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-11-06",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Enterprise Sales VP, Labor and Trust",
@@ -122,7 +169,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-11-05",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Product and Design Strategist",
@@ -143,7 +191,8 @@
     "source": "Greenhouse",
     "datePosted": "",
     "dateAdded": "2026-11-05",
-    "needsReview": false
+    "needsReview": false,
+    "closed": false
   },
   {
     "title": "Senior Data Product Manager",
