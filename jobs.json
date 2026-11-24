@@ -1,5 +1,109 @@
 [
   {
+    "title": "Senior Engineering Manager, Payments & Reconciliation",
+    "company": "Commure",
+    "url": "https://jobs.ashbyhq.com/Commure/04fc9c4e-7ff1-49ac-8f5d-b1b70a0567c8",
+    "salary": "$240,000 – $275,000",
+    "level": "Mid",
+    "remote": "Mountain View, CA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "If you're energized by hard problems, high stakes, and a team that holds…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-23",
+    "needsReview": false
+  },
+  {
+    "title": "Remote Nurse Practitioner - CT or NY License Required",
+    "company": "Cadence Health",
+    "url": "https://job-boards.greenhouse.io/cadencehealth/jobs/4731469006",
+    "salary": "$140,000 – $160,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "Cadence has been recognized by TIME as one of the Top 100 HealthTech…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-11-23",
+    "needsReview": false
+  },
+  {
+    "title": "Marketing Operations Manager - US Remote",
+    "company": "PerfectServe",
+    "url": "https://job-boards.greenhouse.io/perfectserve/jobs/6242382004",
+    "salary": "$100,000 – $120,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "At PerfectServe, you'll have a unique opportunity to join a collaborative team with…",
+    "source": "Greenhouse",
+    "datePosted": "",
+    "dateAdded": "2026-11-20",
+    "needsReview": false
+  },
+  {
+    "title": "Senior/Staff Engineer, Cloud & Infrastructure Security",
+    "company": "Grow Therapy",
+    "url": "https://jobs.ashbyhq.com/grow-therapy/40326d35-cf61-4b93-bc39-2679c07b4332",
+    "salary": "$152,000 – $250,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "You’ll also be in a rare position to shape how AI gets used…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-20",
+    "needsReview": false
+  },
+  {
+    "title": "Director, Payer Marketing",
+    "company": "Headway",
+    "url": "https://jobs.ashbyhq.com/headway/ee410415-31ce-45ed-bc9a-662208900818",
+    "salary": "$282,000",
+    "level": "Mid",
+    "remote": "Remote",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "WHAT YOU'LL OWN: - Set the payer marketing strategy.",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-20",
+    "needsReview": false
+  },
+  {
     "title": "Clinical Research Scientist",
     "company": "Omada Health",
     "url": "https://job-boards.greenhouse.io/omadahealth/jobs/8346685",
@@ -2488,44 +2592,6 @@
     "dateAdded": "2026-08-25",
     "srcMsg": "https://jobs.lever.co/BlackCloak/73f38a83-47dc-4918-9cc6-bf61ebb14a66",
     "needsReview": false,
-    "closed": false
-  },
-  {
-    "title": "Payment Operations Representative",
-    "company": "PeopleFinders.com",
-    "url": "http://job-boards.greenhouse.io/peoplefinders/jobs/5217226007",
-    "salary": "$30 – $35 / hr",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "finance",
-      "customer service"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "dateAdded": "2026-08-25",
-    "srcMsg": "http://job-boards.greenhouse.io/peoplefinders/jobs/5217226007",
-    "closed": false
-  },
-  {
-    "title": "Payroll Associate (B2B SaaS)",
-    "company": "Prompt",
-    "url": "https://www.prompthealth.com/careers",
-    "salary": "$35 – $40 / hr",
-    "level": "Entry",
-    "remote": "Remote",
-    "tags": [
-      "healthcare",
-      "finance",
-      "tech/startup"
-    ],
-    "feature": false,
-    "phoneFlag": false,
-    "note": "",
-    "source": "Slack",
-    "dateAdded": "2026-08-24",
     "closed": false
   },
   {
