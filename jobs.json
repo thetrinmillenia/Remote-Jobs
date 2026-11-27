@@ -1,5 +1,47 @@
 [
   {
+    "title": "Senior Product Manager, Platform (Clinical)",
+    "company": "Sprinter Health",
+    "url": "https://jobs.ashbyhq.com/sprinter-health/4c720adb-658f-411f-b1a3-b90c0d101357",
+    "salary": "$175,000 – $220,000",
+    "level": "Mid",
+    "remote": "Menlo Park, CA",
+    "tags": [
+      "healthcare",
+      "finance",
+      "tech/startup",
+      "customer service"
+    ],
+    "feature": false,
+    "phoneFlag": false,
+    "note": "Fair warning that this role says no a lot: five teams consume your…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-24",
+    "needsReview": false
+  },
+  {
+    "title": "Director of B2B Employer Marketing",
+    "company": "Rula",
+    "url": "https://jobs.ashbyhq.com/rula/5d7b5c9b-af41-432f-ba38-6045af9886d5",
+    "salary": "$189,000 – $220,448",
+    "level": "Mid",
+    "remote": "Remote - United States",
+    "tags": [
+      "healthcare",
+      "tech/startup",
+      "customer service",
+      "sales"
+    ],
+    "feature": true,
+    "phoneFlag": false,
+    "note": "We aim to create a world where mental health is no longer stigmatized…",
+    "source": "Ashby",
+    "datePosted": "",
+    "dateAdded": "2026-11-23",
+    "needsReview": false
+  },
+  {
     "title": "Senior Engineering Manager, Payments & Reconciliation",
     "company": "Commure",
     "url": "https://jobs.ashbyhq.com/Commure/04fc9c4e-7ff1-49ac-8f5d-b1b70a0567c8",
@@ -32,7 +74,7 @@
       "tech/startup",
       "customer service"
     ],
-    "feature": true,
+    "feature": false,
     "phoneFlag": false,
     "note": "Cadence has been recognized by TIME as one of the Top 100 HealthTech…",
     "source": "Greenhouse",
